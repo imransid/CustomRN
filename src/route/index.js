@@ -7,7 +7,7 @@ import DrawerNav from './DrawerNav';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import ApiSetupScreen from '../screen/ApiSetupScreen';
-// import LoginScreen from '../screens/login/LoginScreen';
+import SignIn from '../screen/SignIn';
 // import ApplicationUpdateScreen from '../components/new/ApplicationUpdateScreen';
 
 import {useSelector} from 'react-redux';
@@ -20,7 +20,9 @@ const MainStackNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="ApiSetupScreen" component={ApiSetupScreen} />
+      <Stack.Screen name="SignIn" component={SignIn} />
+      {/* <Stack.Screen name="ApiSetupScreen" component={ApiSetupScreen} /> */}
+
       {/* {screen === 1 ? (
         <Stack.Screen name="ApiSetupScreen" component={ApiSetupScreen} />
       ) : screen === 4 ? (
