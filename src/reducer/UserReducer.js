@@ -11,6 +11,7 @@ const INITIAL_STATE = {
   expireTime: '',
   userAllData: {},
   loader: false,
+  islogged: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -29,12 +30,14 @@ export default (state = INITIAL_STATE, action) => {
         expireTime: action.payload.expireTime,
         userAllData: action.payload.userAllData,
         errorMsg: '',
+        islogged: true,
       };
     case SIGH_IN_ERROR:
       return {
         ...state,
         loader: false,
         errorMsg: action.payload.errorMsg,
+        islogged: false,
       };
     default:
       return state;
