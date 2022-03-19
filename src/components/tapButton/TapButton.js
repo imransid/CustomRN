@@ -1,7 +1,16 @@
-import React, {useState, useRef, useMemo} from 'react';
+// spinner = for loading (default false)
+// width = for loading (default 100%)
+// height = for loading (default 40)
+// colour = for background colour (default #3b5998)
+// text = for Text value (default custom button)
+// _singleTap = for single click
+// _doubleTap = for double click
+// _longTap = for long click
+
+import React, {useState, useRef, useMemo, useCallback} from 'react';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Styles from './Styles';
-import {Dimensions} from 'react-native';
+import {Dimensions, ActivityIndicator} from 'react-native';
 
 var widthDevice = Dimensions.get('window').width;
 
@@ -11,9 +20,19 @@ import Animated, {
   withRepeat,
   withTiming,
   withSequence,
+  runOnJS,
 } from 'react-native-reanimated';
 
-export default function TapButton({height, width, color, text}) {
+export default function TapButton({
+  height,
+  width,
+  color,
+  text,
+  _singleTap,
+  _doubleTap,
+  _longTap,
+  spinner,
+}) {
   // value
   const textValue = useMemo(
     () => (text === undefined ? 'custom button' : text),
@@ -44,6 +63,9 @@ export default function TapButton({height, width, color, text}) {
       _opacity.value = 0.3;
       _textColour.value = '#404040';
     })
+    .onStart(() => {
+      runOnJS(_singleTap)(true);
+    })
     .onEnd((_event, success) => {
       if (success) {
         _opacity.value = 2;
@@ -68,6 +90,7 @@ export default function TapButton({height, width, color, text}) {
           withRepeat(withTiming(0.3, {duration: 100}), 2, true),
           withTiming(0.2, {duration: 50}),
         );
+        runOnJS(_doubleTap)(true);
       }
     });
   //for long tab
@@ -80,6 +103,7 @@ export default function TapButton({height, width, color, text}) {
         withRepeat(withTiming(0.3, {duration: 100}), 2, true),
         withTiming(0.2, {duration: 50}),
       );
+      runOnJS(_longTap)(true);
     }
   });
 
@@ -108,7 +132,11 @@ export default function TapButton({height, width, color, text}) {
           animatedStyle,
         ]}>
         <Animated.Text style={[animatedTextStyle, Styles().tapButtonText]}>
-          {textValue.toUpperCase()}
+          {!spinner ? (
+            textValue.toUpperCase()
+          ) : (
+            <ActivityIndicator size="small" color="#CFCFCF" />
+          )}
         </Animated.Text>
       </Animated.View>
     </GestureDetector>
