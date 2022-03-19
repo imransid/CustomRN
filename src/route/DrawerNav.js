@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 // import CustomSidebarMenu from "../components/common/CustomSidebarMenu";
 // import TabNav from "./TabNav";
@@ -9,6 +9,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 // import WatchesScreen from '../screens/watchScreen/WatchesScreen';
 
 import initPage from '../screen/ApiSetupScreen';
+import Dashboard from '../screen/Dashboard/Dashboard';
 
 const Drawer = createDrawerNavigator();
 
@@ -27,6 +28,13 @@ const DrawerNav = () => {
     >
       {/* <Drawer.Screen name="Activity Scanner" component={TabNav} /> */}
       <Drawer.Screen name="Screen 1" component={initPage} />
+      <Drawer.Screen name="Dashboard" component={Dashboard} options={
+        {
+          headerShown: false,
+          title: 'Dashboard'
+        }
+      } />
+
       {/* <Drawer.Screen name="QueueScreen" component={QueueScreen} /> */}
     </Drawer.Navigator>
   );

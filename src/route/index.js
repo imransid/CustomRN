@@ -1,16 +1,20 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 
 import DrawerNav from './DrawerNav';
 // import {MainStackNavigator} from './StackNavigator';
 
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import ApiSetupScreen from '../screen/ApiSetupScreen';
 import SignIn from '../screen/SignIn';
+
+import Dashboard from '../screen/Dashboard/Dashboard';
+// import LoginScreen from '../screens/login/LoginScreen';
+
 // import ApplicationUpdateScreen from '../components/new/ApplicationUpdateScreen';
 
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Stack = createStackNavigator();
 
@@ -20,8 +24,9 @@ const MainStackNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}>
+
       <Stack.Screen name="SignIn" component={SignIn} />
-      {/* <Stack.Screen name="ApiSetupScreen" component={ApiSetupScreen} /> */}
+      <Stack.Screen name="ApiSetupScreen" component={Dashboard} />
 
       {/* {screen === 1 ? (
         <Stack.Screen name="ApiSetupScreen" component={ApiSetupScreen} />
@@ -37,7 +42,9 @@ const MainStackNavigator = () => {
   );
 };
 
-export {MainStackNavigator};
+export { MainStackNavigator };
+
+
 
 export default function Nav() {
   const isLogged = false; //useSelector(state => state.user.islogged);
