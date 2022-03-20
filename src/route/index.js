@@ -2,6 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 
 import DrawerNav from './DrawerNav';
+import CustomHeader from './Drawer/CustomHeader';
 // import {MainStackNavigator} from './StackNavigator';
 
 import {createStackNavigator} from '@react-navigation/stack';
@@ -39,14 +40,29 @@ const MainStackNavigator = () => {
   );
 };
 
-export {MainStackNavigator};
-
 export default function Nav() {
   const isLogged = true; //useSelector(state => state.user.islogged);
 
   return (
     <NavigationContainer>
-      {!isLogged ? <MainStackNavigator /> : <DrawerNav />}
+      {!isLogged ? (
+        <MainStackNavigator />
+      ) : (
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            headerMode: 'screen',
+            headerTintColor: '#404554',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            header: props => {
+              return <CustomHeader {...props} />;
+            },
+          }}>
+          <Stack.Screen name="MainDrawer" component={DrawerNav} />
+        </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 }
