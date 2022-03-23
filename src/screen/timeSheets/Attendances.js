@@ -1,50 +1,45 @@
 import * as React from 'react';
-import {DataTable} from 'react-native-paper';
-import Orientation from 'react-native-orientation';
-
-const optionsPerPage = [2, 3, 4];
+import DataTable from '../../components/dataTable/DataTable';
+import {SafeAreaView} from 'react-native';
+import {ScaledSheet} from 'react-native-size-matters';
 
 const Attendances = () => {
-  const [page, setPage] = React.useState(0);
-  const [itemsPerPage, setItemsPerPage] = React.useState(optionsPerPage[0]);
+  const tableHead = {
+    tableHead: [
+      'Head',
+      'Head2',
+      'Head3',
+      'Head4',
+      'Head5',
+      'Head6',
+      'Head7',
+      'Head8',
+      'Head9',
+    ],
+    widthArr: [40, 60, 80, 100, 120, 140, 160, 180, 200],
+  };
 
-  React.useEffect(() => {
-    Orientation.lockToLandscape();
-    setPage(0);
-  }, [itemsPerPage, Orientation]);
+  const data = [];
+
+  for (let i = 0; i < 30; i += 1) {
+    const dataRow = [];
+    for (let j = 0; j < 9; j += 1) {
+      dataRow.push(`${i}${j}`);
+    }
+    data.push(dataRow);
+  }
 
   return (
-    <DataTable>
-      <DataTable.Header>
-        <DataTable.Title>SL</DataTable.Title>
-        <DataTable.Title>Employee</DataTable.Title>
-        <DataTable.Title>Date</DataTable.Title>
-        <DataTable.Title>Status</DataTable.Title>
-        <DataTable.Title>Clock In</DataTable.Title>
-        <DataTable.Title>Clock Out</DataTable.Title>
-        <DataTable.Title>Overtime</DataTable.Title>
-        <DataTable.Title>Total Work</DataTable.Title>
-      </DataTable.Header>
-
-      <DataTable.Row>
-        {/* <DataTable.Cell>Ice cream sandwich</DataTable.Cell>
-        <DataTable.Cell numeric>237</DataTable.Cell>
-        <DataTable.Cell numeric>8.0</DataTable.Cell> */}
-      </DataTable.Row>
-
-      <DataTable.Pagination
-        page={page}
-        numberOfPages={3}
-        onPageChange={page => setPage(page)}
-        label="1-2 of 6"
-        optionsPerPage={optionsPerPage}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-        showFastPagination
-        optionsLabel={'Rows per page'}
-      />
-    </DataTable>
+    <SafeAreaView style={styles.container}>
+      <DataTable tableHead={tableHead} data={data} />
+    </SafeAreaView>
   );
 };
+
+const styles = ScaledSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default Attendances;

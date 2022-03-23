@@ -10,7 +10,7 @@ import React from 'react';
 
 import BasicInfo from '../screen/Profile/BasicInfo';
 import Dashboard from '../screen/Dashboard/Dashboard';
-
+import DateWiseAttendance from '../screen/timeSheets/DateWiseAttendances';
 // const Drawer = createDrawerNavigator();
 
 // const DrawerNav = () => {
@@ -77,14 +77,6 @@ function MonthlyAttendances() {
   );
 }
 
-function DateWiseAttendances() {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>DateWiseAttendances</Text>
-    </View>
-  );
-}
-
 function MainDrawerNavigation() {
   return (
     <Drawer.Navigator
@@ -103,7 +95,7 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="Attendances" component={Attendances} />
       <Drawer.Screen
         name="DateWiseAttendances"
-        component={DateWiseAttendances}
+        component={DateWiseAttendance}
       />
     </Drawer.Navigator>
   );
