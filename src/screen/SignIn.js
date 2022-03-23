@@ -11,6 +11,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import TapButton from '../components/tapButton/TapButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {LogIn} from '../actions/SignIn';
+import {SafeAreaView} from 'react-native';
 const SignIn = () => {
   const dispatch = useDispatch();
 
@@ -59,52 +60,54 @@ const SignIn = () => {
   };
 
   return (
-    <KeyboardAwareScrollView
-      style={{
-        width: '100%',
-      }}>
-      <Stack
-        space={2.5}
-        alignSelf="center"
-        px="4"
-        safeArea
-        mt="4"
-        w={{
-          base: '100%',
-          md: '25%',
+    <SafeAreaView style={{flex: 1, paddingTop: '50%'}}>
+      <KeyboardAwareScrollView
+        style={{
+          width: '100%',
         }}>
-        <Box>
-          <FormControl mb="5" isInvalid={userInvalid}>
-            <Input placeholder="User Name" onChange={e => setUserName(e)} />
+        <Stack
+          space={2.5}
+          alignSelf="center"
+          px="4"
+          safeArea
+          mt="4"
+          w={{
+            base: '100%',
+            md: '25%',
+          }}>
+          <Box>
+            <FormControl mb="5" isInvalid={userInvalid}>
+              <Input placeholder="User Name" onChange={e => setUserName(e)} />
 
-            <FormControl.ErrorMessage
-              leftIcon={<WarningOutlineIcon size="xs" />}>
-              {errorMsgUser}
-            </FormControl.ErrorMessage>
-          </FormControl>
-          <Divider />
-        </Box>
-        <Box>
-          <FormControl mb="5" isInvalid={passwordInvalid}>
-            <Input placeholder="Password" onChange={e => setPassword(e)} />
-            <FormControl.ErrorMessage
-              leftIcon={<WarningOutlineIcon size="xs" />}>
-              {errorMsgPassword}
-            </FormControl.ErrorMessage>
-          </FormControl>
-        </Box>
+              <FormControl.ErrorMessage
+                leftIcon={<WarningOutlineIcon size="xs" />}>
+                {errorMsgUser}
+              </FormControl.ErrorMessage>
+            </FormControl>
+            <Divider />
+          </Box>
+          <Box>
+            <FormControl mb="5" isInvalid={passwordInvalid}>
+              <Input placeholder="Password" onChange={e => setPassword(e)} />
+              <FormControl.ErrorMessage
+                leftIcon={<WarningOutlineIcon size="xs" />}>
+                {errorMsgPassword}
+              </FormControl.ErrorMessage>
+            </FormControl>
+          </Box>
 
-        <Box>
-          <TapButton
-            text={'Sign In'}
-            _singleTap={() => OnPress()}
-            _doubleTap={() => OnPress()}
-            _longTap={() => OnPress()}
-            spinner={loader}
-          />
-        </Box>
-      </Stack>
-    </KeyboardAwareScrollView>
+          <Box>
+            <TapButton
+              text={'Sign In'}
+              _singleTap={() => OnPress()}
+              _doubleTap={() => OnPress()}
+              _longTap={() => OnPress()}
+              spinner={loader}
+            />
+          </Box>
+        </Stack>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 
