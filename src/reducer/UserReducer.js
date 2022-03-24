@@ -2,6 +2,7 @@ import {
   SIGH_IN_ERROR,
   SIGH_IN_SUCCESSFULLY,
   SIGN_IN,
+  SIGN_OUT,
 } from '../constant/Constants';
 
 const INITIAL_STATE = {
@@ -21,6 +22,18 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loader: true,
       };
+    case SIGN_OUT:
+      return {
+        ...state,
+        loader: false,
+        username: '',
+        token: '',
+        expireTime: '',
+        userAllData: {},
+        errorMsg: '',
+        islogged: false,
+      };
+
     case SIGH_IN_SUCCESSFULLY:
       return {
         ...state,
