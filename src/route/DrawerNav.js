@@ -11,6 +11,8 @@ import React from 'react';
 import BasicInfo from '../screen/Profile/BasicInfo';
 import Dashboard from '../screen/Dashboard/Dashboard';
 import DateWiseAttendance from '../screen/timeSheets/DateWiseAttendances';
+import Announcements from '../screen/Organization/Announcements/Announcements';
+import CompanyPolicy from '../screen/Organization/CompanyPolicy/CompanyPolicy';
 // const Drawer = createDrawerNavigator();
 
 // const DrawerNav = () => {
@@ -51,11 +53,11 @@ import DateWiseAttendance from '../screen/timeSheets/DateWiseAttendances';
 
 // export default DrawerNav;
 
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import {drawerItemsMain} from './Drawer/DrawerItemsMain';
+import { drawerItemsMain } from './Drawer/DrawerItemsMain';
 import CustomDrawerContent from './Drawer/CustomDrawerContent';
-import {View, Text} from 'react-native';
+import { View, Text } from 'react-native';
 
 import Attendances from '../screen/timeSheets/Attendances';
 
@@ -63,7 +65,7 @@ const Drawer = createDrawerNavigator();
 
 function ApproveEmployeeLeaves() {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>ApproveEmployeeLeaves</Text>
     </View>
   );
@@ -71,7 +73,7 @@ function ApproveEmployeeLeaves() {
 
 function MonthlyAttendances() {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>MonthlyAttendances</Text>
     </View>
   );
@@ -97,6 +99,8 @@ function MainDrawerNavigation() {
         name="DateWiseAttendances"
         component={DateWiseAttendance}
       />
+      <Drawer.Screen name="Announcements" component={Announcements} />
+      <Drawer.Screen name="CompanyPolicy" options={{ title: "Company Policy" }} component={CompanyPolicy} />
     </Drawer.Navigator>
   );
 }
