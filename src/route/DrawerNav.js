@@ -13,6 +13,8 @@ import CustomHeader from './Drawer/CustomHeader';
 import Attendances from '../screen/timeSheets/Attendances';
 import MonthlyAttendances from '../screen/timeSheets/MonthlyAttendances';
 import ApproveEmployeeLeaves from '../screen/timeSheets/ApproveEmployeeLeaves';
+import Announcements from '../screen/organization/Announcements';
+import CompanyPolicy from '../screen/organization/CompanyPolicy';
 const Drawer = createDrawerNavigator();
 
 const getHeaderTitle = (options, name) => {
@@ -59,7 +61,6 @@ function MainDrawerNavigation() {
       )}>
       <Drawer.Screen name="Home" component={Dashboard} />
       <Drawer.Screen name="BasicInfo" component={BasicInfo} />
-
       <Drawer.Screen name="MonthlyAttendances" component={MonthlyAttendances} />
       <Drawer.Screen
         name="ApproveEmployeeLeaves"
@@ -70,6 +71,8 @@ function MainDrawerNavigation() {
         name="DateWiseAttendances"
         component={DateWiseAttendance}
       />
+      <Drawer.Screen name="Announcements" component={Announcements} />
+      <Drawer.Screen name="CompanyPolicy" component={CompanyPolicy} />
     </Drawer.Navigator>
   );
 }
