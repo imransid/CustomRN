@@ -1,62 +1,15 @@
 import React from 'react';
 
-// import {createDrawerNavigator} from '@react-navigation/drawer';
-
-// // import CustomSidebarMenu from "../components/common/CustomSidebarMenu";
-// // import TabNav from "./TabNav";
-// // import { getHeaderTitle } from "@react-navigation/elements";
-// // import AppHeader from "../components/common/new/AppHeader";
-// // import WatchesScreen from '../screens/watchScreen/WatchesScreen';
-
 import BasicInfo from '../screen/Profile/BasicInfo';
 import Dashboard from '../screen/Dashboard/Dashboard';
 import DateWiseAttendance from '../screen/timeSheets/DateWiseAttendances';
-// const Drawer = createDrawerNavigator();
-
-// const DrawerNav = () => {
-//   return (
-//     <Drawer.Navigator
-//     // screenOptions={{
-//     //   header: ({ navigation, route, options }) => {
-//     //     const title = getHeaderTitle(options, route.name);
-//     //     return title === "" ? (
-//     //       <AppHeader title={title} navigation={navigation} />
-//     //     ) : null;
-//     //   },
-//     // }}
-//     // drawerContent={(props) => <CustomSidebarMenu {...props} />}
-//     >
-//       {/* <Drawer.Screen name="Activity Scanner" component={TabNav} /> */}
-//       <Drawer.Screen
-//         name="Dashboard"
-//         component={Dashboard}
-//         options={{
-//           headerShown: false,
-//           title: 'Dashboard',
-//         }}
-//       />
-//       <Drawer.Screen
-//         name="BasicInfo"
-//         component={BasicInfo}
-//         options={{
-//           headerShown: false,
-//           title: 'BasicInfo',
-//         }}
-//       />
-
-//       {/* <Drawer.Screen name="QueueScreen" component={QueueScreen} /> */}
-//     </Drawer.Navigator>
-//   );
-// };
-
-// export default DrawerNav;
 
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {drawerItemsMain} from './Drawer/DrawerItemsMain';
 import CustomDrawerContent from './Drawer/CustomDrawerContent';
 import {View, Text} from 'react-native';
-
+import CustomHeader from './Drawer/CustomHeader';
 import Attendances from '../screen/timeSheets/Attendances';
 
 const Drawer = createDrawerNavigator();
@@ -77,10 +30,49 @@ function MonthlyAttendances() {
   );
 }
 
+const getHeaderTitle = (options, name) => {
+  let returnName = [];
+  for (let i = 0; i < name.length; i++) {
+    if (i === 0) {
+      returnName.push(name[i]);
+    } else {
+      if (name[i] === name[i].toUpperCase()) {
+        returnName.push(' ');
+        returnName.push(name[i]);
+      } else {
+        returnName.push(name[i]);
+      }
+    }
+  }
+
+  let data = returnName.toString();
+
+  let result = '';
+
+  for (let i = 0; i < data.length; i++) {
+    if (data[i] !== ',') {
+      result += data[i];
+    }
+  }
+
+  return result;
+};
+
 function MainDrawerNavigation() {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
+      screenOptions={{
+        header: ({navigation, route, options}) => {
+          const title = getHeaderTitle(options, route.name);
+
+          console.log('route', route.name, title);
+
+          // return title === "" ? (
+          return <CustomHeader title={title} navigation={navigation} />;
+          // ) : null;
+        },
+      }}
       drawerContent={props => (
         <CustomDrawerContent drawerItems={drawerItemsMain} {...props} />
       )}>

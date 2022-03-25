@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Text,
-  SafeAreaView,
-} from 'react-native';
+import {StyleSheet, TouchableOpacity, View, SafeAreaView} from 'react-native';
 import {DrawerActions} from '@react-navigation/native';
+import {Title} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function CustomHeader(props) {
   const toggleDrawer = () =>
@@ -20,11 +16,11 @@ function CustomHeader(props) {
             onPress={toggleDrawer}
             style={styles.leftButton}
             testID="CustomHeader-toggleDrawer">
-            <Text style={styles.buttonTxt}>MENU</Text>
+            <Icon name="menu" size={30} color="#000" />
           </TouchableOpacity>
         </View>
         <View style={styles.header}>
-          <Text style={styles.headerTxt}>HEADER</Text>
+          <Title style={styles.headerTxt}>{props.title}</Title>
         </View>
       </View>
     </SafeAreaView>
@@ -36,8 +32,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#222222',
-    minHeight: 40,
+    backgroundColor: '#f1f1f1',
+    minHeight: 60,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -48,15 +44,15 @@ const styles = StyleSheet.create({
   header: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
-    paddingRight: 40,
+    // justifyContent: 'center',
+    paddingLeft: 15,
   },
   buttonTxt: {
-    color: '#ddd',
+    color: '#000',
     fontWeight: 'bold',
   },
   headerTxt: {
-    color: '#ddd',
+    color: '#000',
   },
 });
 
