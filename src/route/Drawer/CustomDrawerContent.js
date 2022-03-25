@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     height: 75,
   },
   drawerContainer: {
-    backgroundColor: '#222222',
+    backgroundColor: '#FFF',
   },
   container: {
     flex: 1,
@@ -143,14 +143,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
+    borderBottomColor: '#c3c3c3',
     paddingTop: 4,
     paddingBottom: 4,
   },
   title: {
     margin: 16,
     fontWeight: 'bold',
-    color: '#F0F0F0',
+    color: '#000',
     textAlign: 'center',
   },
   backButtonRow: {
@@ -158,12 +158,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 17,
     paddingLeft: 3,
-    borderBottomColor: '#F0F0F0',
+    borderBottomColor: '#c3c3c3',
     borderBottomWidth: 1,
   },
   backButtonText: {
     marginLeft: 10,
-    color: '#F0F0F0',
+    color: '#000',
   },
 });
 

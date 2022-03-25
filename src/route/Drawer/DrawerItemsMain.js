@@ -1,16 +1,3 @@
-// export const drawerItemsMain = [
-//   {
-//     key: 'Home',
-//     title: 'Home',
-//     route: {nav: 'MainDrawer', routeName: 'Home', title: 'Home'},
-//   },
-//   {
-//     key: 'BasicInfo',
-//     title: 'BasicInfo',
-//     route: {nav: 'MainDrawer', routeName: 'BasicInfo', title: 'BasicInfo'},
-//   },
-// ];
-
 export const drawerItemsMain = [
   {
     key: 'Home',
@@ -36,6 +23,22 @@ export const drawerItemsMain = [
         nav: 'MainDrawer',
         routeName: 'ApproveEmployeeLeaves',
         title: 'Approve Employee Leaves',
+      },
+    ],
+  },
+  {
+    key: 'Organization',
+    title: 'Organization',
+    routes: [
+      {
+        nav: 'MainDrawer',
+        routeName: 'Announcements',
+        title: 'Announcements',
+      },
+      {
+        nav: 'MainDrawer',
+        routeName: 'CompanyPolicy',
+        title: 'Company Policy',
       },
     ],
   },

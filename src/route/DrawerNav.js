@@ -12,16 +12,8 @@ import {View, Text} from 'react-native';
 import CustomHeader from './Drawer/CustomHeader';
 import Attendances from '../screen/timeSheets/Attendances';
 import MonthlyAttendances from '../screen/timeSheets/MonthlyAttendances';
-
+import ApproveEmployeeLeaves from '../screen/timeSheets/ApproveEmployeeLeaves';
 const Drawer = createDrawerNavigator();
-
-function ApproveEmployeeLeaves() {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>ApproveEmployeeLeaves</Text>
-    </View>
-  );
-}
 
 const getHeaderTitle = (options, name) => {
   let returnName = [];
@@ -59,11 +51,7 @@ function MainDrawerNavigation() {
         header: ({navigation, route, options}) => {
           const title = getHeaderTitle(options, route.name);
 
-          console.log('route', route.name, title);
-
-          // return title === "" ? (
           return <CustomHeader title={title} navigation={navigation} />;
-          // ) : null;
         },
       }}
       drawerContent={props => (
