@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -6,13 +6,16 @@ import {
   Text,
   TouchableOpacity,
   SafeAreaView,
-  Image,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {Avatar, Card, Title, Paragraph} from 'react-native-paper';
 import {LogOut} from '../../actions/SignIn';
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
+
+  const userData = useSelector(state => state.user.userAllData);
+
   const [mainDrawer, setMainDrawer] = useState(true);
   const [filteredItems, setFilteredItems] = useState([]);
 
@@ -105,12 +108,19 @@ function CustomDrawerContent(props) {
       <SafeAreaView
         style={styles.container}
         forceInset={{top: 'always', horizontal: 'never'}}>
-        <View style={styles.centered}>
-          <Image
-            source={{uri: 'https://reactjs.org/logo-og.png'}}
-            style={styles.logo}
-          />
-        </View>
+        <Card>
+          <Card.Content>
+            <Avatar.Image
+              size={100}
+              source={require('../../../assets/images/download.png')}
+            />
+          </Card.Content>
+          <Card.Content>
+            <Title>{userData.username}</Title>
+            <Paragraph>{userData.email}</Paragraph>
+          </Card.Content>
+        </Card>
+
         {mainDrawer ? renderMainDrawer() : renderFilteredItemsDrawer()}
       </SafeAreaView>
     </ScrollView>
@@ -137,6 +147,7 @@ const styles = StyleSheet.create({
     zIndex: 1000,
   },
   centered: {
+    height: 150,
     alignItems: 'center',
   },
   parentItem: {
