@@ -11,6 +11,7 @@ import CustomDrawerContent from './Drawer/CustomDrawerContent';
 import {View, Text} from 'react-native';
 import CustomHeader from './Drawer/CustomHeader';
 import Attendances from '../screen/timeSheets/Attendances';
+import MonthlyAttendances from '../screen/timeSheets/MonthlyAttendances';
 
 const Drawer = createDrawerNavigator();
 
@@ -18,14 +19,6 @@ function ApproveEmployeeLeaves() {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>ApproveEmployeeLeaves</Text>
-    </View>
-  );
-}
-
-function MonthlyAttendances() {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>MonthlyAttendances</Text>
     </View>
   );
 }
