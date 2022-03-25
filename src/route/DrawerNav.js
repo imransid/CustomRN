@@ -8,13 +8,14 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {drawerItemsMain} from './Drawer/DrawerItemsMain';
 import CustomDrawerContent from './Drawer/CustomDrawerContent';
-import {View, Text} from 'react-native';
 import CustomHeader from './Drawer/CustomHeader';
 import Attendances from '../screen/timeSheets/Attendances';
 import MonthlyAttendances from '../screen/timeSheets/MonthlyAttendances';
 import ApproveEmployeeLeaves from '../screen/timeSheets/ApproveEmployeeLeaves';
 import Announcements from '../screen/organization/Announcements';
 import CompanyPolicy from '../screen/organization/CompanyPolicy';
+import HrCalenders from '../screen/HrCalendars/HrCalenders';
+
 const Drawer = createDrawerNavigator();
 
 const getHeaderTitle = (options, name) => {
@@ -73,6 +74,7 @@ function MainDrawerNavigation() {
       />
       <Drawer.Screen name="Announcements" component={Announcements} />
       <Drawer.Screen name="CompanyPolicy" component={CompanyPolicy} />
+      <Drawer.Screen name="HrCalenders" component={HrCalenders} />
     </Drawer.Navigator>
   );
 }

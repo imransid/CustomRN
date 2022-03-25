@@ -42,4 +42,11 @@ export const drawerItemsMain = [
       },
     ],
   },
+  {
+    key: 'HrCalenders',
+    title: 'HR Calenders',
+    routes: [
+      {nav: 'MainDrawer', routeName: 'HrCalenders', title: 'HR Calenders'},
+    ],
+  },
 ];
