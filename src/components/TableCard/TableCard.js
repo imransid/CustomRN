@@ -1,30 +1,29 @@
-import * as React from 'react';
-import { SafeAreaView, Text, TouchableOpacity, } from 'react-native';
-import { ScaledSheet } from 'react-native-size-matters';
-import { View } from 'native-base';
-import SearchBox from '../../../components/searchBox/SearchBox';
-import TableCard from '../../../components/TableCard/TableCard';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { ScaledSheet } from 'react-native-size-matters'
+import React from 'react'
 
-const CompanyPolicy = () => {
+const TableCard = ({ sl, title, description, date, department, addedBy, variant }) => {
+
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.search}>
-                <SearchBox />
+
+        <View style={styles.listitem}>
+            <View style={styles.sl}>
+                <Text style={styles.slno}>{sl}</Text>
             </View>
-            <TouchableOpacity onPress={() => alert("Hello")}>
-                <TableCard
-                    sl='1'
-                    title='New Announcement'
-                    description='This is description...'
-                    date='12/12/2020'
-                    // department='IT'
-                    addedBy='John Doe'
-                    variant='Policy'
-                />
-            </TouchableOpacity>
-        </SafeAreaView>
-    );
-};
+            <View style={styles.poilcyContent}>
+                {department && <Text style={styles.policyTitle}>Department: {department}</Text>}
+                <Text style={styles.policyTitle}>Title: {title}</Text>
+                {addedBy && <Text style={styles.addedBy}>{variant} by: {addedBy}</Text>}
+                <Text style={styles.addedBy}>Date: {date}</Text>
+
+                <Text style={styles.description}>{description}</Text>
+            </View>
+        </View>
+
+    )
+}
+
+export default TableCard
 
 const styles = ScaledSheet.create({
     container: {
@@ -82,5 +81,3 @@ const styles = ScaledSheet.create({
         color: "#151515",
     },
 });
-
-export default CompanyPolicy;

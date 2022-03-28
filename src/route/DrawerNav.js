@@ -60,6 +60,7 @@ import CustomDrawerContent from './Drawer/CustomDrawerContent';
 import { View, Text } from 'react-native';
 
 import Attendances from '../screen/timeSheets/Attendances';
+import DetailsScreen from '../screen/Organization/DetailsScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -101,6 +102,7 @@ function MainDrawerNavigation() {
       />
       <Drawer.Screen name="Announcements" component={Announcements} />
       <Drawer.Screen name="CompanyPolicy" options={{ title: "Company Policy" }} component={CompanyPolicy} />
+      <Drawer.Screen name="Details" component={DetailsScreen} />
     </Drawer.Navigator>
   );
 }

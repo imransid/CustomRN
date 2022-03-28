@@ -4,8 +4,9 @@ import { SafeAreaView, TouchableOpacity, Text } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import { View } from 'native-base';
 import SearchBox from '../../../components/searchBox/SearchBox';
+import TableCard from '../../../components/TableCard/TableCard';
 
-const Announcements = () => {
+const Announcements = ({ navigation }) => {
     const tableHead = {
         tableHead: [
             'Sl',
@@ -32,10 +33,10 @@ const Announcements = () => {
             <View style={styles.search}>
                 <SearchBox />
             </View>
-            <TouchableOpacity onPress={() => alert("Hello")}>
-                <View style={styles.listitem}>
+
+            {/* <View style={styles.listitem}>
                     <View style={styles.sl}>
-                        <Text style={styles.slno}>1</Text>
+                        <Text style={styles.slno}>100</Text>
                     </View>
                     <View style={styles.poilcyContent}>
                         <Text style={styles.policyTitle}>Department: IT</Text>
@@ -43,8 +44,26 @@ const Announcements = () => {
                         <Text style={styles.addedBy}>Announced by: John Doe</Text>
                         <Text style={styles.description}>This is description...</Text>
                     </View>
-                </View>
+                </View> */}
+            <TouchableOpacity onPress={() => navigation.navigate('Details', {
+                title: 'New Announcement',
+                description: 'This is description...',
+                announcedBy: 'John Doe',
+                date: '12/12/2020',
+                department: 'IT',
+                prevRoute: 'Announcements',
+            })}>
+                <TableCard
+                    sl='1'
+                    title='New Announcement'
+                    description='This is description...'
+                    date='12/12/2020'
+                    department='IT'
+                    addedBy='John Doe'
+                    variant='Announcements'
+                />
             </TouchableOpacity>
+
         </SafeAreaView>
     );
 };
