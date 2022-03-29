@@ -1,5 +1,5 @@
-import {ScaledSheet} from 'react-native-size-matters';
-import {Dimensions} from 'react-native';
+import { ScaledSheet } from 'react-native-size-matters';
+import { Dimensions } from 'react-native';
 
 var widthDevice = Dimensions.get('window').width;
 
@@ -16,7 +16,7 @@ const Styles = (height, width, color) =>
     tapButtonText: {
       fontSize: '15@s',
       // fontWeight: 'bold',
-      fontFamily: 'Roboto_Black',
+      // fontFamily: 'Roboto_Black',
     },
   });
 
