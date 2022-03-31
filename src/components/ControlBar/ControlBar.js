@@ -4,7 +4,7 @@ import {
   Text,
   View,
   Image,
-  Button,
+  ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
 import TapButton from '../../components/tapButton/TapButton';
@@ -13,6 +13,11 @@ import {CheckIn} from '../../actions/Attendance';
 
 const ControlCenter = () => {
   const dispatch = useDispatch();
+
+  const lat = useSelector(state => state.user.Latitude);
+  const long = useSelector(state => state.user.Longitude);
+  const checkInStatus = useSelector(state => state.user.checkInStatus);
+  const checkInLoader = useSelector(state => state.user.checkInLoader);
 
   const OnPress = useCallback(() => {
     dispatch(CheckIn());
@@ -32,9 +37,18 @@ const ControlCenter = () => {
           <Text style={styles.officeShift}>
             Office Shift: 9:00 AM To 6:00 PM(Night Shift)
           </Text>
-          <Text style={styles.Location}>Long: 90.82, Lat: 20.98</Text>
+          <Text style={styles.Location}>
+            Long: {parseFloat(long).toFixed(2)}, Lat:{' '}
+            {parseFloat(lat).toFixed(2)}
+          </Text>
           <TouchableOpacity style={styles.buttonContainer} onPress={OnPress}>
-            <Text style={styles.designation}>Check In</Text>
+            {!checkInLoader ? (
+              <Text style={styles.designation}>
+                Check {checkInStatus ? 'Out' : 'In'}
+              </Text>
+            ) : (
+              <ActivityIndicator size="small" color="#CFCFCF" />
+            )}
           </TouchableOpacity>
         </View>
       </View>

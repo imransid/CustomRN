@@ -11,3 +11,6 @@ export const CAMERA_PREFIX_REMOVE = 'CAMERA/prefix_remove';
 
 export const CHECK_IN = 'CHECK_IN';
 export const CHECK_OUT = 'CHECK_OUT';
+export const SET_LOCATION = 'SET_LOCATION';
+export const CHECK_IN_SUCCESSFULLY = 'CHECK_IN_SUCCESSFULLY';
+export const CHECK_IN_ERROR = 'CHECK_IN_ERROR';
