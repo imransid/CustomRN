@@ -7,22 +7,23 @@ const _authApiCall = function* (action) {
 
     return yield axios
       .post(uri, {
-        username: action.username,
+        emailPhone: action.username,
         password: action.password,
-        strategy: action.strategy,
       })
       .then(function (response) {
+        console.log('response', response);
         let res = {
           status: true,
-          token: response.data.accessToken,
-          username: action.username,
-          expireTime: response.data.authentication.payload.exp,
+          token: response.data.access_token,
+          username: response.data.user.first_name,
+          expireTime: response.data.expires_in,
           userAllData: response.data.user,
         };
 
         return res;
       })
       .catch(function (error) {
+        console.log('error', error);
         let res = {
           status: false,
           msg: error.msg,
@@ -44,13 +45,11 @@ export const _signIn = function* (action) {
   try {
     const State = yield select();
 
-    console.log('State', State);
-
-    const uri = State.api + '/authentication';
+    const uri = 'https://hrmspvm.predictionla.com/api/user/login'; //State.api + '/authentication';
 
     let data = {
-      username: action.data.username,
-      password: action.data.password,
+      username: '453454345345345345', //action.data.username,
+      password: 'asdfghjkl', //action.data.password,
       uri: uri,
     };
 
@@ -62,7 +61,7 @@ export const _signIn = function* (action) {
         payload: {
           username: authStatus.username,
           token: authStatus.token,
-          scode: State.user.scode,
+          expireTime: authStatus.expireTime,
           userAllData: authStatus.userAllData,
         },
       });

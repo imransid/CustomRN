@@ -88,7 +88,11 @@ const SignIn = () => {
           </Box>
           <Box>
             <FormControl mb="5" isInvalid={passwordInvalid}>
-              <Input placeholder="Password" onChange={e => setPassword(e)} />
+              <Input
+                placeholder="Password"
+                type="password"
+                onChange={e => setPassword(e)}
+              />
               <FormControl.ErrorMessage
                 leftIcon={<WarningOutlineIcon size="xs" />}>
                 {errorMsgPassword}

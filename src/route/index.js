@@ -41,7 +41,7 @@ const MainStackNavigator = () => {
 };
 
 export default function Nav() {
-  const isLogged = true; //useSelector(state => state.user.islogged);
+  const isLogged = useSelector(state => state.user.islogged);
 
   return (
     <NavigationContainer>

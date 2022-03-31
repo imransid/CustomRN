@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
 import {Table, TableWrapper, Row} from 'react-native-table-component';
 
-const DataTable = ({tableHead, data}) => {
+const DataTable = ({tableHead, data, headerColour}) => {
   return (
     <View style={styles.container}>
       <ScrollView horizontal={true}>
@@ -11,8 +11,8 @@ const DataTable = ({tableHead, data}) => {
             <Row
               data={tableHead.tableHead}
               widthArr={tableHead.widthArr}
-              style={styles.head}
-              textStyle={styles.text}
+              style={[styles.head, {backgroundColor: headerColour}]}
+              textStyle={[styles.text, styles.headerText]}
             />
           </Table>
           <ScrollView style={styles.dataWrapper}>
@@ -46,9 +46,9 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     backgroundColor: '#ffffff',
   },
+  headerText: {color: '#fff', fontWeight: '800', fontSize: 17},
   head: {
     height: 50,
-    backgroundColor: '#6F7BD9',
   },
   text: {
     textAlign: 'center',

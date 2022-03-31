@@ -8,8 +8,11 @@ import {
   SafeAreaView,
   Image,
 } from 'react-native';
+import {useDispatch} from 'react-redux';
+import {LogOut} from '../../actions/SignIn';
 
 function CustomDrawerContent(props) {
+  const dispatch = useDispatch();
   const [mainDrawer, setMainDrawer] = useState(true);
   const [filteredItems, setFilteredItems] = useState([]);
 
@@ -34,7 +37,7 @@ function CustomDrawerContent(props) {
     }
   };
 
-  const logOut = async () => console.log('log out');
+  const logOut = async () => dispatch(LogOut());
 
   function renderMainDrawer() {
     return (

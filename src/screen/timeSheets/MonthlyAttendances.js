@@ -4,32 +4,33 @@ import {SafeAreaView} from 'react-native';
 import {ScaledSheet} from 'react-native-size-matters';
 import {View} from 'native-base';
 import SearchBox from '../../components/searchBox/SearchBox';
+import moment from 'moment';
 
-const Attendances = () => {
+import {_} from 'lodash';
+
+const MonthlyAttendances = () => {
+  var daysInMonth = ['Sl', 'Employee'];
+  var daysInWidth = [50, 100];
+
+  var monthDate = moment().startOf('month'); // change to a date in the month of interest
+
+  _.times(monthDate.daysInMonth(), function (n) {
+    daysInMonth.push(monthDate.format('DD ddd')); // your format
+    daysInWidth.push(40);
+    monthDate.add(1, 'day');
+  });
+
   const tableHead = {
-    tableHead: [
-      'Sl',
-      'Employee',
-      'Date',
-      'Status',
-      'Clock In',
-      'IN LC',
-      'Clock Out',
-      'OUT LC',
-      'Late',
-      'Early Leaving',
-      'Overtime',
-      'Total Work',
-    ],
-    widthArr: [50, 140, 80, 100, 120, 140, 160, 180, 200, 200, 200, 200],
+    tableHead: daysInMonth,
+    widthArr: daysInWidth,
   };
 
   const data = [];
 
-  for (let i = 0; i < 30; i += 1) {
-    const dataRow = [];
-    for (let j = 0; j < 12; j += 1) {
-      dataRow.push(`${i}${j}`);
+  for (let i = 0; i < 1; i += 1) {
+    const dataRow = [1, 'Imran'];
+    for (let j = 0; j < 31; j += 1) {
+      j % 2 == 0 ? dataRow.push(`L`) : dataRow.push(`P`);
     }
     data.push(dataRow);
   }
@@ -55,4 +56,4 @@ const styles = ScaledSheet.create({
   },
 });
 
-export default Attendances;
+export default MonthlyAttendances;
