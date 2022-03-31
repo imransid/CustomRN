@@ -7,7 +7,7 @@
 // _doubleTap = for double click
 // _longTap = for long click
 
-import React, {useState, useRef, useMemo, useCallback} from 'react';
+import React, {useMemo} from 'react';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Styles from './Styles';
 import {Dimensions, ActivityIndicator} from 'react-native';

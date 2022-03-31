@@ -6,3 +6,11 @@ export const SIGH_IN_ERROR = 'SIGH_IN_ERROR';
 
 export const CAMERA_PREFIX_ADD = 'CAMERA/prefix_add';
 export const CAMERA_PREFIX_REMOVE = 'CAMERA/prefix_remove';
+
+// attendance
+
+export const CHECK_IN = 'CHECK_IN';
+export const CHECK_OUT = 'CHECK_OUT';
+export const SET_LOCATION = 'SET_LOCATION';
+export const CHECK_IN_SUCCESSFULLY = 'CHECK_IN_SUCCESSFULLY';
+export const CHECK_IN_ERROR = 'CHECK_IN_ERROR';
