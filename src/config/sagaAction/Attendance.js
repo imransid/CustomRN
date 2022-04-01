@@ -3,7 +3,7 @@ import {call, put, select} from 'redux-saga/effects';
 import axios from 'axios';
 import {
   SIGH_IN_ERROR,
-  SIGH_IN_SUCCESSFULLY,
+  CHECK_OUT_SUCCESSFULLY,
   CHECK_IN_SUCCESSFULLY,
 } from '../../constant/Constants';
 import NetInfo from '@react-native-community/netinfo';
@@ -44,11 +44,14 @@ export const _Attendance = function* (action) {
   }
 };
 
-export const _CheckIN = function* () {
+export const _CheckInOutUpdate = function* (action) {
   try {
     const State = yield select();
 
-    const uri = 'https://hrmspvm.predictionla.com/api/user/attendance-check-in';
+    const uri =
+      action.status === 'check out'
+        ? 'https://hrmspvm.predictionla.com/api/user/attendance-check-out'
+        : 'https://hrmspvm.predictionla.com/api/user/attendance-check-in';
 
     const NetStatus = yield NetInfo.fetch().then(state => state.isConnected);
 
@@ -72,9 +75,13 @@ export const _CheckIN = function* () {
     const checkInStatus = yield call(_ApiCall, data);
 
     if (checkInStatus) {
-      yield put({
-        type: CHECK_IN_SUCCESSFULLY,
-      });
+      action.status === 'check out'
+        ? yield put({
+            type: CHECK_OUT_SUCCESSFULLY,
+          })
+        : yield put({
+            type: CHECK_IN_SUCCESSFULLY,
+          });
     } else {
       yield put({
         type: CHECK_IN_ERROR,

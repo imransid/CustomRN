@@ -7,6 +7,8 @@ import {
   CHECK_IN,
   CHECK_IN_SUCCESSFULLY,
   CHECK_IN_ERROR,
+  CHECK_OUT_SUCCESSFULLY,
+  CHECK_OUT,
 } from '../constant/Constants';
 
 const INITIAL_STATE = {
@@ -79,7 +81,18 @@ export default (state = INITIAL_STATE, action) => {
         checkInStatus: true,
         checkInLoader: false,
       };
+    case CHECK_OUT_SUCCESSFULLY:
+      return {
+        ...state,
+        checkInStatus: false,
+        checkInLoader: false,
+      };
     case CHECK_IN:
+      return {
+        ...state,
+        checkInLoader: true,
+      };
+    case CHECK_OUT:
       return {
         ...state,
         checkInLoader: true,
