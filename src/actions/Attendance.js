@@ -1,9 +1,16 @@
-import {SIGN_IN, SIGN_OUT, CHECK_IN, SET_LOCATION} from '../constant/Constants';
+import {CHECK_OUT, CHECK_IN, SET_LOCATION} from '../constant/Constants';
 
-export function CheckIn(data) {
+export function CheckIn() {
   return {
     type: CHECK_IN,
-    data: data,
+    status: 'check in',
+  };
+}
+
+export function CheckOut() {
+  return {
+    type: CHECK_OUT,
+    status: 'check out',
   };
 }
 

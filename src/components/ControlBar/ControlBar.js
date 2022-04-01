@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import TapButton from '../../components/tapButton/TapButton';
 import {useDispatch, useSelector} from 'react-redux';
-import {CheckIn} from '../../actions/Attendance';
+import {CheckIn, CheckOut} from '../../actions/Attendance';
 
 const ControlCenter = () => {
   const dispatch = useDispatch();
@@ -20,8 +20,8 @@ const ControlCenter = () => {
   const checkInLoader = useSelector(state => state.user.checkInLoader);
 
   const OnPress = useCallback(() => {
-    dispatch(CheckIn());
-  }, [dispatch]);
+    dispatch(checkInStatus ? CheckOut() : CheckIn());
+  }, [dispatch, checkInStatus]);
 
   return (
     <View style={styles.container}>

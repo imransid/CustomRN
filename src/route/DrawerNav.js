@@ -4,9 +4,9 @@ import BasicInfo from '../screen/Profile/BasicInfo';
 import Dashboard from '../screen/Dashboard/Dashboard';
 import DateWiseAttendance from '../screen/timeSheets/DateWiseAttendances';
 
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import {drawerItemsMain} from './Drawer/DrawerItemsMain';
+import { drawerItemsMain } from './Drawer/DrawerItemsMain';
 import CustomDrawerContent from './Drawer/CustomDrawerContent';
 import CustomHeader from './Drawer/CustomHeader';
 import Attendances from '../screen/timeSheets/Attendances';
@@ -15,6 +15,8 @@ import ApproveEmployeeLeaves from '../screen/timeSheets/ApproveEmployeeLeaves';
 import Announcements from '../screen/organization/Announcements';
 import CompanyPolicy from '../screen/organization/CompanyPolicy';
 import HrCalenders from '../screen/HrCalendars/HrCalenders';
+import DetailsScreen from '../screen/detailsScreen/DetailsScreen';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -51,7 +53,7 @@ function MainDrawerNavigation() {
     <Drawer.Navigator
       initialRouteName="Home"
       screenOptions={{
-        header: ({navigation, route, options}) => {
+        header: ({ navigation, route, options }) => {
           const title = getHeaderTitle(options, route.name);
 
           return <CustomHeader title={title} navigation={navigation} />;
@@ -75,6 +77,8 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="Announcements" component={Announcements} />
       <Drawer.Screen name="CompanyPolicy" component={CompanyPolicy} />
       <Drawer.Screen name="HrCalenders" component={HrCalenders} />
+      <Drawer.Screen name="Details" component={DetailsScreen} />
+
     </Drawer.Navigator>
   );
 }
