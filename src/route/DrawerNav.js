@@ -16,6 +16,7 @@ import Announcements from '../screen/organization/Announcements';
 import CompanyPolicy from '../screen/organization/CompanyPolicy';
 import HrCalenders from '../screen/HrCalendars/HrCalenders';
 import DetailsScreen from '../screen/detailsScreen/DetailsScreen';
+import Assets from '../screen/Assets/Assets';
 
 
 const Drawer = createDrawerNavigator();
@@ -78,6 +79,7 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="CompanyPolicy" component={CompanyPolicy} />
       <Drawer.Screen name="HrCalenders" component={HrCalenders} />
       <Drawer.Screen name="Details" component={DetailsScreen} />
+      <Drawer.Screen name='Assets' component={Assets} />
 
     </Drawer.Navigator>
   );

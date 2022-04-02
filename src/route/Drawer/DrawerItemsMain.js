@@ -2,13 +2,13 @@ export const drawerItemsMain = [
   {
     key: 'Home',
     title: 'Home',
-    routes: [{nav: 'MainDrawer', routeName: 'Home', title: 'Home'}],
+    routes: [{ nav: 'MainDrawer', routeName: 'Home', title: 'Home' }],
   },
   {
     key: 'TimeSheets',
     title: 'Time Sheets',
     routes: [
-      {nav: 'MainDrawer', routeName: 'Attendances', title: 'Attendances'},
+      { nav: 'MainDrawer', routeName: 'Attendances', title: 'Attendances' },
       {
         nav: 'MainDrawer',
         routeName: 'DateWiseAttendances',
@@ -46,7 +46,14 @@ export const drawerItemsMain = [
     key: 'HrCalenders',
     title: 'HR Calenders',
     routes: [
-      {nav: 'MainDrawer', routeName: 'HrCalenders', title: 'HR Calenders'},
+      { nav: 'MainDrawer', routeName: 'HrCalenders', title: 'HR Calenders' },
+    ],
+  },
+  {
+    key: 'Assets',
+    title: 'Assets',
+    routes: [
+      { nav: 'MainDrawer', routeName: 'Assets', title: 'Assets' },
     ],
   },
 ];
