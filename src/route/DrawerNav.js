@@ -4,9 +4,9 @@ import BasicInfo from '../screen/Profile/BasicInfo';
 import Dashboard from '../screen/Dashboard/Dashboard';
 import DateWiseAttendance from '../screen/timeSheets/DateWiseAttendances';
 
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
-import { drawerItemsMain } from './Drawer/DrawerItemsMain';
+import {drawerItemsMain, drawerItemsSubMain} from './Drawer/DrawerItemsMain';
 import CustomDrawerContent from './Drawer/CustomDrawerContent';
 import CustomHeader from './Drawer/CustomHeader';
 import Attendances from '../screen/timeSheets/Attendances';
@@ -16,7 +16,8 @@ import Announcements from '../screen/organization/Announcements';
 import CompanyPolicy from '../screen/organization/CompanyPolicy';
 import HrCalenders from '../screen/HrCalendars/HrCalenders';
 import DetailsScreen from '../screen/detailsScreen/DetailsScreen';
-
+import Assets from '../screen/Assets/Assets';
+import {useSelector} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
@@ -49,18 +50,22 @@ const getHeaderTitle = (options, name) => {
 };
 
 function MainDrawerNavigation() {
+  const drawerMode = useSelector(state => state.setting.drawerMode);
   return (
     <Drawer.Navigator
       initialRouteName="Home"
       screenOptions={{
-        header: ({ navigation, route, options }) => {
+        header: ({navigation, route, options}) => {
           const title = getHeaderTitle(options, route.name);
 
           return <CustomHeader title={title} navigation={navigation} />;
         },
       }}
       drawerContent={props => (
-        <CustomDrawerContent drawerItems={drawerItemsMain} {...props} />
+        <CustomDrawerContent
+          drawerItems={drawerMode ? drawerItemsMain : drawerItemsSubMain}
+          {...props}
+        />
       )}>
       <Drawer.Screen name="Home" component={Dashboard} />
       <Drawer.Screen name="BasicInfo" component={BasicInfo} />
@@ -78,7 +83,7 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="CompanyPolicy" component={CompanyPolicy} />
       <Drawer.Screen name="HrCalenders" component={HrCalenders} />
       <Drawer.Screen name="Details" component={DetailsScreen} />
-
+      <Drawer.Screen name="Assets" component={Assets} />
     </Drawer.Navigator>
   );
 }
