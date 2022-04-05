@@ -1,11 +1,17 @@
-import {API_SETUP_SUCCESS} from '../constant/Constants';
+import {DRAWER_CHANGE} from '../constant/Constants';
 
-const INITIAL_STATE = null;
+const INITIAL_STATE = {
+  drawerMode: false,
+};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case API_SETUP_SUCCESS:
-      return action.payload;
+    case DRAWER_CHANGE:
+      return {
+        ...state,
+        drawerMode: action.payload,
+      };
+
     default:
       return state;
   }

@@ -11,6 +11,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Avatar, Card, Title, Paragraph} from 'react-native-paper';
 import {LogOut} from '../../actions/SignIn';
 
+import {DrawerChange} from '../../actions/Settings';
+
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
 
@@ -51,6 +53,9 @@ function CustomDrawerContent(props) {
               key={parent.key}
               testID={parent.key}
               onPress={() => {
+                parent.title === 'Dashboard'
+                  ? dispatch(DrawerChange(true))
+                  : dispatch(DrawerChange(false));
                 onItemParentPress(parent.key);
               }}>
               <View style={styles.parentItem}>
