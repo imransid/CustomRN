@@ -1,18 +1,13 @@
 import React, {useState, useMemo} from 'react';
-import {
-  FormControl,
-  Input,
-  Stack,
-  Divider,
-  Box,
-  WarningOutlineIcon,
-} from 'native-base';
+import {FormControl, Input, Stack, Box, WarningOutlineIcon} from 'native-base';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import TapButton from '../../components/tapButton/TapButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {LogIn} from '../../actions/SignIn';
 import {SafeAreaView, ScrollView} from 'react-native';
 import {Card, Headline} from 'react-native-paper';
+import {Calendar} from 'react-native-calendars';
+import moment from 'moment';
 const BasicInfo = () => {
   const dispatch = useDispatch();
 
@@ -25,6 +20,25 @@ const BasicInfo = () => {
   const [password, setPassword] = useState('');
   const [passwordInvalid, setPasswordInvalid] = useState(false);
   const [appLoaded, setAppLoaded] = useState(false);
+
+  const [markedDates, setMarkedDates] = useState({
+    '2022-04-05': {
+      // disabled: true,
+      startingDay: true,
+      color: 'orange',
+      endingDay: true,
+    },
+  });
+
+  const handleDayPress = day => {
+    setMarkedDates({
+      [day.dateString]: {
+        startingDay: true,
+        endingDay: true,
+        color: 'orange',
+      },
+    });
+  };
 
   const errorMsgUser = useMemo(() => {
     return 'Required. ';
@@ -69,6 +83,16 @@ const BasicInfo = () => {
     );
   };
 
+  const RenderDate = ({label}) => {
+    return (
+      <Calendar
+        markedDates={markedDates}
+        markingType={'period'}
+        onDayPress={handleDayPress}
+      />
+    );
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <ScrollView style={{marginBottom: 10}}>
@@ -97,7 +121,7 @@ const BasicInfo = () => {
               <RenderBox label={'Address *'} />
               <RenderBox label={'Gender *'} />
               <RenderBox label={'Phone *'} />
-              <RenderBox label={'DOB *'} />
+              <RenderDate label={'DOB *'} />
             </Card>
 
             <Box>
