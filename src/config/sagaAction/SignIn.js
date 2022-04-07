@@ -48,7 +48,7 @@ export const _signIn = function* (action) {
     const uri = 'https://hrmspvm.predictionla.com/api/user/login'; //State.api + '/authentication';
 
     let data = {
-      username: '453454345345345345', //action.data.username,
+      username: 'rakibulhasan.rh890@gmail.com', //action.data.username,
       password: 'asdfghjkl', //action.data.password,
       uri: uri,
     };
