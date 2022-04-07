@@ -1,9 +1,11 @@
 import * as React from 'react';
 import DataTable from '../../components/dataTable/DataTable';
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, TouchableHighlight, Text} from 'react-native';
 import {ScaledSheet} from 'react-native-size-matters';
 import {View} from 'native-base';
 import SearchBox from '../../components/searchBox/SearchBox';
+
+import RnPdf from '../../components/GenaratePdf';
 
 const DateWiseAttendance = () => {
   const tableHead = {
@@ -34,10 +36,19 @@ const DateWiseAttendance = () => {
     data.push(dataRow);
   }
 
+  console.log(tableHead.tableHead);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.search}>
         <SearchBox />
+        <View style={styles.pdfBox}>
+          <RnPdf
+            Filename={'DateWiseAttendance'}
+            headerItem={tableHead.tableHead}
+            bodyItem={data}
+          />
+        </View>
       </View>
       <DataTable tableHead={tableHead} data={data} headerColour={'#00695c'} />
     </SafeAreaView>
@@ -52,6 +63,11 @@ const styles = ScaledSheet.create({
     paddingLeft: 17,
     paddingRight: 17,
     backgroundColor: '#fff',
+  },
+  pdfBox: {
+    paddingTop: 10,
+    width: '100%',
+    alignItems: 'flex-end',
   },
 });
 
