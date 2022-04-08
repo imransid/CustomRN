@@ -68,19 +68,55 @@ export const drawerItemsSubMain = [
     routes: [
       {nav: 'BasicInfo', routeName: 'BasicInfo', title: 'Basic Info'},
       {
-        nav: 'MainDrawer',
-        routeName: 'DateWiseAttendances',
-        title: 'Date Wise Attendances',
+        nav: 'Immigration',
+        routeName: 'Immigration',
+        title: 'Immigration',
       },
       {
-        nav: 'MainDrawer',
-        routeName: 'MonthlyAttendances',
-        title: 'Monthly Attendances',
+        nav: 'EmergencyContacts',
+        routeName: 'EmergencyContacts',
+        title: 'Emergency Contacts',
       },
       {
-        nav: 'MainDrawer',
-        routeName: 'ApproveEmployeeLeaves',
-        title: 'Approve Employee Leaves',
+        nav: 'SocialProfile',
+        routeName: 'SocialProfile',
+        title: 'Social Profile',
+      },
+      {
+        nav: 'Document',
+        routeName: 'Document',
+        title: 'Document',
+      },
+      {
+        nav: 'Qualification',
+        routeName: 'Qualification',
+        title: 'Qualification',
+      },
+      {
+        nav: 'WorkExperience',
+        routeName: 'WorkExperience',
+        title: 'Work Experience',
+      },
+
+      {
+        nav: 'SalaryBankAccount',
+        routeName: 'SalaryBankAccount',
+        title: 'Salary Bank Account',
+      },
+      {
+        nav: 'ChangePassword',
+        routeName: 'ChangePassword',
+        title: 'Change Password',
+      },
+      {
+        nav: 'AppointmentLetter',
+        routeName: 'AppointmentLetter',
+        title: 'Appointment Letter',
+      },
+      {
+        nav: 'DownloadLatestIDCard',
+        routeName: 'DownloadLatestIDCard',
+        title: 'Download Latest ID Card',
       },
     ],
   },
