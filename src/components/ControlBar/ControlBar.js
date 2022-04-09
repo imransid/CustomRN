@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, { useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,16 +8,21 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import TapButton from '../../components/tapButton/TapButton';
-import {useDispatch, useSelector} from 'react-redux';
-import {CheckIn, CheckOut} from '../../actions/Attendance';
+import { useDispatch, useSelector } from 'react-redux';
+import { CheckIn, CheckOut } from '../../actions/Attendance';
 
 const ControlCenter = () => {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user.userAllData)
+
 
   const lat = useSelector(state => state.user.Latitude);
   const long = useSelector(state => state.user.Longitude);
   const checkInStatus = useSelector(state => state.user.checkInStatus);
   const checkInLoader = useSelector(state => state.user.checkInLoader);
+  // console.log("user datas", firstname)
+
+
 
   const OnPress = useCallback(() => {
     dispatch(checkInStatus ? CheckOut() : CheckIn());
@@ -29,11 +34,11 @@ const ControlCenter = () => {
         <View style={styles.headerContent}>
           <Image
             style={styles.avatar}
-            source={{uri: 'https://bootdey.com/img/Content/avatar/avatar1.png'}}
+            source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar1.png' }}
           />
 
-          <Text style={styles.name}>Tony Stark</Text>
-          <Text style={styles.designation}>Owner</Text>
+          <Text style={styles.name}>{user.first_name} {user.last_name} </Text>
+          <Text style={styles.designation}>{user.designation_id}</Text>
           <Text style={styles.officeShift}>
             Office Shift: 9:00 AM To 6:00 PM(Night Shift)
           </Text>

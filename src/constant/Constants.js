@@ -18,3 +18,5 @@ export const CHECK_IN_ERROR = 'CHECK_IN_ERROR';
 
 //setting
 export const DRAWER_CHANGE = 'DRAWER_CHANGE';
+export const GET_ASSETS = 'GET_ASSETS';
+export const GET_ASSETS_ERROR = 'GET_ASSETS_ERROR';
