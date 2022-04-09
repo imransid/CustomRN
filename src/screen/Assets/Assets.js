@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, FlatList, Image, ScrollView } from 'react-native'
-import React, { useState } from 'react'
-
+import React, { useState, useCallback, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { getAssets } from '../../actions/Assets'
 const temp = [
     {
         id: "1",
@@ -127,6 +128,15 @@ const temp = [
 
 const Assets = () => {
     const [data, setData] = useState(temp)
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user.userAllData)
+
+
+    useEffect(() => {
+        console.log('started calling')
+        dispatch(getAssets(user.com_id, user.id))
+    }, [user])
+
 
     return (
         <ScrollView style={styles.root}>
