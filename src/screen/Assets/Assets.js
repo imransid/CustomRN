@@ -146,26 +146,43 @@ const Assets = () => {
         dispatch(getAssets(user.com_id, user.id));
     }, [user]);
 
+
+    // asset_category_name: "regreg"
+    // asset_code: "1234567"
+    // asset_department_name: "Sales"
+    // asset_employee_name: "Tarekul   test Alam(test)"
+    // asset_image: "uploads/asset-images/1649065791.png"
+    // asset_is_working: "On Maintenance"
+    // asset_manufacturer: "tst"
+    // asset_name: "test"
+    // asset_note: "dfghj"
+    // asset_purchase_date: "2022-04-04"
+    // asset_serial_number: "123313"
+    // asset_warranty_end_date: "2022-04-05"
+    // created_at: "2022-04-04T09:49:52.000000Z"
+    // id: 11
+    // updated_at: "2022-04-04T09:49:52.000000Z"
+
     return (
         <ScrollView style={styles.root}>
-            {data?.map(d => (
+            {assetData?.map(d => (
                 <TableCardAttachment
                     key={d.id}
                     datas={[
-                        { title: "Department", value: d.department },
+                        { title: "Department", value: d.asset_department_name },
                         { title: "Asset Name", value: d.asset_name },
                         { title: "Asset Code", value: d.asset_code },
-                        { title: "Asset Category", value: d.asset_category },
-                        { title: "Asset Working", value: d.asset_working },
-                        { title: "Asset Manufracturer", value: d.asset_manufracturer },
-                        { title: "Serial No", value: d.serial_no },
+                        { title: "Asset Category", value: d.asset_category_name },
+                        { title: "Asset Working", value: d.asset_is_working },
+                        { title: "Asset Manufracturer", value: d.asset_manufacturer },
+                        { title: "Serial No", value: d.asset_serial_number },
                         { title: "Asset Note", value: d.asset_note },
                     ]}
-                    attachment={d.attachment}
-                    headline={d.emp_name}
+                    attachment={d.asset_image}
+                    headline={d.asset_employee_name}
                     dates={[
-                        { title: "Purchased Date", value: d.purchased_date },
-                        { title: "Warrenty Till", value: d.warrenty_till },
+                        { title: "Purchased Date", value: d.asset_purchase_date },
+                        { title: "Warrenty Till", value: d.asset_warranty_end_date },
                     ]}
                 />
             ))}

@@ -18,7 +18,7 @@ const TableCardAttachment = (props) => {
                     {props.dates.map(data => (<Text style={styles.date}>{data.title}:{data.value}</Text>))}
                 </View>
             </View>
-            {props.attachment && <Image source={{ uri: props.attachment }} style={styles.image} />}
+            {props.attachment && <Image source={{ uri: `https://hrmspvm.predictionla.com/${props.attachment}` }} style={styles.image} />}
         </View>
     )
 }
