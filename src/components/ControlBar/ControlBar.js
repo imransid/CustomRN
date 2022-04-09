@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, {useCallback} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import TapButton from '../../components/tapButton/TapButton';
-import { useDispatch, useSelector } from 'react-redux';
-import { CheckIn, CheckOut } from '../../actions/Attendance';
+import {useDispatch, useSelector} from 'react-redux';
+import {CheckIn, CheckOut} from '../../actions/Attendance';
 
 const ControlCenter = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,6 @@ const ControlCenter = () => {
   const long = useSelector(state => state.user.Longitude);
   const checkInStatus = useSelector(state => state.user.checkInStatus);
   const checkInLoader = useSelector(state => state.user.checkInLoader);
-  console.log(long, lat)
 
   const OnPress = useCallback(() => {
     dispatch(checkInStatus ? CheckOut() : CheckIn());
@@ -30,7 +29,7 @@ const ControlCenter = () => {
         <View style={styles.headerContent}>
           <Image
             style={styles.avatar}
-            source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar1.png' }}
+            source={{uri: 'https://bootdey.com/img/Content/avatar/avatar1.png'}}
           />
 
           <Text style={styles.name}>Tony Stark</Text>
