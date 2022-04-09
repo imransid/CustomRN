@@ -36,8 +36,6 @@ const DateWiseAttendance = () => {
     data.push(dataRow);
   }
 
-  console.log(tableHead.tableHead);
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.search}>

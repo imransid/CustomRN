@@ -16,7 +16,11 @@ import Announcements from '../screen/organization/Announcements';
 import CompanyPolicy from '../screen/organization/CompanyPolicy';
 import HrCalenders from '../screen/HrCalendars/HrCalenders';
 import DetailsScreen from '../screen/detailsScreen/DetailsScreen';
+import SocialProfile from '../screen/Profile/SocialProfile';
 import Assets from '../screen/Assets/Assets';
+import Immigration from '../screen/Profile/Immigration';
+import EmergencyContacts from '../screen/Profile/EmergencyContacts';
+import Document from '../screen/Profile/Document';
 import {useSelector} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
@@ -84,6 +88,10 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="HrCalenders" component={HrCalenders} />
       <Drawer.Screen name="Details" component={DetailsScreen} />
       <Drawer.Screen name="Assets" component={Assets} />
+      <Drawer.Screen name="SocialProfile" component={SocialProfile} />
+      <Drawer.Screen name="Immigration" component={Immigration} />
+      <Drawer.Screen name="EmergencyContacts" component={EmergencyContacts} />
+      <Drawer.Screen name="Document" component={Document} />
     </Drawer.Navigator>
   );
 }
