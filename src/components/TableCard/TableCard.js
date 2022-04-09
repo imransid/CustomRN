@@ -2,21 +2,27 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { ScaledSheet } from 'react-native-size-matters'
 import React from 'react'
 
-const TableCard = ({ sl, title, description, date, department, addedBy, variant }) => {
+const TableCard = (props) => {
+
+    console.log(props)
 
     return (
 
         <View style={styles.listitem}>
             <View style={styles.sl}>
-                <Text style={styles.slno}>{sl}</Text>
+                <Text style={styles.slno}>{props.sl}</Text>
             </View>
             <View style={styles.poilcyContent}>
-                {department && <Text style={styles.policyTitle}>Department: {department}</Text>}
-                <Text style={styles.policyTitle}>Title: {title}</Text>
-                {addedBy && <Text style={styles.addedBy}>{variant} by: {addedBy}</Text>}
-                <Text style={styles.addedBy}>Date: {date}</Text>
-
-                <Text style={styles.description}>{description}</Text>
+                {props.datas.map(data => (
+                    <Text
+                        style={
+                            data.title == "Title" ?
+                                styles.policyTitle :
+                                data.title == "Description" ?
+                                    styles.description :
+                                    styles.addedBy}>
+                        {data.title}:{data.value}
+                    </Text>))}
             </View>
         </View>
 

@@ -14,11 +14,12 @@ const CompanyPolicy = () => {
       <TouchableOpacity onPress={() => alert("Hello")}>
         <TableCard
           sl='1'
-          title='New Announcement'
-          description='This is description...'
-          date='12/12/2020'
-          // department='IT'
-          addedBy='John Doe'
+          datas={[
+            { title: "Title", value: "New Announcement" },
+            { title: "Added By", value: "John Doe" },
+            { title: "Date", value: "20/11/2021" },
+            { title: "Description", value: "this is description" },
+          ]}
           variant='Policy'
         />
       </TouchableOpacity>

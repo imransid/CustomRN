@@ -24,74 +24,15 @@ const Announcements = ({ navigation }) => {
       })}>
         <TableCard
           sl='1'
-          title='New Announcement'
-          description='This is description...'
-          date='12/12/2020'
-          department='IT'
-          addedBy='John Doe'
+          datas={[
+            { title: "Department", value: "IT" },
+            { title: "Title", value: "New Announcement" },
+            { title: "Announced By", value: "John Doe" },
+            { title: "Date", value: "20/11/2021" },
+            { title: "Description", value: "this is description" },
+          ]}
           variant='Announcements'
         />
-
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('Details', {
-        title: 'Anouncement for holiday',
-        description: 'This is description...',
-        announcedBy: 'Jessan',
-        date: '12/12/2020',
-        department: 'IT',
-        prevRoute: 'Announcements',
-      })}>
-        <TableCard
-          sl='1'
-          title='Anouncement for holiday'
-          description='This is description...'
-          date='12/12/2020'
-          department='IT'
-          addedBy='John Doe'
-          variant='Announcements'
-        />
-
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('Details', {
-        title: 'Termination of contract',
-        description: 'This is description...',
-        announcedBy: 'John Doe',
-        date: '12/12/2020',
-        department: 'IT',
-        prevRoute: 'Announcements',
-      })}>
-        <TableCard
-          sl='1'
-          title='Termination of contract'
-          description='This is description...'
-          date='12/12/2020'
-          department='IT'
-          addedBy='John Doe'
-          variant='Announcements'
-        />
-
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('Details', {
-        title: 'Salary increase',
-        description: 'This is description...',
-        announcedBy: 'John Doe',
-        date: '12/12/2020',
-        department: 'IT',
-        prevRoute: 'Announcements',
-      })}>
-        <TableCard
-          sl='1'
-          title='Salary increase'
-          description='This is description...'
-          date='12/12/2020'
-          department='IT'
-          addedBy='John Doe'
-          variant='Announcements'
-        />
-
       </TouchableOpacity>
 
     </SafeAreaView>

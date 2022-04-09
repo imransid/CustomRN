@@ -12,7 +12,7 @@ export const _Assets = function* (action) {
 
         let data = {
             asset_com_id: action.asset_com_id,
-            asset_employee_id: asset_employee_id,
+            asset_employee_id: action.asset_employee_id,
             uri: uri,
         };
 
