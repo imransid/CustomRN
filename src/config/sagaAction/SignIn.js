@@ -11,7 +11,6 @@ const _authApiCall = function* (action) {
         password: action.password,
       })
       .then(function (response) {
-        console.log('response', response);
         let res = {
           status: true,
           token: response.data.access_token,
@@ -48,8 +47,8 @@ export const _signIn = function* (action) {
     const uri = 'https://hrmspvm.predictionla.com/api/user/login'; //State.api + '/authentication';
 
     let data = {
-      username: 'rakibulhasan.rh890@gmail.com', //action.data.username,
-      password: 'asdfghjkl', //action.data.password,
+      username: action.data.userName,
+      password: action.data.password,
       uri: uri,
     };
 

@@ -142,13 +142,15 @@ const Assets = () => {
   console.log('loader', loader, assetData);
 
   useEffect(() => {
+    //
     dispatch(getAssets(user.com_id, user.id));
+    //
   }, [user]);
 
   return (
     <ScrollView style={styles.root}>
-      {data?.map(d => (
-        <View style={styles.container}>
+      {data?.map((d, i) => (
+        <View style={styles.container} key={i}>
           <View style={styles.content}>
             <View style={styles.mainContent}>
               <View style={styles.text}>
