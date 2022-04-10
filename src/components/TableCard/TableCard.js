@@ -21,7 +21,7 @@ const TableCard = (props) => {
                                 data.title == "Description" ?
                                     styles.description :
                                     styles.addedBy}>
-                        {data.title}:{data.value}
+                        <Text style={{ fontWeight: "500" }} >{data.title} :</Text> {data.value}
                     </Text>))}
             </View>
         </View>

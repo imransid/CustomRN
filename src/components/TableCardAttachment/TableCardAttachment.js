@@ -3,8 +3,6 @@ import React from 'react'
 
 const TableCardAttachment = (props) => {
 
-    // const datas = datas.data
-    // console.log("kkkkkkkkkkkk", ...rest)
     console.log(props)
 
     return (
