@@ -24,7 +24,17 @@ export const GET_ASSETS = 'GET_ASSETS';
 export const ASSET_FETCH = 'ASSET_FETCH';
 export const ASSET_ERROR = 'ASSET_ERROR';
 
-// social 
+// social
 export const GET_SOCIAL = 'GET_SOCIAL';
 export const SOCIAL_FETCH = 'SOCIAL_FETCH';
 export const SOCIAL_ERROR = 'SOCIAL_ERROR';
+
+// Basic Info
+export const BASIC_INFO = 'BASIC_INFO';
+export const BASIC_INFO_FETCH = 'BASIC_INFO_FETCH';
+export const BASIC_INFO_ERROR = 'BASIC_INFO_ERROR';
+
+// IMMIGRATION
+export const IMMIGRATION = 'IMMIGRATION';
+export const IMMIGRATION_FETCH = 'IMMIGRATION_FETCH';
+export const IMMIGRATION_ERROR = 'IMMIGRATION_ERROR';
