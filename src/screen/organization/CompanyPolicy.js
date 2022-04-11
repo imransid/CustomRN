@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SafeAreaView, Text, TouchableOpacity, } from 'react-native';
+import { SafeAreaView, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import { View } from 'native-base';
 import SearchBox from '../../components/searchBox/SearchBox';
@@ -7,22 +7,25 @@ import TableCard from '../../components/TableCard/TableCard';
 
 const CompanyPolicy = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.search}>
-        <SearchBox />
-      </View>
-      <TouchableOpacity onPress={() => alert("Hello")}>
-        <TableCard
-          sl='1'
-          title='New Announcement'
-          description='This is description...'
-          date='12/12/2020'
-          // department='IT'
-          addedBy='John Doe'
-          variant='Policy'
-        />
-      </TouchableOpacity>
-    </SafeAreaView>
+    <ScrollView>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.search}>
+          <SearchBox />
+        </View>
+        <TouchableOpacity onPress={() => alert("Hello")}>
+          <TableCard
+            sl='1'
+            datas={[
+              { title: "Title", value: "New Announcement" },
+              { title: "Added By", value: "John Doe" },
+              { title: "Date", value: "20/11/2021" },
+              { title: "Description", value: "this is description" },
+            ]}
+            variant='Policy'
+          />
+        </TouchableOpacity>
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 

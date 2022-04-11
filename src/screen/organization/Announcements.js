@@ -1,6 +1,6 @@
 import * as React from 'react';
 // import DataTable from '../../../components/dataTable/DataTable';
-import { SafeAreaView, TouchableOpacity, Text } from 'react-native';
+import { SafeAreaView, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import { View } from 'native-base';
 import SearchBox from '../../components/searchBox/SearchBox';
@@ -9,92 +9,35 @@ import TableCard from '../../components/TableCard/TableCard';
 const Announcements = ({ navigation }) => {
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.search}>
-        <SearchBox />
-      </View>
+    <ScrollView>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.search}>
+          <SearchBox />
+        </View>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Details', {
-        title: 'New Announcement',
-        description: 'This is description...',
-        announcedBy: 'John Doe',
-        date: '12/12/2020',
-        department: 'IT',
-        prevRoute: 'Announcements',
-      })}>
-        <TableCard
-          sl='1'
-          title='New Announcement'
-          description='This is description...'
-          date='12/12/2020'
-          department='IT'
-          addedBy='John Doe'
-          variant='Announcements'
-        />
+        <TouchableOpacity onPress={() => navigation.navigate('Details', {
+          title: 'New Announcement',
+          description: 'This is description...',
+          announcedBy: 'John Doe',
+          date: '12/12/2020',
+          department: 'IT',
+          prevRoute: 'Announcements',
+        })}>
+          <TableCard
+            sl='1'
+            datas={[
+              { title: "Department", value: "IT" },
+              { title: "Title", value: "New Announcement" },
+              { title: "Announced By", value: "John Doe" },
+              { title: "Date", value: "20/11/2021" },
+              { title: "Description", value: "this is description" },
+            ]}
+            variant='Announcements'
+          />
+        </TouchableOpacity>
 
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('Details', {
-        title: 'Anouncement for holiday',
-        description: 'This is description...',
-        announcedBy: 'Jessan',
-        date: '12/12/2020',
-        department: 'IT',
-        prevRoute: 'Announcements',
-      })}>
-        <TableCard
-          sl='1'
-          title='Anouncement for holiday'
-          description='This is description...'
-          date='12/12/2020'
-          department='IT'
-          addedBy='John Doe'
-          variant='Announcements'
-        />
-
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('Details', {
-        title: 'Termination of contract',
-        description: 'This is description...',
-        announcedBy: 'John Doe',
-        date: '12/12/2020',
-        department: 'IT',
-        prevRoute: 'Announcements',
-      })}>
-        <TableCard
-          sl='1'
-          title='Termination of contract'
-          description='This is description...'
-          date='12/12/2020'
-          department='IT'
-          addedBy='John Doe'
-          variant='Announcements'
-        />
-
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('Details', {
-        title: 'Salary increase',
-        description: 'This is description...',
-        announcedBy: 'John Doe',
-        date: '12/12/2020',
-        department: 'IT',
-        prevRoute: 'Announcements',
-      })}>
-        <TableCard
-          sl='1'
-          title='Salary increase'
-          description='This is description...'
-          date='12/12/2020'
-          department='IT'
-          addedBy='John Doe'
-          variant='Announcements'
-        />
-
-      </TouchableOpacity>
-
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 

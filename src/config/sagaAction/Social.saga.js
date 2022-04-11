@@ -1,14 +1,13 @@
 import { call, put, select } from 'redux-saga/effects';
 
-import { ASSET_FETCH, ASSET_ERROR } from '../../constant/Constants';
+import { SOCIAL_FETCH, SOCIAL_ERROR } from '../../constant/Constants';
 
-export const _Assets = function* (action) {
+export const _Socials = function* (action) {
     try {
-        const uri = 'https://hrmspvm.predictionla.com/api/user/asset';
+        const uri = 'https://hrmspvm.predictionla.com/api/user/social-profile';
 
         let data = {
-            asset_com_id: action.asset_com_id,
-            asset_employee_id: action.asset_employee_id,
+            social_profile_employee_id: action.social_profile_employee_id,
             uri: uri,
         };
 
@@ -35,8 +34,7 @@ export const _Assets = function* (action) {
 const _ApiCall = function* (action) {
     try {
         var formdata = new FormData();
-        formdata.append('asset_com_id', action.asset_com_id);
-        formdata.append('asset_employee_id', action.asset_employee_id);
+        formdata.append('social_profile_employee_id', action.social_profile_employee_id);
 
         var requestOptions = {
             method: 'POST',
