@@ -8,11 +8,15 @@ import Geolocation from '@react-native-community/geolocation';
 import {useDispatch, useSelector} from 'react-redux';
 import {setLocation} from '../../actions/Attendance';
 
+import Loader from '../../components/Loader';
+
 const Dashboard = () => {
   const dispatch = useDispatch();
   const [currentLongitude, setCurrentLongitude] = useState('...');
   const [currentLatitude, setCurrentLatitude] = useState('...');
   const [locationStatus, setLocationStatus] = useState('');
+
+  const loader = useSelector(state => state.user.checkInLoader);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -111,6 +115,7 @@ const Dashboard = () => {
     <View style={styles.container}>
       <Controlbar />
       <Dashmenu />
+      <Loader loading={loader} />
     </View>
   );
 };
