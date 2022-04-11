@@ -39,6 +39,8 @@ const SignIn = () => {
 
   // button pressed
   const OnPress = () => {
+    console.log('userName', userName);
+
     if (userName !== '' && password !== '') {
       let data = {
         userName: userName,
@@ -77,7 +79,10 @@ const SignIn = () => {
           }}>
           <Box>
             <FormControl mb="5" isInvalid={userInvalid}>
-              <Input placeholder="User Name" onChange={e => setUserName(e)} />
+              <Input
+                placeholder="User Name"
+                onChangeText={e => setUserName(e)}
+              />
 
               <FormControl.ErrorMessage
                 leftIcon={<WarningOutlineIcon size="xs" />}>
@@ -91,7 +96,7 @@ const SignIn = () => {
               <Input
                 placeholder="Password"
                 type="password"
-                onChange={e => setPassword(e)}
+                onChangeText={e => setPassword(e)}
               />
               <FormControl.ErrorMessage
                 leftIcon={<WarningOutlineIcon size="xs" />}>

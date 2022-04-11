@@ -140,54 +140,47 @@ const Assets = () => {
     const loader = useSelector(state => state.asset.assetLoader);
     const assetData = useSelector(state => state.asset.assetData);
 
-    console.log('loader', loader, assetData);
 
-    useEffect(() => {
-        dispatch(getAssets(user.com_id, user.id));
-    }, [user]);
+  useEffect(() => {
+    //
+    dispatch(getAssets(user.com_id, user.id));
+    //
+  }, [user]);
 
-
-    // asset_category_name: "regreg"
-    // asset_code: "1234567"
-    // asset_department_name: "Sales"
-    // asset_employee_name: "Tarekul   test Alam(test)"
-    // asset_image: "uploads/asset-images/1649065791.png"
-    // asset_is_working: "On Maintenance"
-    // asset_manufacturer: "tst"
-    // asset_name: "test"
-    // asset_note: "dfghj"
-    // asset_purchase_date: "2022-04-04"
-    // asset_serial_number: "123313"
-    // asset_warranty_end_date: "2022-04-05"
-    // created_at: "2022-04-04T09:49:52.000000Z"
-    // id: 11
-    // updated_at: "2022-04-04T09:49:52.000000Z"
-
-    return (
-        <ScrollView style={styles.root}>
-            {assetData?.map(d => (
-                <TableCardAttachment
-                    key={d.id}
-                    datas={[
-                        { title: "Department", value: d.asset_department_name },
-                        { title: "Asset Name", value: d.asset_name },
-                        { title: "Asset Code", value: d.asset_code },
-                        { title: "Asset Category", value: d.asset_category_name },
-                        { title: "Asset Working", value: d.asset_is_working },
-                        { title: "Asset Manufracturer", value: d.asset_manufacturer },
-                        { title: "Serial No", value: d.asset_serial_number },
-                        { title: "Asset Note", value: d.asset_note },
-                    ]}
-                    attachment={d.asset_image}
-                    headline={d.asset_employee_name}
-                    dates={[
-                        { title: "Purchased Date", value: d.asset_purchase_date },
-                        { title: "Warrenty Till", value: d.asset_warranty_end_date },
-                    ]}
-                />
-            ))}
-        </ScrollView>
-    );
+  return (
+    <ScrollView style={styles.root}>
+      {data?.map((d, i) => (
+        <View style={styles.container} key={i}>
+          <View style={styles.content}>
+            <View style={styles.mainContent}>
+              <View style={styles.text}>
+                <Text style={styles.name}>{d.emp_name}</Text>
+                <Text style={styles.fields}>Department: {d.department}</Text>
+                <Text style={styles.fields}>Asset Name: {d.asset_name}</Text>
+                <Text style={styles.fields}>Asset Code: {d.asset_code}</Text>
+                <Text style={styles.fields}>
+                  Asset Category: {d.asset_category}
+                </Text>
+                <Text style={styles.fields}>
+                  Asset Working: {d.asset_working}
+                </Text>
+                <Text style={styles.fields}>
+                  Asset Manufracturer: {d.asset_manufracturer}
+                </Text>
+                <Text style={styles.fields}>Serial No.: {d.serial_no}</Text>
+                <Text style={styles.fields}>Asset Note: {d.asset_note}</Text>
+              </View>
+              <Text style={styles.date}>
+                Purchased Date: {d.purchased_date}
+              </Text>
+              <Text style={styles.date}>Warrenty till: {d.warrenty_till}</Text>
+            </View>
+          </View>
+          <Image source={{uri: d.attachment}} style={styles.image} />
+        </View>
+      ))}
+    </ScrollView>
+  );
 };
 
 export default Assets;
