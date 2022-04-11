@@ -2,10 +2,12 @@ import React, {useCallback} from 'react';
 import DataTable from '../../components/dataTable/DataTable';
 import {SafeAreaView, Text, TouchableOpacity} from 'react-native';
 import {ScaledSheet} from 'react-native-size-matters';
-import {View} from 'native-base';
+import {View, Image, ScrollView} from 'native-base';
 import SearchBox from '../../components/searchBox/SearchBox';
 import {Subheading} from 'react-native-paper';
 import RnPdf from '../../components/GenaratePdf';
+import ScrollViewCommands from 'react-native/Libraries/Components/ScrollView/ScrollViewCommands';
+import SocialCard from '../../components/SocialCard/SocialCard';
 
 const SocialProfile = () => {
   const tableHead = {
@@ -60,7 +62,10 @@ const SocialProfile = () => {
           </View>
         </View>
       </View>
-      <DataTable tableHead={tableHead} data={data} headerColour={'#00695c'} />
+      <ScrollView>
+        <SocialCard />
+      </ScrollView>
+      {/* <DataTable tableHead={tableHead} data={data} headerColour={'#00695c'} /> */}
     </SafeAreaView>
   );
 };

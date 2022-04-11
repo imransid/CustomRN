@@ -23,3 +23,8 @@ export const DRAWER_CHANGE = 'DRAWER_CHANGE';
 export const GET_ASSETS = 'GET_ASSETS';
 export const ASSET_FETCH = 'ASSET_FETCH';
 export const ASSET_ERROR = 'ASSET_ERROR';
+
+// social 
+export const GET_SOCIAL = 'GET_SOCIAL';
+export const SOCIAL_FETCH = 'SOCIAL_FETCH';
+export const SOCIAL_ERROR = 'SOCIAL_ERROR';
