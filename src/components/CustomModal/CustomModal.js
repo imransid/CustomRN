@@ -1,24 +1,33 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity,TextInput } from 'react-native'
 import React, { Children } from 'react'
 
 const CustomModal = ({ children, onPress }) => {
     return (
         <View style={styles.modal}>
             <View style={styles.modalContent}>
-                <Text style={styles.modalTitle}>Emergency Contacts</Text>
-                <Text style={styles.modalText}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </Text>
-                <Text style={styles.modalText}>
+                <View style={{flex:1,padding:20}}>
+                    <View>
+                    <Text style={styles.modalTitle}>Add Immigration</Text>
+                    </View>
+                <View>
 
-                </Text>
-            </View>
-            <TouchableOpacity onPress={onPress}>
-                <View style={styles.modalButton}>
+                </View>
+             </View>
+
+
+                <View style={styles.buttonGroup}>
+                <TouchableOpacity style={styles.actionButton} onPress={onPress}>
+                <View style={styles.modalButton1}>
+                    <Text style={styles.modalButtonText}>Add</Text>
+                </View>
+                 </TouchableOpacity>
+                <TouchableOpacity style={styles.cancelButton} onPress={onPress}>
+                <View style={styles.modalButton2}>
                     <Text style={styles.modalButtonText}>Cancel</Text>
                 </View>
-                {/* {children} */}
-            </TouchableOpacity>
+                 </TouchableOpacity>
+                </View>
+            </View>
         </View>
     )
 }
@@ -50,15 +59,53 @@ const styles = StyleSheet.create({
         color: "#151515",
         marginBottom: 10,
     },
-    modalButton: {
+    modalButton1: {
         backgroundColor: '#0099FF',
         padding: 10,
         marginTop: 10,
         borderRadius: 10,
+        width:100,
+        alignItems:"center",
+        // flexDirection:"column-reverse"
+    },
+    modalButton2: {
+        backgroundColor: '#FF0099',
+        padding: 10,
+        marginTop: 10,
+        borderRadius: 10,
+        width:100,
+        alignItems:"center",
+        // flexDirection:"column-reverse"
     },
     modalButtonText: {
         fontSize: 20,
         color: "#FFFFFF",
         fontWeight: "600",
     },
+
+    cancelButton:{
+        flex:1,
+        flexDirection:"row",
+        justifyContent:"flex-end",
+        marginHorizontal:10,
+        marginVertical:10
+
+    },
+    actionButton:{
+        flex:1,
+        flexDirection:"row",
+        justifyContent:"flex-start",
+        marginHorizontal:30,
+        marginVertical:10
+
+
+    },
+    buttonGroup:{
+        flex:1,
+        flexDirection:"row",
+        justifyContent:"space-between",
+        position: 'absolute',
+        bottom: 0,
+        // padding: 10,
+    }
 })
