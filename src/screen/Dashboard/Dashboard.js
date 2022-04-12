@@ -10,6 +10,8 @@ import {setLocation} from '../../actions/Attendance';
 
 import Loader from '../../components/Loader';
 
+import {getApiFetch, _postApiFetch} from '../../services/Services';
+
 const Dashboard = () => {
   const dispatch = useDispatch();
   const [currentLongitude, setCurrentLongitude] = useState('...');
@@ -17,6 +19,41 @@ const Dashboard = () => {
   const [locationStatus, setLocationStatus] = useState('');
 
   const loader = useSelector(state => state.user.checkInLoader);
+
+  // jessan api call
+  useEffect(() => {
+    (async () => {
+      let parmZ = {
+        uri: 'immigration',
+        id: '6',
+      };
+
+      const fetchDataGet = await getApiFetch(parmZ);
+
+      // post parm
+      let bodyData = [
+        ['id', '6'],
+        ['immigrant_document_type', 'VIP'],
+        ['immigrant_document_number', '4444'],
+        ['immigrant_issue_date', '4444'],
+        ['immigrant_expired_date', '4444'],
+        ['immigrant_document_file', '800px_COLOURBOX27028397.jpg'],
+        ['immigrant_eligible_review_date', '4444'],
+        ['immigrant_country', 'DSDSDS'],
+      ];
+
+      let parm = {
+        bodyData: bodyData,
+        uri: 'immigration-update',
+      };
+
+      const fetchData = await getApiFetch(parm);
+
+      console.log('fetchData', fetchData, fetchDataGet);
+    })();
+
+    return () => {};
+  }, []);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
