@@ -1,5 +1,5 @@
 import { takeEvery } from 'redux-saga/effects';
-import { SIGN_IN, CHECK_IN, CHECK_OUT, GET_ASSETS } from '../constant/Constants';
+import { SIGN_IN, CHECK_IN, CHECK_OUT, GET_ASSETS, GET_SOCIAL } from '../constant/Constants';
 
 import { _signIn, _signOut } from './sagaAction/SignIn';
 import { _Attendance, _CheckInOutUpdate } from './sagaAction/Attendance';

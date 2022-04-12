@@ -15,17 +15,18 @@ export const _Socials = function* (action) {
 
         if (apiStatus.status) {
             yield put({
-                type: ASSET_FETCH,
+                type: SOCIAL_FETCH,
                 payload: apiStatus.data,
             });
         } else {
             yield put({
-                type: ASSET_ERROR,
+                type: SOCIAL_ERROR,
                 payload: {
                     msg: authStatus.msg,
                 },
             });
         }
+        console.log(apiStatus)
     } catch (err) {
         console.log('Error Getting Data ', err);
     }
@@ -46,6 +47,7 @@ const _ApiCall = function* (action) {
             .then(response => response.json())
             .then(result => {
                 let res = {
+                    // console.log(result)
                     status: true,
                     data: result.data,
                     msg: '',
