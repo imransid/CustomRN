@@ -1,3 +1,4 @@
+import { NavigationContainer } from '@react-navigation/native';
 import React from 'react'
 import {
     StyleSheet,
@@ -10,18 +11,17 @@ import {
     FlatList,
 } from 'react-native';
 
-
 const items = [
-    { id: 1, title: "Leave", color: "#FF4500", image: "https://img.icons8.com/fluency/48/000000/leave.png" },
-    { id: 2, title: "Travel", color: "#FFD32D", image: "https://img.icons8.com/office/16/000000/airplane-take-off.png" },
-    { id: 3, title: "Tickets", color: "#4682B4", image: "https://img.icons8.com/color/48/000000/pnr-code.png" },
-    { id: 4, title: "Payslip", color: "#6A5ACD", image: "https://img.icons8.com/fluency/48/000000/purchase-order.png" },
-    { id: 5, title: "Award", color: "#FF69B4", image: "https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/58/000000/external-award-online-learning-vitaliy-gorbachev-flat-vitaly-gorbachev.png" },
-    { id: 6, title: "Anouncement", color: "#00BFFF", image: "https://img.icons8.com/external-smashingstocks-circular-smashing-stocks/65/000000/external-announcement-education-smashingstocks-circular-smashing-stocks.png" },
-    { id: 7, title: "Upcomping Holiday", color: "#008E89", image: "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-holiday-comfort-flaticons-lineal-color-flat-icons-2.png" },
+    { id: 1, title: "Leave", color: "#FF4500", route: "", image: "https://img.icons8.com/fluency/48/000000/leave.png" },
+    { id: 2, title: "Travel", color: "#FFD32D", route: "", image: "https://img.icons8.com/office/16/000000/airplane-take-off.png" },
+    { id: 3, title: "Tickets", color: "#4682B4", route: "", image: "https://img.icons8.com/color/48/000000/pnr-code.png" },
+    { id: 4, title: "Payslip", color: "#6A5ACD", route: "", image: "https://img.icons8.com/fluency/48/000000/purchase-order.png" },
+    { id: 5, title: "Award", color: "#FF69B4", route: "", image: "https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/58/000000/external-award-online-learning-vitaliy-gorbachev-flat-vitaly-gorbachev.png" },
+    { id: 6, title: "Anouncement", color: "#00BFFF", route: "Announcements", image: "https://img.icons8.com/external-smashingstocks-circular-smashing-stocks/65/000000/external-announcement-education-smashingstocks-circular-smashing-stocks.png" },
+    { id: 7, title: "Upcomping Holiday", color: "#008E89", route: "", image: "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-holiday-comfort-flaticons-lineal-color-flat-icons-2.png" },
 
 ]
-const Dashboard = () => {
+const Dashboard = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <FlatList style={styles.list}
@@ -35,7 +35,7 @@ const Dashboard = () => {
                 renderItem={({ item }) => {
                     return (
                         <View>
-                            <TouchableOpacity style={[styles.card, { backgroundColor: item.color }]} onPress={() => { console.log("first") }}>
+                            <TouchableOpacity style={[styles.card, { backgroundColor: item.color }]} onPress={() => navigation.navigate("Announcements")}>
                                 <Image style={styles.cardImage} source={{ uri: item.image }} />
 
                             </TouchableOpacity>

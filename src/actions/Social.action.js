@@ -1,8 +1,8 @@
 import { GET_SOCIAL } from '../constant/Constants';
 
-export function getAssets(id) {
+export function getSocial(id) {
     return {
-        type: GET_ASSETS,
+        type: GET_SOCIAL,
         social_profile_employee_id: id,
     }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { SafeAreaView, ScrollView, Modal, View, Text, TouchableOpacity } from 'react-native';
 
@@ -6,11 +6,24 @@ import TableCard from '../../components/TableCard/TableCard';
 import { ScaledSheet } from 'react-native-size-matters';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
+import { useDispatch, useSelector } from 'react-redux';
+import { getImmigrations } from '../../actions/Immigration.action'
 
 
 const Immigration = () => {
-
   const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch()
+  const immigrationData = useSelector(state => state.immigration.immigrationData)
+  const immigrationLoader = useSelector(state => state.immigration.immigrationLoader)
+
+  const id = useSelector(state => state.user.userAllData.id)
+
+
+  useEffect(() => {
+    dispatch(getImmigrations(id))
+  }, [id])
+
+
 
   return <>
     <ScrollView>
@@ -31,21 +44,25 @@ const Immigration = () => {
         <View style={styles.search}>
           <SearchBox />
         </View>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
 
-          <TableCard
-            sl="1"
-            datas={[
-              { title: "Document Type", value: "VIP" },
-              { title: "Issue Date", value: "21/12/2021" },
-              { title: "Expire Date", value: "21/12/2021" },
-              { title: "Review Date", value: "21/12/2021" },
-              { title: "Country", value: "123, ABC Street, XYZ City" },
-              { title: "Document File", value: "Download" },
-            ]}
-            variant="EmergencyContacts"
-          />
-        </TouchableOpacity>
+
+        {!immigrationLoader && immigrationData?.map(data => (<TableCard
+          sl="1"
+          datas={[
+            { title: "Company ID", value: data.immigrant_com_id },
+            { title: "Immigrant Country", value: data.immigrant_country },
+            { title: "Employee ID", value: data.immigrant_employee_id },
+            { title: "Issue Date", value: data.immigrant_issue_date },
+            { title: "Eligible Review Date", value: data.immigrant_eligible_review_date },
+            { title: "Expired Dtae", value: data.immigrant_expired_date },
+            { title: "Document Type", value: data.immigrant_document_type },
+            { title: "Document File", value: data.immigrant_document_file },
+
+          ]}
+          variant="Immigration"
+        />))}
+        { /* ))} */}
+        {/* </TouchableOpacity> */}
 
 
       </SafeAreaView>
