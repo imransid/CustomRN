@@ -1,13 +1,5 @@
 import React, {useState, useEffect} from 'react';
-
-import {
-  SafeAreaView,
-  ScrollView,
-  Modal,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {SafeAreaView, ScrollView, Modal, View} from 'react-native';
 
 import TableCard from '../../components/TableCard/TableCard';
 import {ScaledSheet} from 'react-native-size-matters';
@@ -15,7 +7,7 @@ import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
 import {_postApiFetch} from '../../services/Services';
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
-
+import PlusButton from '../../components/plusButton';
 import {useSelector} from 'react-redux';
 
 import useFetchData from '../../components/HOC/withGetData';
@@ -60,20 +52,26 @@ const Document = () => {
             documentData?.map((data, i) => (
               <TableCard
                 key={i}
-                sl="1"
+                sl={i + 1}
                 datas={[
-                  {title: 'Company ID', value: 'data.immigrant_com_id'},
-                  {title: 'Immigrant Country', value: 'data.immigrant_country'},
-                  {title: 'Employee ID', value: 'data.immigrant_employee_id'},
-                  {title: 'Issue Date', value: 'data.immigrant_issue_date'},
+                  {
+                    title: 'Document Uploaded BY',
+                    value: data.document_uploaded_by,
+                  },
+                  {title: 'Document Type', value: data.document_type},
+                  {title: 'Document Title', value: data.document_title},
+                  {title: 'Description', value: data.document_description},
+                  {title: 'Document File', value: data.document_file},
                 ]}
                 variant="Immigration"
               />
             ))}
+
           {/* ))} */}
           {/* </TouchableOpacity> */}
         </SafeAreaView>
       </ScrollView>
+      <PlusButton OnPress={() => setModalVisible(true)} />
     </>
   );
 };

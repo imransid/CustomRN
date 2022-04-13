@@ -23,8 +23,9 @@ function useFetchData(bodyItem, url, type) {
               id: bodyData,
             };
 
-      const fetchData =
-        (await type) === 'post' ? _postApiFetch(parm) : getApiFetch();
+      const fetchData = await (type === 'post'
+        ? _postApiFetch(parm)
+        : getApiFetch(parm));
 
       fetchData.data.length > 0 ? setFetchDataSet(fetchData.data) : null;
       setFetchLoader(false);
