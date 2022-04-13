@@ -23,6 +23,15 @@ const TableCard = (props) => {
                                     styles.addedBy}>
                         <Text style={{ fontWeight: "500" }} >{data.title} :</Text> {data.value}
                     </Text>))}
+
+                <View style={styles.action}>
+                    <TouchableOpacity style={styles.edit} onPress={props.onEdit} >
+                        <Text style={styles.editText}>Edit</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.delete} onPress={props.onDelete}>
+                        <Text style={styles.deleteText}>Delete</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
 
@@ -86,4 +95,38 @@ const styles = ScaledSheet.create({
         fontSize: 16,
         color: "#151515",
     },
+    action: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 10,
+        marginBottom: 5,
+    },
+    edit: {
+        backgroundColor: '#0099FF',
+        padding: 10,
+        borderRadius: 10,
+        marginRight: 10,
+        width: '30%',
+        alignItems: 'center',
+    },
+    editText: {
+        color: '#fff',
+        fontSize: 15,
+        fontWeight: '600',
+    },
+    delete: {
+        backgroundColor: '#FF0000',
+        padding: 10,
+        borderRadius: 10,
+        marginRight: 10,
+        width: '30%',
+        alignItems: 'center',
+    },
+    deleteText: {
+        color: '#fff',
+        fontSize: 15,
+        fontWeight: '600',
+    },
+
 });

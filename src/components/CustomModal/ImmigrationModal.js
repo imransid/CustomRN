@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import { Box, Button, FormControl, Input, Stack, WarningOutlineIcon } from 'native-base'
 import React, { Children } from 'react'
 
-const CustomModal = ({ children, onPress }) => {
+const ImmigrationModal = ({ children, onPress }) => {
     return (
         <View style={styles.modal}>
             <View style={styles.modalContent}>
@@ -17,12 +17,6 @@ const CustomModal = ({ children, onPress }) => {
                                     <Stack mx="4">
                                         <FormControl.Label  >Password</FormControl.Label>
                                         <Input type="text" defaultValue="12345" placeholder="password" />
-                                        {/* <FormControl.HelperText>
-                                            Must be atleast 6 characters.
-                                        </FormControl.HelperText>
-                                        <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                                            Atleast 6 characters are required.
-                                        </FormControl.ErrorMessage> */}
 
 
                                         <FormControl.Label>Password</FormControl.Label>
@@ -69,7 +63,7 @@ const CustomModal = ({ children, onPress }) => {
     )
 }
 
-export default CustomModal
+export default ImmigrationModal
 
 const styles = StyleSheet.create({
     modal: {

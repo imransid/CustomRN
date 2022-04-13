@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
   SafeAreaView,
@@ -10,11 +10,12 @@ import {
 } from 'react-native';
 
 import TableCard from '../../components/TableCard/TableCard';
-import {ScaledSheet} from 'react-native-size-matters';
-import CustomModal from '../../components/CustomModal/CustomModal';
+import { ScaledSheet } from 'react-native-size-matters';
+import ImmigrationModal from '../../components/CustomModal/ImmigrationModal';
+import CustomModal from '../../components/CustomModal/CustomModal'
 import SearchBox from '../../components/searchBox/SearchBox';
-import {useDispatch, useSelector} from 'react-redux';
-import {getImmigrations} from '../../actions/Immigration.action';
+import { useDispatch, useSelector } from 'react-redux';
+import { getImmigrations } from '../../actions/Immigration.action';
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 
 const Immigration = () => {
@@ -49,8 +50,8 @@ const Immigration = () => {
           <View style={styles.search}>
             <SearchBox />
           </View>
-          <TouchableOpacity onPress={()=>setModalVisible(true)}>
-            <Text> Helele</Text>
+          <TouchableOpacity style={styles.addbutton} onPress={() => setModalVisible(true)}>
+            <Text> Add Immigration</Text>
           </TouchableOpacity>
           {immigrationLoader && <CustomIndicator />}
 
@@ -59,24 +60,23 @@ const Immigration = () => {
               <TableCard
                 sl="1"
                 datas={[
-                  {title: 'Company ID', value: data.immigrant_com_id},
-                  {title: 'Immigrant Country', value: data.immigrant_country},
-                  {title: 'Employee ID', value: data.immigrant_employee_id},
-                  {title: 'Issue Date', value: data.immigrant_issue_date},
+                  { title: 'Company ID', value: data.immigrant_com_id },
+                  { title: 'Immigrant Country', value: data.immigrant_country },
+                  { title: 'Employee ID', value: data.immigrant_employee_id },
+                  { title: 'Issue Date', value: data.immigrant_issue_date },
                   {
                     title: 'Eligible Review Date',
                     value: data.immigrant_eligible_review_date,
                   },
-                  {title: 'Expired Dtae', value: data.immigrant_expired_date},
-                  {title: 'Document Type', value: data.immigrant_document_type},
-                  {title: 'Document File', value: data.immigrant_document_file},
+                  { title: 'Expired Dtae', value: data.immigrant_expired_date },
+                  { title: 'Document Type', value: data.immigrant_document_type },
+                  { title: 'Document File', value: data.immigrant_document_file },
                 ]}
                 variant="Immigration"
+
               />
             ))}
-          {/* ))} */}
-          {/* </TouchableOpacity> */}
-          
+
         </SafeAreaView>
       </ScrollView>
     </>
@@ -180,5 +180,11 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-around',
     padding: 10,
   },
-  activityIndicator: {alignSelf: 'center', paddingVertical: '50%'},
+  activityIndicator: { alignSelf: 'center', paddingVertical: '50%' },
+  addbutton: {
+    backgroundColor: '#0099FF',
+    padding: 10,
+    marginTop: 10,
+    borderRadius: 10,
+  },
 });
