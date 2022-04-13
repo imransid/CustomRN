@@ -1,37 +1,38 @@
 import React, {useState, useEffect} from 'react';
-
-import {
-  SafeAreaView,
-  ScrollView,
-  Modal,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {SafeAreaView, ScrollView, Modal, View} from 'react-native';
 
 import TableCard from '../../components/TableCard/TableCard';
 import {ScaledSheet} from 'react-native-size-matters';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import {useDispatch, useSelector} from 'react-redux';
-import {getImmigrations} from '../../actions/Immigration.action';
+import {_postApiFetch} from '../../services/Services';
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
+import PlusButton from '../../components/plusButton';
+import {useSelector} from 'react-redux';
+
+import useFetchData from '../../components/HOC/withGetData';
 
 const Immigration = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const dispatch = useDispatch();
-  const immigrationData = useSelector(
-    state => state.immigration.immigrationData,
-  );
-  const immigrationLoader = useSelector(
-    state => state.immigration.immigrationLoader,
-  );
-
   const id = useSelector(state => state.user.userAllData.id);
 
+  let data = useFetchData(
+    [['immigrant_employee_id', id]],
+    'immigration',
+    'post',
+  );
+
+  const [documentData, setDocumentData] = useState([]);
+  const [documentLoader, setDocumentLoader] = useState(false);
+
   useEffect(() => {
-    dispatch(getImmigrations(id));
-  }, [id]);
+    try {
+      data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+      data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+    } catch (err) {
+      console.log('Error in useEffect ', err);
+    }
+  }, [data, documentLoader, documentData]);
 
   return (
     <>
@@ -49,36 +50,34 @@ const Immigration = () => {
           <View style={styles.search}>
             <SearchBox />
           </View>
-          <TouchableOpacity onPress={()=>setModalVisible(true)}>
-            <Text> Helele</Text>
-          </TouchableOpacity>
-          {immigrationLoader && <CustomIndicator />}
+          {documentLoader && <CustomIndicator />}
 
-          {!immigrationLoader &&
-            immigrationData?.map(data => (
+          {!documentLoader &&
+            documentData?.map((data, i) => (
               <TableCard
-                sl="1"
+                key={i}
+                sl={i + 1}
                 datas={[
-                  {title: 'Company ID', value: data.immigrant_com_id},
-                  {title: 'Immigrant Country', value: data.immigrant_country},
-                  {title: 'Employee ID', value: data.immigrant_employee_id},
+                  {title: 'Document Type', value: data.immigrant_document_type},
+
                   {title: 'Issue Date', value: data.immigrant_issue_date},
                   {
-                    title: 'Eligible Review Date',
+                    title: 'Review Date',
                     value: data.immigrant_eligible_review_date,
                   },
                   {title: 'Expired Dtae', value: data.immigrant_expired_date},
-                  {title: 'Document Type', value: data.immigrant_document_type},
+
                   {title: 'Document File', value: data.immigrant_document_file},
+                  {title: 'Country', value: data.immigrant_country},
                 ]}
                 variant="Immigration"
               />
             ))}
           {/* ))} */}
           {/* </TouchableOpacity> */}
-          
         </SafeAreaView>
       </ScrollView>
+      <PlusButton OnPress={() => setModalVisible(true)} />
     </>
   );
 };

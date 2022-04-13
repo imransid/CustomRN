@@ -1,6 +1,7 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {ScaledSheet} from 'react-native-size-matters';
 import React from 'react';
+import {Subheading, Paragraph} from 'react-native-paper';
 
 const TableCard = props => {
   return (
@@ -10,7 +11,7 @@ const TableCard = props => {
       </View>
       <View style={styles.poilcyContent}>
         {props.datas.map((data, i) => (
-          <Text
+          <Paragraph
             key={i}
             style={
               data.title == 'Title'
@@ -19,8 +20,11 @@ const TableCard = props => {
                 ? styles.description
                 : styles.addedBy
             }>
-            <Text style={{fontWeight: '500'}}>{data.title} :</Text> {data.value}
-          </Text>
+            <Subheading style={{fontWeight: '500', fontWeight: 'bold'}}>
+              {data.title} :{' '}
+            </Subheading>
+            {data.value}
+          </Paragraph>
         ))}
       </View>
     </View>
