@@ -18,7 +18,7 @@ const Dashboard = () => {
   const [currentLatitude, setCurrentLatitude] = useState('...');
   const [locationStatus, setLocationStatus] = useState('');
 
-  const loader = useSelector(state => state.user.checkInLoader);
+  const loader = false; //useSelector(state => state.user.checkInLoader);
 
   // jessan api call
   useEffect(() => {
@@ -29,6 +29,8 @@ const Dashboard = () => {
       };
 
       const fetchDataGet = await getApiFetch(parmZ);
+
+      console.log('fetchDataGet', fetchDataGet);
 
       // post parm
       let bodyData = [
@@ -48,8 +50,6 @@ const Dashboard = () => {
       };
 
       const fetchData = await getApiFetch(parm);
-
-      console.log('fetchData', fetchData, fetchDataGet);
     })();
 
     return () => {};

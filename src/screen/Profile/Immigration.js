@@ -8,6 +8,7 @@ import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { getImmigrations } from '../../actions/Immigration.action'
+import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 
 
 const Immigration = () => {
@@ -44,6 +45,9 @@ const Immigration = () => {
         <View style={styles.search}>
           <SearchBox />
         </View>
+{immigrationLoader && 
+<CustomIndicator />
+}
 
 
         {!immigrationLoader && immigrationData?.map(data => (<TableCard
@@ -75,6 +79,7 @@ export default Immigration;
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
+    justifyContent:"center"
   },
   search: {
     paddingLeft: 17,
@@ -162,5 +167,11 @@ const styles = ScaledSheet.create({
     color: "#FFFFFF",
     fontWeight: "600",
   },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
+  },
+  activityIndicator:{alignSelf:"center",paddingVertical:"50%"}
 
 });

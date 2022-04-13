@@ -29,7 +29,7 @@ const ControlCenter = () => {
   }, [dispatch, checkInStatus]);
 
   return (
-    <View style={styles.container}>
+ 
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <Image
@@ -57,7 +57,7 @@ const ControlCenter = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+ 
   );
 };
 
@@ -66,13 +66,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#00BFFF',
   },
   headerContent: {
-    padding: 30,
+    padding:20,
     alignItems: 'center',
   },
   avatar: {
-    width: 120,
-    height: 120,
-    borderRadius: 63,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
     borderWidth: 4,
     borderColor: 'white',
     marginBottom: 10,
