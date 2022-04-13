@@ -44,22 +44,38 @@ export const getApiFetch = async data => {
 export const _postApiFetch = async data => {
   try {
     var formdata = new FormData();
-    data.bodyData.map(e => formdata.append(e[0], e[1]));
+    data.bodyData.length > 0
+      ? data.bodyData.map(e => formdata.append(e[0], e[1]))
+      : null;
     var requestOptions = {
       method: 'POST',
       body: formdata,
       redirect: 'follow',
     };
 
-    console.log('uiuihlhh', formdata);
-
-    fetch(
+    let response = fetch(
       'https://hrmspvm.predictionla.com/api/user/' + data.uri,
       requestOptions,
     )
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+      .then(response => response.json())
+      .then(result => {
+        let res = {
+          status: true,
+          data: result.data,
+          msg: '',
+        };
+        return res;
+      })
+      .catch(error => {
+        let res = {
+          status: false,
+          data: [],
+          msg: '',
+        };
+        return res;
+      });
+
+    return response;
   } catch (err) {
     console.log('Error in _postApiFetch ', err);
   }
