@@ -1,62 +1,89 @@
-import React, { useState, useMemo } from 'react';
-
-import { SafeAreaView, ScrollView, Modal, View, Text, TouchableOpacity } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {SafeAreaView, ScrollView, Modal, View} from 'react-native';
 
 import TableCard from '../../components/TableCard/TableCard';
-import { ScaledSheet } from 'react-native-size-matters';
+import {ScaledSheet} from 'react-native-size-matters';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
+import {_postApiFetch} from '../../services/Services';
+import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
+import PlusButton from '../../components/plusButton';
+import {useSelector} from 'react-redux';
 
+import useFetchData from '../../components/HOC/withGetData';
 
 const EmergencyContacts = () => {
-
   const [modalVisible, setModalVisible] = useState(false);
+  const id = useSelector(state => state.user.userAllData.id);
 
-  return <>
-    <ScrollView>
-      <SafeAreaView style={styles.container}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(false);
-          }}>
-          <CustomModal
-            onPress={() => setModalVisible(false)}
-            children
-          />
+  let data = useFetchData(
+    [['emergency_contact_employee_id', id]],
+    'emergency-contact',
+    'post',
+  );
 
-        </Modal>
-        <View style={styles.search}>
-          <SearchBox />
-        </View>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
+  const [documentData, setDocumentData] = useState([]);
+  const [documentLoader, setDocumentLoader] = useState(false);
 
-          <TableCard
-            sl="1"
-            datas={[
-              { title: "Name", value: "John Doe" },
-              { title: "Relationship", value: "Father" },
-              { title: "Phone", value: "1234567890" },
-              { title: "Email", value: "example@gmail.com" },
-              { title: "Address", value: "123, ABC Street, XYZ City" },
-            ]}
-            variant="EmergencyContacts"
-          />
-        </TouchableOpacity>
+  useEffect(() => {
+    try {
+      data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+      data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+    } catch (err) {
+      console.log('Error in useEffect ', err);
+    }
+  }, [data, documentLoader, documentData]);
 
+  return (
+    <>
+      <ScrollView>
+        <SafeAreaView style={styles.container}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(false);
+            }}>
+            <CustomModal onPress={() => setModalVisible(false)} children />
+          </Modal>
+          <View style={styles.search}>
+            <SearchBox />
+          </View>
+          {documentLoader && <CustomIndicator />}
 
-      </SafeAreaView>
-    </ScrollView>
-
-  </>;
+          {!documentLoader &&
+            documentData?.map((data, i) => (
+              <TableCard
+                key={i}
+                sl={i + 1}
+                datas={[
+                  {
+                    title: 'Name',
+                    value: data.emergency_contact_name,
+                  },
+                  {title: 'Relation', value: data.emergency_contact_relation},
+                  {title: 'Email', value: data.emergency_contact_email},
+                  {title: 'Phone', value: data.emergency_contact_phone},
+                  {title: 'Address', value: data.emergency_contact_address},
+                ]}
+                variant="Immigration"
+              />
+            ))}
+          {/* ))} */}
+          {/* </TouchableOpacity> */}
+        </SafeAreaView>
+      </ScrollView>
+      <PlusButton OnPress={() => setModalVisible(true)} />
+    </>
+  );
 };
 export default EmergencyContacts;
 
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
   },
   search: {
     paddingLeft: 17,
@@ -64,7 +91,7 @@ const styles = ScaledSheet.create({
     backgroundColor: '#fff',
   },
   container: {
-    backgroundColor: "#F2F2F2",
+    backgroundColor: '#F2F2F2',
   },
   eventList: {
     marginTop: 20,
@@ -80,13 +107,13 @@ const styles = ScaledSheet.create({
   },
   slno: {
     fontSize: 50,
-    color: "#0099FF",
-    fontWeight: "600",
+    color: '#0099FF',
+    fontWeight: '600',
   },
   eventMonth: {
     fontSize: 16,
-    color: "#0099FF",
-    fontWeight: "600",
+    color: '#0099FF',
+    fontWeight: '600',
   },
   poilcyContent: {
     flex: 1,
@@ -95,19 +122,19 @@ const styles = ScaledSheet.create({
     marginLeft: 10,
     backgroundColor: '#FFFFFF',
     padding: 10,
-    borderRadius: 10
+    borderRadius: 10,
   },
   description: {
     fontSize: 15,
-    color: "#646464",
+    color: '#646464',
   },
   policyTitle: {
     fontSize: 18,
-    color: "#151515",
+    color: '#151515',
   },
   addedBy: {
     fontSize: 16,
-    color: "#151515",
+    color: '#151515',
   },
   modal: {
     flex: 1,
@@ -130,7 +157,7 @@ const styles = ScaledSheet.create({
   },
   modalText: {
     fontSize: 15,
-    color: "#151515",
+    color: '#151515',
     marginBottom: 10,
   },
   modalButton: {
@@ -141,8 +168,13 @@ const styles = ScaledSheet.create({
   },
   modalButtonText: {
     fontSize: 20,
-    color: "#FFFFFF",
-    fontWeight: "600",
+    color: '#FFFFFF',
+    fontWeight: '600',
   },
-
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+  },
+  activityIndicator: {alignSelf: 'center', paddingVertical: '50%'},
 });

@@ -21,6 +21,10 @@ import Assets from '../screen/Assets/Assets';
 import Immigration from '../screen/Profile/Immigration';
 import EmergencyContacts from '../screen/Profile/EmergencyContacts';
 import Document from '../screen/Profile/Document';
+import Qualification from '../screen/Profile/Qualification';
+import SalaryBankAccount from '../screen/Profile/SalaryBankAccount';
+import WorkExperience from '../screen/Profile/WorkExperience';
+
 import {useSelector} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
@@ -92,6 +96,9 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="Immigration" component={Immigration} />
       <Drawer.Screen name="EmergencyContacts" component={EmergencyContacts} />
       <Drawer.Screen name="Document" component={Document} />
+      <Drawer.Screen name="Qualification" component={Qualification} />
+      <Drawer.Screen name="SalaryBankAccount" component={SalaryBankAccount} />
+      <Drawer.Screen name="WorkExperience" component={WorkExperience} />
     </Drawer.Navigator>
   );
 }

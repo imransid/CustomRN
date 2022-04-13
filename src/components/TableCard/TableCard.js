@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import { ScaledSheet } from 'react-native-size-matters'
-import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { ScaledSheet } from 'react-native-size-matters';
+import React from 'react';
+import { Subheading, Paragraph } from 'react-native-paper';
 
-const TableCard = (props) => {
+const TableCard = props => {
 
     console.log(props)
 

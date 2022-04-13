@@ -1,104 +1,193 @@
-import React, {useCallback} from 'react';
-import DataTable from '../../components/dataTable/DataTable';
-import {SafeAreaView, Text, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {SafeAreaView, ScrollView, Modal, View} from 'react-native';
+
+import TableCard from '../../components/TableCard/TableCard';
 import {ScaledSheet} from 'react-native-size-matters';
-import {View, Image, ScrollView} from 'native-base';
+import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import {Subheading} from 'react-native-paper';
-import RnPdf from '../../components/GenaratePdf';
-import ScrollViewCommands from 'react-native/Libraries/Components/ScrollView/ScrollViewCommands';
-import SocialCard from '../../components/SocialCard/SocialCard';
+import {_postApiFetch} from '../../services/Services';
+import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
+import PlusButton from '../../components/plusButton';
+import {useSelector} from 'react-redux';
+
+import useFetchData from '../../components/HOC/withGetData';
 
 const SocialProfile = () => {
-  const tableHead = {
-    tableHead: [
-      'Sl',
-      'Facebook Profile',
-      'linkedin Profile',
-      'Skype Profile',
-      'TWitter Profile',
-      'WhatsApp Profile ',
-      'Action',
-    ],
-    widthArr: [50, 240, 220, 200, 200, 200, 80],
-  };
+  const [modalVisible, setModalVisible] = useState(false);
+  const id = useSelector(state => state.user.userAllData.id);
 
-  const data = [];
+  let data = useFetchData(
+    [['social_profile_employee_id', id]],
+    'social-profile',
+    'post',
+  );
 
-  for (let i = 0; i < 30; i += 1) {
-    const dataRow = [];
-    for (let j = 0; j < 7; j += 1) {
-      dataRow.push(`${i}${j}`);
+  const [documentData, setDocumentData] = useState([]);
+  const [documentLoader, setDocumentLoader] = useState(false);
+
+  useEffect(() => {
+    try {
+      data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+      data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+    } catch (err) {
+      console.log('Error in useEffect ', err);
     }
-    data.push(dataRow);
-  }
-
-  const OnPress = useCallback(() => {
-    // dispatch(checkInStatus ? CheckOut() : CheckIn());
-  }, []);
+  }, [data, documentLoader, documentData]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.search}>
-        <SearchBox />
-        <View style={{flexDirection: 'row', width: '100%'}}>
-          <View style={{width: '50%', justifyContent: 'center', height: 60}}>
-            <TouchableOpacity style={styles.buttonContainer} onPress={OnPress}>
-              {/* {!checkInLoader ? ( */}
-              <Subheading style={styles.designation}>
-                Add Social Profile
-              </Subheading>
-              {/* ) : (
-                 <ActivityIndicator size="small" color="#CFCFCF" />
-               )} */}
-            </TouchableOpacity>
-          </View>
-          <View style={styles.pdfBox}>
-            <RnPdf
-              Filename={'SocialProfile'}
-              headerItem={tableHead.tableHead}
-              bodyItem={data}
-            />
-          </View>
-        </View>
-      </View>
+    <>
       <ScrollView>
-        <SocialCard />
+        <SafeAreaView style={styles.container}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(false);
+            }}>
+            <CustomModal onPress={() => setModalVisible(false)} children />
+          </Modal>
+          <View style={styles.search}>
+            <SearchBox />
+          </View>
+          {documentLoader && <CustomIndicator />}
+
+          {!documentLoader &&
+            documentData?.map((data, i) => (
+              <TableCard
+                key={i}
+                sl={i + 1}
+                datas={[
+                  {
+                    title: 'Facebook Profile',
+                    value: data.social_profile_fb_profile,
+                  },
+                  {
+                    title: 'LinkedIn Profile',
+                    value: data.social_profile_linkedin_profile,
+                  },
+                  {
+                    title: 'Skype Profile',
+                    value: data.social_profile_skype_profile,
+                  },
+                  {
+                    title: 'Twitter Profile',
+                    value: data.social_profile_twitter_profile,
+                  },
+                  {
+                    title: 'WhatsApp Profile',
+                    value: data.social_profile_whatsapp_profile,
+                  },
+                ]}
+                variant="Immigration"
+              />
+            ))}
+
+          {/* ))} */}
+          {/* </TouchableOpacity> */}
+        </SafeAreaView>
       </ScrollView>
-      {/* <DataTable tableHead={tableHead} data={data} headerColour={'#00695c'} /> */}
-    </SafeAreaView>
+      <PlusButton OnPress={() => setModalVisible(true)} />
+    </>
   );
 };
 
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
   },
   search: {
     paddingLeft: 17,
     paddingRight: 17,
     backgroundColor: '#fff',
   },
-  pdfBox: {
-    paddingTop: 10,
-    width: '50%',
-    alignItems: 'flex-end',
+  container: {
+    backgroundColor: '#F2F2F2',
   },
-  designation: {
+  eventList: {
+    marginTop: 20,
+  },
+  listitem: {
+    padding: 10,
+    marginTop: 5,
+    marginBottom: 5,
+    flexDirection: 'row',
+  },
+  sl: {
+    flexDirection: 'column',
+  },
+  slno: {
+    fontSize: 50,
+    color: '#0099FF',
+    fontWeight: '600',
+  },
+  eventMonth: {
+    fontSize: 16,
+    color: '#0099FF',
+    fontWeight: '600',
+  },
+  poilcyContent: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    marginLeft: 10,
+    backgroundColor: '#FFFFFF',
+    padding: 10,
+    borderRadius: 10,
+  },
+  description: {
+    fontSize: 15,
+    color: '#646464',
+  },
+  policyTitle: {
     fontSize: 18,
+    color: '#151515',
+  },
+  addedBy: {
+    fontSize: 16,
+    color: '#151515',
+  },
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 10,
+    width: '80%',
+    height: '80%',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#151515',
+    marginBottom: 10,
+  },
+  modalText: {
+    fontSize: 15,
+    color: '#151515',
+    marginBottom: 10,
+  },
+  modalButton: {
+    backgroundColor: '#0099FF',
+    padding: 10,
+    marginTop: 10,
+    borderRadius: 10,
+  },
+  modalButtonText: {
+    fontSize: 20,
     color: '#FFFFFF',
     fontWeight: '600',
   },
-  buttonContainer: {
-    marginTop: 10,
-    height: 45,
+  horizontal: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 250,
-    borderRadius: 30,
-    backgroundColor: '#33b5e5',
+    justifyContent: 'space-around',
+    padding: 10,
   },
+  activityIndicator: {alignSelf: 'center', paddingVertical: '50%'},
 });
-
 export default SocialProfile;
