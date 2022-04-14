@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import { Box, Button, FormControl, Input, Stack, WarningOutlineIcon } from 'native-base'
 import React, { Children } from 'react'
 
-const CustomModal = ({ children, onPress, onDelete }) => {
+const CustomModal = ({ children, onCancel, onDelete }) => {
     return (
         <View style={styles.modal}>
             <View style={styles.modalContent}>
@@ -18,7 +18,7 @@ const CustomModal = ({ children, onPress, onDelete }) => {
                             <Text style={styles.modalButtonText}>Delete</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.cancelButton} onPress={onPress}>
+                    <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
                         <View style={styles.modalButton2}>
                             <Text style={styles.modalButtonText}>Cancel</Text>
                         </View>

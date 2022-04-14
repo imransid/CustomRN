@@ -15,24 +15,24 @@ const TableCard = props => {
             </View>
             <View style={styles.poilcyContent}>
                 {props.datas.map(data => (
-                    <Text
+                    <Paragraph
                         style={
                             data.title == "Title" ?
                                 styles.policyTitle :
                                 data.title == "Description" ?
                                     styles.description :
                                     styles.addedBy}>
-                        <Text style={{ fontWeight: "500" }} >{data.title} :</Text> {data.value}
-                    </Text>))}
+                        <Subheading style={{ fontWeight: "500" }} >{data.title} :</Subheading> {data.value}
+                    </Paragraph>))}
 
-                <View style={styles.action}>
+                {props.buttonVisible && (<View style={styles.action}>
                     <TouchableOpacity style={styles.edit} onPress={props.onEdit} >
                         <Text style={styles.editText}>Edit</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.delete} onPress={props.onDelete}>
                         <Text style={styles.deleteText}>Delete</Text>
                     </TouchableOpacity>
-                </View>
+                </View>)}
             </View>
         </View>
 
