@@ -5,6 +5,7 @@ import { Subheading, Paragraph } from 'react-native-paper';
 
 const TableCard = props => {
 
+
     console.log(props)
 
     return (
@@ -36,10 +37,10 @@ const TableCard = props => {
             </View>
         </View>
 
-    )
-}
+    );
+};
 
-export default TableCard
+export default TableCard;
 
 const styles = ScaledSheet.create({
     container: {
@@ -51,7 +52,7 @@ const styles = ScaledSheet.create({
         backgroundColor: '#fff',
     },
     container: {
-        backgroundColor: "#F2F2F2",
+        backgroundColor: '#F2F2F2',
     },
     eventList: {
         marginTop: 20,
@@ -67,13 +68,13 @@ const styles = ScaledSheet.create({
     },
     slno: {
         fontSize: 50,
-        color: "#0099FF",
-        fontWeight: "600",
+        color: '#0099FF',
+        fontWeight: '600',
     },
     eventMonth: {
         fontSize: 16,
-        color: "#0099FF",
-        fontWeight: "600",
+        color: '#0099FF',
+        fontWeight: '600',
     },
     poilcyContent: {
         flex: 1,
@@ -82,19 +83,19 @@ const styles = ScaledSheet.create({
         marginLeft: 10,
         backgroundColor: '#FFFFFF',
         padding: 10,
-        borderRadius: 10
+        borderRadius: 10,
     },
     description: {
         fontSize: 15,
-        color: "#646464",
+        color: '#646464',
     },
     policyTitle: {
         fontSize: 18,
-        color: "#151515",
+        color: '#151515',
     },
     addedBy: {
         fontSize: 16,
-        color: "#151515",
+        color: '#151515',
     },
     action: {
         flexDirection: 'row',
@@ -129,5 +130,4 @@ const styles = ScaledSheet.create({
         fontSize: 15,
         fontWeight: '600',
     },
-
 });
