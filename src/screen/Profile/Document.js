@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, Modal, View} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  Modal,
+  View,
+  ToastAndroid,
+} from 'react-native';
 
 import TableCard from '../../components/TableCard/TableCard';
 import {ScaledSheet} from 'react-native-size-matters';
@@ -9,7 +15,6 @@ import {_postApiFetch} from '../../services/Services';
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
 import {useSelector} from 'react-redux';
-
 import useFetchData from '../../components/HOC/withGetData';
 
 const Document = () => {
@@ -20,6 +25,7 @@ const Document = () => {
 
   const [documentData, setDocumentData] = useState([]);
   const [documentLoader, setDocumentLoader] = useState(false);
+  const [infoValue, setInfoValue] = useState([]);
 
   useEffect(() => {
     try {
@@ -29,6 +35,51 @@ const Document = () => {
       console.log('Error in useEffect ', err);
     }
   }, [data, documentLoader, documentData]);
+
+  const OnEdit = async (info, type) => {
+    setModalVisible(false);
+
+    let parm = {
+      bodyData: info,
+      uri: 'document-update',
+    };
+
+    const result = await _postApiFetch(parm);
+
+    let msg = result.status
+      ? type === 'edit'
+        ? 'Update Successfully'
+        : 'Save Successfully'
+      : 'Failed Please Check Again.!';
+
+    showToastWithGravityAndOffset(msg);
+  };
+
+  const showToastWithGravityAndOffset = msg => {
+    ToastAndroid.showWithGravityAndOffset(
+      msg,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+
+  const onPressEdit = data => {
+    setModalVisible(true);
+
+    let objectData = Object.entries(data);
+
+    let finalData = objectData.filter(e => {
+      if (e[0] === 'created_at' || e[0] === 'updated_at') {
+      } else {
+        e[2] = e[0].toUpperCase().replaceAll('_', ' ');
+        return e;
+      }
+    });
+
+    setInfoValue(finalData);
+  };
 
   return (
     <>
@@ -41,7 +92,12 @@ const Document = () => {
             onRequestClose={() => {
               setModalVisible(false);
             }}>
-            <CustomModal onPress={() => setModalVisible(false)} children />
+            <CustomModal
+              type={'edit'}
+              onValue={infoValue}
+              onPress={(e, type) => OnEdit(e, type)}
+              children
+            />
           </Modal>
           <View style={styles.search}>
             <SearchBox />
@@ -53,6 +109,7 @@ const Document = () => {
               <TableCard
                 key={i}
                 sl={i + 1}
+                onEdit={() => onPressEdit(data)}
                 datas={[
                   {
                     title: 'Document Uploaded BY',
