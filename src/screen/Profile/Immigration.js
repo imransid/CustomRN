@@ -4,7 +4,6 @@ import { SafeAreaView, ScrollView, Modal, View } from 'react-native';
 import TableCard from '../../components/TableCard/TableCard';
 import { ScaledSheet } from 'react-native-size-matters';
 import ImmigrationModal from '../../components/CustomModal/ImmigrationModal';
-import CustomModal from '../../components/CustomModal/CustomModal'
 import SearchBox from '../../components/searchBox/SearchBox';
 import { _postApiFetch } from '../../services/Services';
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
@@ -12,9 +11,16 @@ import PlusButton from '../../components/plusButton';
 import { useSelector } from 'react-redux';
 
 import useFetchData from '../../components/HOC/withGetData';
+import CustomModal from '../../components/CustomModal/CustomModal';
+import DeleteModal from '../../components/CustomModal/DeleteModal';
 
 const Immigration = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [addModal, setAddModal] = useState(false)
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
+
+
+
   const id = useSelector(state => state.user.userAllData.id);
 
   let data = useFetchData(
@@ -42,12 +48,31 @@ const Immigration = () => {
           <Modal
             animationType="slide"
             transparent={true}
-            visible={modalVisible}
+            visible={addModal}
             onRequestClose={() => {
-              setModalVisible(false);
+              setAddModal(false);
             }}>
-            <CustomModal onPress={() => setModalVisible(false)} children />
+            <CustomModal onPress={() => setAddModal(false)} />
           </Modal>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={editModal}
+            onRequestClose={() => {
+              setEditModal(false);
+            }}>
+            <CustomModal onPress={() => setEditModal(false)} />
+          </Modal>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={deleteModal}
+            onRequestClose={() => {
+              setDeleteModal(false);
+            }}>
+            <DeleteModal onCancel={() => setDeleteModal(false)} onDelete={() => setDeleteModal(false)} />
+          </Modal>
+
           <View style={styles.search}>
             <SearchBox />
           </View>
@@ -72,14 +97,15 @@ const Immigration = () => {
                   { title: 'Country', value: data.immigrant_country },
                 ]}
                 variant="Immigration"
-
+                onEdit={() => setEditModal(true)}
+                onDelete={() => setDeleteModal(true)}
+                buttonVisible={true}
               />
             ))}
-          {/* ))} */}
-          {/* </TouchableOpacity> */}
+
         </SafeAreaView>
       </ScrollView>
-      <PlusButton OnPress={() => setModalVisible(true)} />
+      {/* <PlusButton OnPress={() => setModalVisible(true)} /> */}
     </>
   );
 };
