@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -8,14 +8,14 @@ import {
 } from 'react-native';
 
 import TableCard from '../../components/TableCard/TableCard';
-import { ScaledSheet } from 'react-native-size-matters';
+import {ScaledSheet} from 'react-native-size-matters';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
 import {_postApiFetch, _postApiADD} from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 
 const Document = () => {
@@ -41,7 +41,6 @@ const Document = () => {
     }
   }, [data, documentLoader, documentData]);
 
-  console.log("hhhhhhhhhhhhhhhhhh", documentData);
   const OnEdit = async (info, type) => {
     setModalVisible(false);
 
@@ -169,10 +168,10 @@ const Document = () => {
                     title: 'Document Uploaded BY',
                     value: data.document_uploaded_by,
                   },
-                  { title: 'Document Type', value: data.document_type },
-                  { title: 'Document Title', value: data.document_title },
-                  { title: 'Description', value: data.document_description },
-                  { title: 'Document File', value: data.document_file },
+                  {title: 'Document Type', value: data.document_type},
+                  {title: 'Document Title', value: data.document_title},
+                  {title: 'Description', value: data.document_description},
+                  {title: 'Document File', value: data.document_file},
                 ]}
                 variant="Immigration"
               />
@@ -283,6 +282,6 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-around',
     padding: 10,
   },
-  activityIndicator: { alignSelf: 'center', paddingVertical: '50%' },
+  activityIndicator: {alignSelf: 'center', paddingVertical: '50%'},
 });
 export default Document;
