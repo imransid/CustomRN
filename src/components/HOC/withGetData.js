@@ -1,6 +1,6 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
-import {_postApiFetch, getApiFetch} from '../../services/Services';
+import { _postApiFetch, getApiFetch } from '../../services/Services';
 
 function useFetchData(bodyItem, url, type) {
   const [fetchDataSet, setFetchDataSet] = useState([]);
@@ -11,27 +11,27 @@ function useFetchData(bodyItem, url, type) {
     (async () => {
       setFetchLoader(true);
       let bodyData = bodyItem; //[['document_employee_id', id]];
-
       let parm =
         type === 'post'
           ? {
-              bodyData: bodyData,
-              uri: url,
-            }
+            bodyData: bodyData,
+            uri: url,
+          }
           : {
-              uri: url,
-              id: bodyData,
-            };
+            uri: url,
+            id: bodyData,
+          };
 
       const fetchData = await (type === 'post'
         ? _postApiFetch(parm)
         : getApiFetch(parm));
+      console.log("dsddsdsdsdsdsdsdssdds", fetchData)
 
-      fetchData.data.length > 0 ? setFetchDataSet(fetchData.data) : null;
+      fetchData.data.length > 0 ? setFetchDataSet(fetchData.data) : fetchData.data ? setFetchDataSet(fetchData.data) : null;
       setFetchLoader(false);
     })();
 
-    return () => {};
+    return () => { };
   }, []);
 
   return [fetchDataSet, fetchLoader];

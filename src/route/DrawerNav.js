@@ -4,9 +4,9 @@ import BasicInfo from '../screen/Profile/BasicInfo';
 import Dashboard from '../screen/Dashboard/Dashboard';
 import DateWiseAttendance from '../screen/timeSheets/DateWiseAttendances';
 
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import {drawerItemsMain, drawerItemsSubMain} from './Drawer/DrawerItemsMain';
+import { drawerItemsMain, drawerItemsSubMain } from './Drawer/DrawerItemsMain';
 import CustomDrawerContent from './Drawer/CustomDrawerContent';
 import CustomHeader from './Drawer/CustomHeader';
 import Attendances from '../screen/timeSheets/Attendances';
@@ -24,8 +24,18 @@ import Document from '../screen/Profile/Document';
 import Qualification from '../screen/Profile/Qualification';
 import SalaryBankAccount from '../screen/Profile/SalaryBankAccount';
 import WorkExperience from '../screen/Profile/WorkExperience';
+import TotalSalary from '../screen/Salary/TotalSalary';
+import SalaryComponent from '../screen/Salary/Component';
+import Commission from '../screen/Salary/Commission';
+import Loan from '../screen/Salary/Loan';
+import StatutoryDeduction from '../screen/Salary/StatutoryDeduction';
+import OtherAllowance from '../screen/Salary/OtherAllowance';
+import Overtime from '../screen/Salary/Overtime';
+import SalaryPension from '../screen/Salary/SalaryPension';
+import MobileBill from '../screen/Salary/MobileBill';
+import TADA from '../screen/Salary/TADA';
 
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
@@ -63,7 +73,7 @@ function MainDrawerNavigation() {
     <Drawer.Navigator
       initialRouteName="Home"
       screenOptions={{
-        header: ({navigation, route, options}) => {
+        header: ({ navigation, route, options }) => {
           const title = getHeaderTitle(options, route.name);
 
           return <CustomHeader title={title} navigation={navigation} />;
@@ -99,6 +109,16 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="Qualification" component={Qualification} />
       <Drawer.Screen name="SalaryBankAccount" component={SalaryBankAccount} />
       <Drawer.Screen name="WorkExperience" component={WorkExperience} />
+      <Drawer.Screen name="TotalSalary" component={TotalSalary} />
+      <Drawer.Screen name="Components" component={SalaryComponent} />
+      <Drawer.Screen name="Commission" component={Commission} />
+      <Drawer.Screen name="Loan" component={Loan} />
+      <Drawer.Screen name="Statutory" component={StatutoryDeduction} />
+      <Drawer.Screen name="OtherAllowance" component={OtherAllowance} />
+      <Drawer.Screen name="Overtime" component={Overtime} />
+      <Drawer.Screen name="SalaryPension" component={SalaryPension} />
+      <Drawer.Screen name="MobileBill" component={MobileBill} />
+      <Drawer.Screen name="TADA" component={TADA} />
     </Drawer.Navigator>
   );
 }

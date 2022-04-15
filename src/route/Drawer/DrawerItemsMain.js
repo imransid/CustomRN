@@ -2,13 +2,13 @@ export const drawerItemsMain = [
   {
     key: 'Home',
     title: 'Home',
-    routes: [{nav: 'MainDrawer', routeName: 'Home', title: 'Home'}],
+    routes: [{ nav: 'MainDrawer', routeName: 'Home', title: 'Home' }],
   },
   {
     key: 'TimeSheets',
     title: 'Time Sheets',
     routes: [
-      {nav: 'MainDrawer', routeName: 'Attendances', title: 'Attendances'},
+      { nav: 'MainDrawer', routeName: 'Attendances', title: 'Attendances' },
       {
         nav: 'MainDrawer',
         routeName: 'DateWiseAttendances',
@@ -46,13 +46,13 @@ export const drawerItemsMain = [
     key: 'HrCalenders',
     title: 'HR Calenders',
     routes: [
-      {nav: 'MainDrawer', routeName: 'HrCalenders', title: 'HR Calenders'},
+      { nav: 'MainDrawer', routeName: 'HrCalenders', title: 'HR Calenders' },
     ],
   },
   {
     key: 'Assets',
     title: 'Assets',
-    routes: [{nav: 'MainDrawer', routeName: 'Assets', title: 'Assets'}],
+    routes: [{ nav: 'MainDrawer', routeName: 'Assets', title: 'Assets' }],
   },
 ];
 
@@ -60,13 +60,13 @@ export const drawerItemsSubMain = [
   {
     key: 'Home',
     title: 'Dashboard',
-    routes: [{nav: 'MainDrawer', routeName: 'Home', title: 'Home'}],
+    routes: [{ nav: 'MainDrawer', routeName: 'Home', title: 'Home' }],
   },
   {
     key: 'Profile',
     title: 'Profile',
     routes: [
-      {nav: 'BasicInfo', routeName: 'BasicInfo', title: 'Basic Info'},
+      { nav: 'BasicInfo', routeName: 'BasicInfo', title: 'Basic Info' },
       {
         nav: 'Immigration',
         routeName: 'Immigration',
@@ -121,31 +121,71 @@ export const drawerItemsSubMain = [
     ],
   },
   {
-    key: 'Organization',
-    title: 'Organization',
+    key: 'Salary',
+    title: 'Salary',
     routes: [
       {
         nav: 'MainDrawer',
-        routeName: 'Announcements',
-        title: 'Announcements',
+        routeName: 'TotalSalary',
+        title: 'Total Salary',
       },
       {
         nav: 'MainDrawer',
-        routeName: 'CompanyPolicy',
-        title: 'Company Policy',
+        routeName: 'Components',
+        title: 'Components',
       },
+      {
+        nav: 'MainDrawer',
+        routeName: 'Commission',
+        title: 'Commission',
+      },
+      {
+        nav: 'MainDrawer',
+        routeName: 'Loan',
+        title: 'Loan',
+      },
+      {
+        nav: 'MainDrawer',
+        routeName: 'Statutory',
+        title: 'Statutory Deduction',
+      },
+      {
+        nav: 'MainDrawer',
+        routeName: 'OtherAllowance',
+        title: 'Other Allowance',
+      },
+      {
+        nav: 'MainDrawer',
+        routeName: 'Overtime',
+        title: 'Overtime',
+      },
+      {
+        nav: 'MainDrawer',
+        routeName: 'SalaryPension',
+        title: 'Salary Pension',
+      },
+      {
+        nav: 'MainDrawer',
+        routeName: 'MobileBill',
+        title: 'Mobile Bill',
+      },
+      {
+        nav: 'MainDrawer',
+        routeName: 'TADA',
+        title: 'TA/DA',
+      }
     ],
   },
   {
-    key: 'HrCalenders',
-    title: 'HR Calenders',
+    key: 'CoreHR',
+    title: 'Core HR',
     routes: [
-      {nav: 'MainDrawer', routeName: 'HrCalenders', title: 'HR Calenders'},
+      { nav: 'MainDrawer', routeName: 'HrCalenders', title: 'HR Calenders' },
     ],
   },
   {
     key: 'Assets',
     title: 'Assets',
-    routes: [{nav: 'MainDrawer', routeName: 'Assets', title: 'Assets'}],
+    routes: [{ nav: 'MainDrawer', routeName: 'Assets', title: 'Assets' }],
   },
 ];
