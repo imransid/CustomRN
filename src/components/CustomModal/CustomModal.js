@@ -5,15 +5,9 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {
-  Box,
-  Button,
-  FormControl,
-  Input,
-  Stack,
-  WarningOutlineIcon,
-} from 'native-base';
-import React, {Children, useEffect, useState} from 'react';
+import {Box, FormControl, Input, Stack} from 'native-base';
+import React, {useState} from 'react';
+import DocumentPicker from 'react-native-document-picker';
 
 const Generator = () => {
   const ID = Math.floor(Math.random() * Date.now())
@@ -25,6 +19,7 @@ const Generator = () => {
 
 const CustomModal = ({children, onPress, onValue, type, modalName}) => {
   const [value, setValue] = useState(onValue);
+  const [singleFile, setSingleFile] = useState(null);
 
   const OnTextChange = (name, val) => {
     let filterItem = value.filter(e => {
@@ -43,18 +38,66 @@ const CustomModal = ({children, onPress, onValue, type, modalName}) => {
     onPress(value, type);
   };
 
+  const SelectFile = async () => {
+    // Opening Document Picker to select one file
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+      });
+      setSingleFile(res);
+
+      let filterItem = value.filter(e => {
+        if (e[2].includes('FILE')) {
+          e[1] = res;
+        }
+        return e;
+      });
+
+      setValue(filterItem);
+    } catch (err) {
+      setSingleFile(null);
+      // Handling any exception (If any)
+      if (DocumentPicker.isCancel(err)) {
+        // If user canceled the document selection
+        alert('Canceled');
+      } else {
+        // For Unknown Error
+        alert('Unknown Error: ' + JSON.stringify(err));
+        throw err;
+      }
+    }
+  };
+
   const FormControlItem = ({data}) => {
     return (
       <>
         <FormControl.Label>{data[2]}</FormControl.Label>
-        <Input
-          type="text"
-          editable={data[2].includes('ID') ? false : true}
-          onChangeText={e => OnTextChange(data[0], e)}
-          defaultValue={data[1].toString()}
-          style={{backgroundColor: data[2].includes('ID') ? '#c3c3c3' : '#fff'}}
-          placeholder={data[1].toString() !== '' ? '' : data[2]}
-        />
+
+        {data[2].includes('FILE') ? (
+          singleFile != null ? (
+            <Text style={styles.textStyle}>
+              File Name: {singleFile[0].name ? singleFile[0].name : ''}
+            </Text>
+          ) : (
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              activeOpacity={0.5}
+              onPress={SelectFile}>
+              <Text style={styles.buttonTextStyle}>Select File</Text>
+            </TouchableOpacity>
+          )
+        ) : (
+          <Input
+            type="text"
+            editable={data[2].includes('ID') ? false : true}
+            onChangeText={e => OnTextChange(data[0], e)}
+            defaultValue={data[1].toString()}
+            style={{
+              backgroundColor: data[2].includes('ID') ? '#c3c3c3' : '#fff',
+            }}
+            placeholder={data[1].toString() !== '' ? '' : data[2]}
+          />
+        )}
       </>
     );
   };
@@ -176,5 +219,20 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     // padding: 10,
+  },
+  buttonStyle: {
+    backgroundColor: '#c3c3c3',
+    borderWidth: 0,
+    color: '#FFFFFF',
+    borderColor: '#307ecc',
+    height: 40,
+    alignItems: 'center',
+    borderRadius: 10,
+    // marginLeft: 35,
+    // marginRight: 35,
+    // marginTop: 15,
+    marginBottom: 10,
+    textAlign: 'center',
+    justifyContent: 'center',
   },
 });
