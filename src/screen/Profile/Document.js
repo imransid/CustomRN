@@ -11,7 +11,7 @@ import TableCard from '../../components/TableCard/TableCard';
 import {ScaledSheet} from 'react-native-size-matters';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import {_postApiFetch} from '../../services/Services';
+import {_postApiFetch, _postApiADD} from '../../services/Services';
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
 import {useSelector} from 'react-redux';
@@ -26,6 +26,9 @@ const Document = () => {
   const [documentData, setDocumentData] = useState([]);
   const [documentLoader, setDocumentLoader] = useState(false);
   const [infoValue, setInfoValue] = useState([]);
+
+  // type
+  const [type, setType] = useState('');
 
   useEffect(() => {
     try {
@@ -81,6 +84,51 @@ const Document = () => {
     setInfoValue(finalData);
   };
 
+  const OnAddNow = () => {
+    setType('add');
+
+    let objectData = [
+      ['document_com_id', '', 'document_com_id'],
+      ['document_employee_id', '', 'document_employee_id'],
+      ['document_title', '', 'document_title'],
+      ['document_type', '', 'document_type'],
+      ['document_description', '', 'document_description'],
+      ['document_file', '', 'document_employee_id'],
+      ['document_date', '', 'document_date'],
+    ];
+
+    let finalData = objectData.filter(e => {
+      if (e[0] === 'created_at' || e[0] === 'updated_at') {
+      } else {
+        e[2] = e[0].toUpperCase().replaceAll('_', ' ');
+        return e;
+      }
+    });
+
+    setInfoValue(finalData);
+
+    setModalVisible(true);
+  };
+
+  const OnAddPress = async (info, type) => {
+    setModalVisible(false);
+
+    let parm = {
+      bodyData: info,
+      uri: 'document-add',
+    };
+
+    const result = await _postApiADD(parm);
+
+    let msg = result.status
+      ? type === 'edit'
+        ? 'Update Successfully'
+        : 'Save Successfully'
+      : 'Failed Please Check Again.!';
+
+    showToastWithGravityAndOffset(msg);
+  };
+
   return (
     <>
       <ScrollView>
@@ -93,9 +141,12 @@ const Document = () => {
               setModalVisible(false);
             }}>
             <CustomModal
-              type={'edit'}
+              modalName={'Document'}
+              type={type}
               onValue={infoValue}
-              onPress={(e, type) => OnEdit(e, type)}
+              onPress={(e, type) => {
+                type === 'edit' ? OnEdit(e, type) : OnAddPress(e, type);
+              }}
               children
             />
           </Modal>
@@ -128,7 +179,7 @@ const Document = () => {
           {/* </TouchableOpacity> */}
         </SafeAreaView>
       </ScrollView>
-      <PlusButton OnPress={() => setModalVisible(true)} />
+      <PlusButton OnPress={() => OnAddNow()} />
     </>
   );
 };

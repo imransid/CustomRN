@@ -3,26 +3,35 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TextInput,
+  ScrollView,
 } from 'react-native';
 import {
   Box,
   Button,
   FormControl,
   Input,
-  ScrollView,
   Stack,
   WarningOutlineIcon,
 } from 'native-base';
 import React, {Children, useEffect, useState} from 'react';
 
-const CustomModal = ({children, onPress, onValue, type}) => {
+const Generator = () => {
+  const ID = Math.floor(Math.random() * Date.now())
+    .toString()
+    .substring(0, 5);
+
+  return ID;
+};
+
+const CustomModal = ({children, onPress, onValue, type, modalName}) => {
   const [value, setValue] = useState(onValue);
 
   const OnTextChange = (name, val) => {
     let filterItem = value.filter(e => {
       if (e[0] === name) {
         e[1] = val;
+      } else if (e[2].includes('ID')) {
+        e[1] = Generator();
       }
       return e;
     });
@@ -55,16 +64,18 @@ const CustomModal = ({children, onPress, onValue, type}) => {
       <View style={styles.modalContent}>
         <View style={{flex: 1, padding: 20}}>
           <View>
-            <Text style={styles.modalTitle}>Add Immigration</Text>
+            <Text style={styles.modalTitle}>{modalName}</Text>
           </View>
           <View>
             <Box alignItems="center">
               <Box w="100%" maxWidth="300px">
                 <FormControl isRequired>
                   <Stack mx="4">
-                    {value?.map(e => (
-                      <FormControlItem data={e} />
-                    ))}
+                    <ScrollView>
+                      {value?.map((e, i) => (
+                        <FormControlItem key={i} data={e} />
+                      ))}
+                    </ScrollView>
                   </Stack>
                 </FormControl>
               </Box>
