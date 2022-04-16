@@ -1,29 +1,74 @@
 import * as React from 'react';
-import { SafeAreaView, Text, TouchableOpacity, ScrollView } from 'react-native';
+// import DataTable from '../../../components/dataTable/DataTable';
+import { SafeAreaView, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import { View } from 'native-base';
 import SearchBox from '../../components/searchBox/SearchBox';
 import TableCard from '../../components/TableCard/TableCard';
+import { _postApiFetch } from '../../services/Services';
+import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 
-const CompanyPolicy = () => {
+import { useSelector } from 'react-redux';
+
+import useFetchData from '../../components/HOC/withGetData';
+
+
+
+const CompanyPolicy = ({ navigation }) => {
+
+
+  const id = useSelector(state => state.user.userAllData.id);
+  const com_id = useSelector(state => state.user.userAllData.com_id);
+
+  let data = useFetchData(
+    [['policy_com_id', com_id]],
+    'company-policy',
+    'post',
+  );
+
+
+  const [documentData, setDocumentData] = React.useState([]);
+  const [documentLoader, setDocumentLoader] = React.useState(true);
+
+  React.useEffect(() => {
+    try {
+      data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+      data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+    } catch (err) {
+      console.log('Error in useEffect ', err);
+    }
+  }, [data, documentLoader, documentData]);
+
+
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
         <View style={styles.search}>
           <SearchBox />
         </View>
-        <TouchableOpacity onPress={() => alert("Hello")}>
-          <TableCard
-            sl='1'
-            datas={[
-              { title: "Title", value: "New Announcement" },
-              { title: "Added By", value: "John Doe" },
-              { title: "Date", value: "20/11/2021" },
-              { title: "Description", value: "this is description" },
-            ]}
-            variant='Policy'
-          />
-        </TouchableOpacity>
+        {documentLoader && <CustomIndicator />}
+        {!documentLoader && documentData.map(data => (
+          <TouchableOpacity onPress={() => navigation.navigate('Details', {
+            title: data.policy_title,
+            description: data.policy_desc,
+            announcedBy: data.policy_added_by,
+            date: data.created_at,
+            // department: data.announcement_department_name,
+            prevRoute: 'Announcements',
+          })}>
+            <TableCard
+              sl={data.id}
+              datas={[
+                // { title: "Department", value: data.announcement_department_name },
+                { title: "Title", value: data.policy_title },
+                { title: "Policy Added By", value: data.policy_added_by },
+                { title: "Date", value: data.created_at },
+                { title: "Description", value: data.policy_desc },
+              ]}
+              variant='Announcements'
+            />
+          </TouchableOpacity>))}
+
       </SafeAreaView>
     </ScrollView>
   );
