@@ -184,8 +184,8 @@ export const drawerItemsSubMain = [
     ],
   },
   {
-    key: 'Assets',
-    title: 'Assets',
-    routes: [{ nav: 'MainDrawer', routeName: 'Assets', title: 'Assets' }],
+    key: 'Leaves',
+    title: 'Leaves',
+    routes: [{ nav: 'MainDrawer', routeName: 'Leaves', title: 'Leaves' }],
   },
 ];
