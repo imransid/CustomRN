@@ -35,7 +35,7 @@ const Document = () => {
   useEffect(() => {
     try {
       data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-      data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+      documentData.length === 0 ? setDocumentData(data[0]) : null;
     } catch (err) {
       console.log('Error in useEffect ', err);
     }
@@ -90,8 +90,8 @@ const Document = () => {
     setType('add');
 
     let objectData = [
-      ['document_com_id', '', 'document_com_id'],
-      ['document_employee_id', '', 'document_employee_id'],
+      ['document_com_id', com_id.toString(), 'document_com_id'],
+      ['document_employee_id', id.toString(), 'document_employee_id'],
       ['document_title', '', 'document_title'],
       ['document_type', '', 'document_type'],
       ['document_description', '', 'document_description'],
@@ -114,6 +114,7 @@ const Document = () => {
 
   const OnAddPress = async (info, type) => {
     setModalVisible(false);
+    setDocumentLoader(true);
 
     let parm = {
       bodyData: info,
@@ -121,6 +122,13 @@ const Document = () => {
     };
 
     const result = await _postApiADD(parm);
+
+    if (result.status) {
+      setDocumentData(result.data);
+      setDocumentLoader(false);
+    } else {
+      setDocumentLoader(false);
+    }
 
     let msg = result.status
       ? type === 'edit'
@@ -155,9 +163,9 @@ const Document = () => {
           <View style={styles.search}>
             <SearchBox />
           </View>
-          {documentLoader && <CustomIndicator />}
-
-          {!documentLoader &&
+          {documentLoader ? (
+            <CustomIndicator />
+          ) : (
             documentData?.map((data, i) => (
               <TableCard
                 key={i}
@@ -175,7 +183,8 @@ const Document = () => {
                 ]}
                 variant="Immigration"
               />
-            ))}
+            ))
+          )}
 
           {/* ))} */}
           {/* </TouchableOpacity> */}

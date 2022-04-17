@@ -6,27 +6,27 @@ import {
   ScrollView,
 } from 'react-native';
 import {Box, FormControl, Input, Stack} from 'native-base';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DocumentPicker from 'react-native-document-picker';
 
-const Generator = () => {
-  const ID = Math.floor(Math.random() * Date.now())
-    .toString()
-    .substring(0, 5);
-
-  return ID;
-};
+import DropDownPicker from 'react-native-dropdown-picker';
+var ImagePicker = require('react-native-image-picker');
 
 const CustomModal = ({children, onPress, onValue, type, modalName}) => {
   const [value, setValue] = useState(onValue);
   const [singleFile, setSingleFile] = useState(null);
 
+  const [open, setOpen] = useState(false);
+  const [pickerValue, setPickerValue] = useState([]);
+  const [items, setItems] = useState([
+    {label: 'Other', value: 'Other'},
+    {label: 'Certificate', value: 'Certificate'},
+  ]);
+
   const OnTextChange = (name, val) => {
     let filterItem = value.filter(e => {
       if (e[0] === name) {
         e[1] = val;
-      } else if (e[2].includes('ID')) {
-        e[1] = Generator();
       }
       return e;
     });
@@ -41,14 +41,24 @@ const CustomModal = ({children, onPress, onValue, type, modalName}) => {
   const SelectFile = async () => {
     // Opening Document Picker to select one file
     try {
-      const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.allFiles],
-      });
-      setSingleFile(res);
+      // const res = await DocumentPicker.pick({
+      //   type: [DocumentPicker.types.allFiles],
+      // });
+
+      const options = {
+        noData: true,
+      };
+
+      const res = await ImagePicker.launchImageLibrary(
+        options,
+        response => response,
+      );
+
+      setSingleFile(res.assets[0]);
 
       let filterItem = value.filter(e => {
         if (e[2].includes('FILE')) {
-          e[1] = res;
+          e[1] = res.assets[0];
         }
         return e;
       });
@@ -68,6 +78,20 @@ const CustomModal = ({children, onPress, onValue, type, modalName}) => {
     }
   };
 
+  // update picker
+  useEffect(() => {
+    if (pickerValue) {
+      let filterItem = value.filter(e => {
+        if (e[2].includes('TYPE')) {
+          e[1] = pickerValue;
+        }
+        return e;
+      });
+
+      setValue(filterItem);
+    }
+  }, [pickerValue]);
+
   const FormControlItem = ({data}) => {
     return (
       <>
@@ -76,7 +100,7 @@ const CustomModal = ({children, onPress, onValue, type, modalName}) => {
         {data[2].includes('FILE') ? (
           singleFile != null ? (
             <Text style={styles.textStyle}>
-              File Name: {singleFile[0].name ? singleFile[0].name : ''}
+              File Name: {singleFile.fileName ? singleFile.fileName : ''}
             </Text>
           ) : (
             <TouchableOpacity
@@ -86,15 +110,26 @@ const CustomModal = ({children, onPress, onValue, type, modalName}) => {
               <Text style={styles.buttonTextStyle}>Select File</Text>
             </TouchableOpacity>
           )
+        ) : // check Document && Type
+        data[2].includes('TYPE') ? (
+          <DropDownPicker
+            open={open}
+            value={pickerValue}
+            items={items}
+            setOpen={setOpen}
+            setValue={setPickerValue}
+            setItems={setItems}
+            theme="LIGHT"
+            multiple={false}
+            mode="BADGE"
+          />
         ) : (
           <Input
             type="text"
             editable={data[2].includes('ID') ? false : true}
             onChangeText={e => OnTextChange(data[0], e)}
             defaultValue={data[1].toString()}
-            style={{
-              backgroundColor: data[2].includes('ID') ? '#c3c3c3' : '#fff',
-            }}
+            variant={data[2].includes('ID') ? 'filled' : 'outline'}
             placeholder={data[1].toString() !== '' ? '' : data[2]}
           />
         )}
@@ -114,7 +149,10 @@ const CustomModal = ({children, onPress, onValue, type, modalName}) => {
               <Box w="100%" maxWidth="300px">
                 <FormControl isRequired>
                   <Stack mx="4">
-                    <ScrollView>
+                    <ScrollView
+                      style={{
+                        height: 390,
+                      }}>
                       {value?.map((e, i) => (
                         <FormControlItem key={i} data={e} />
                       ))}
