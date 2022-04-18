@@ -3,6 +3,8 @@ import {ScaledSheet} from 'react-native-size-matters';
 import React from 'react';
 import {Subheading, Paragraph} from 'react-native-paper';
 
+import DownloadAttachment from '../DownloadAttachment';
+
 const TableCard = props => {
   return (
     <View style={styles.listitem}>
@@ -10,28 +12,50 @@ const TableCard = props => {
         <Text style={styles.slno}>{props.sl}</Text>
       </View>
       <View style={styles.poilcyContent}>
-        {props.datas.map(data => (
-          <Paragraph
-            style={
-              data.title == 'Title'
-                ? styles.policyTitle
-                : data.title == 'Description'
-                ? styles.description
-                : styles.addedBy
-            }>
-            <Subheading style={{fontWeight: '500'}}>{data.title} :</Subheading>{' '}
-            {data.value}
-          </Paragraph>
-        ))}
+        {props.datas.map(data =>
+          data.title.toUpperCase().includes('ATTACHMENTS') ? (
+            <View style={styles.attachment}>
+              <Paragraph
+                style={
+                  data.title == 'Title'
+                    ? styles.policyTitle
+                    : data.title == 'Description'
+                    ? styles.description
+                    : styles.addedBy
+                }>
+                <Subheading style={{fontWeight: '500'}}>
+                  {data.title} :
+                </Subheading>
+              </Paragraph>
+              <DownloadAttachment url={data.value} />
+            </View>
+          ) : (
+            <Paragraph
+              style={
+                data.title == 'Title'
+                  ? styles.policyTitle
+                  : data.title == 'Description'
+                  ? styles.description
+                  : styles.addedBy
+              }>
+              <Subheading style={{fontWeight: '500'}}>
+                {data.title} :
+              </Subheading>{' '}
+              data.value
+            </Paragraph>
+          ),
+        )}
 
         {props.buttonVisible && (
           <View style={styles.action}>
             <TouchableOpacity style={styles.edit} onPress={props.onEdit}>
               <Text style={styles.editText}>Edit</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.delete} onPress={props.onDelete}>
-              <Text style={styles.deleteText}>Delete</Text>
-            </TouchableOpacity>
+            {props.deleteButton && (
+              <TouchableOpacity style={styles.delete} onPress={props.onDelete}>
+                <Text style={styles.deleteText}>Delete</Text>
+              </TouchableOpacity>
+            )}
           </View>
         )}
       </View>
@@ -87,6 +111,13 @@ const styles = ScaledSheet.create({
   description: {
     fontSize: 15,
     color: '#646464',
+  },
+  attachment: {
+    fontSize: 15,
+    color: '#646464',
+    width: '100%',
+    height: 72,
+    justifyContent: 'space-between',
   },
   policyTitle: {
     fontSize: 18,
