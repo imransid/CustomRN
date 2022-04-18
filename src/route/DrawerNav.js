@@ -35,7 +35,6 @@ import SalaryPension from '../screen/Salary/SalaryPension';
 import MobileBill from '../screen/Salary/MobileBill';
 import TADA from '../screen/Salary/TADA';
 import Leave from '../screen/Leave';
-import SupportTicket from '../screen/SupportTicket';
 import Projects from '../screen/Projects/Projects';
 import Tasks from '../screen/Tasks/Tasks';
 import PaySlips from '../screen/PaySlips/PaySlips';
@@ -138,7 +137,6 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="Tasks" component={Tasks} />
       <Drawer.Screen name="PaySlips" component={PaySlips} />
       <Drawer.Screen name="Notifications" component={Notifications} />
-      <Drawer.Screen name="SupportTicket" component={SupportTicket} />
     </Drawer.Navigator>
   );
 }
