@@ -1,65 +1,65 @@
-import React, { Component } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity,
     Image,
-    FlatList
 } from 'react-native';
 
-const data = [
-    { id: 3, image: "https://bootdey.com/img/Content/avatar/avatar7.png", name: "March SoulLaComa", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "https://via.placeholder.com/100x100/FFB6C1/000000" },
-    { id: 2, image: "https://bootdey.com/img/Content/avatar/avatar6.png", name: "John DoeLink", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "https://via.placeholder.com/100x100/20B2AA/000000" },
-    { id: 4, image: "https://bootdey.com/img/Content/avatar/avatar2.png", name: "Finn DoRemiFaso", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "" },
-    { id: 5, image: "https://bootdey.com/img/Content/avatar/avatar3.png", name: "Maria More More", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "" },
-    { id: 1, image: "https://bootdey.com/img/Content/avatar/avatar1.png", name: "Frank Odalthh", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "https://via.placeholder.com/100x100/7B68EE/000000" },
-    { id: 6, image: "https://bootdey.com/img/Content/avatar/avatar4.png", name: "Clark June Boom!", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "" },
-    { id: 7, image: "https://bootdey.com/img/Content/avatar/avatar5.png", name: "The googler", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "" },
-]
 
-const Notification = () => {
-    return (
-        <FlatList
-            style={styles.root}
-            data={data}
-            // extraData={this.state}
-            ItemSeparatorComponent={() => {
-                return (
-                    <View style={styles.separator} />
-                )
-            }}
-            keyExtractor={(item) => {
-                return item.id;
-            }}
-            renderItem={(item) => {
-                const Notification = item.item;
-                let attachment = <View />;
+import { _postApiFetch } from '../../services/Services';
+import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 
-                let mainContentStyle;
-                if (Notification.attachment) {
-                    mainContentStyle = styles.mainContent;
-                    attachment = <Image style={styles.attachment} source={{ uri: Notification.attachment }} />
-                }
+import { useSelector } from 'react-redux';
+
+import useFetchData from '../../components/HOC/withGetData';
+
+
+const Notification = (navigation) => {
+
+    const id = useSelector(state => state.user.userAllData.id);
+    const com_id = useSelector(state => state.user.userAllData.com_id);
+
+    let data = useFetchData(
+        [['employee_id', id], ['com_id', com_id]],
+        'notifications',
+        'post',
+    );
+
+    const [documentData, setDocumentData] = useState([]);
+    const [documentLoader, setDocumentLoader] = useState(false);
+
+    useEffect(() => {
+        try {
+            data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+            data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+        } catch (err) {
+            console.log('Error in useEffect ', err);
+        }
+    }, [data, documentLoader, documentData]);
+   
                 return (
-                    <View style={styles.container}>
-                        <Image source={{ uri: Notification.image }} style={styles.avatar} />
+                    <View style={styles.root}>
+                   {documentData.map(data=> ( <View style={styles.container}>
+                        <Image source={{ uri: "https://img.icons8.com/external-smashingstocks-circular-smashing-stocks/65/000000/external-bell-education-smashingstocks-circular-smashing-stocks.png" }} style={styles.avatar} />
                         <View style={styles.content}>
-                            <View style={mainContentStyle}>
                                 <View style={styles.text}>
-                                    <Text style={styles.name}>{Notification.name}</Text>
-                                    <Text>{Notification.text}</Text>
+                                    <Text style={styles.name}>{data.notification_title}</Text>
+                                    
                                 </View>
+                                <Text style={styles.notificationType}>{data.notification_type}</Text>
                                 <Text style={styles.timeAgo}>
-                                    2 hours ago
+                                    {data.notification_status}
                                 </Text>
-                            </View>
-                            {attachment}
+                                <Text style={styles.timeAgo}>
+                                    {data.created_at}
+                                </Text>
                         </View>
+                    </View>))}
                     </View>
                 );
-            }} />
-    )
+            
+    
 }
 
 export default Notification
@@ -115,5 +115,9 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 16,
         color: "#1E90FF"
-    }
+    },
+    notificationType: {
+        fontSize: 14,
+        color: "#696969"
+    },
 });

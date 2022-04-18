@@ -39,6 +39,7 @@ import SupportTicket from '../screen/SupportTicket';
 import Projects from '../screen/Projects/Projects';
 import Tasks from '../screen/Tasks/Tasks';
 import PaySlips from '../screen/PaySlips/PaySlips';
+import Notifications from '../screen/Notifications/Notification'
 
 import {useSelector} from 'react-redux';
 
@@ -81,7 +82,7 @@ function MainDrawerNavigation() {
         header: ({navigation, route, options}) => {
           const title = getHeaderTitle(options, route.name);
 
-          return <CustomHeader title={title} navigation={navigation} />;
+          return <CustomHeader title={title} navigation={navigation} onPress={()=>navigation.navigate("Notifications") }/>;
         },
       }}
       drawerContent={props => (
@@ -129,6 +130,7 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="Projects" component={Projects} />
       <Drawer.Screen name="Tasks" component={Tasks} />
       <Drawer.Screen name="PaySlips" component={PaySlips} />
+      <Drawer.Screen name="Notifications" component={Notifications}/>
     </Drawer.Navigator>
   );
 }
