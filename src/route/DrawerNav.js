@@ -41,6 +41,7 @@ import PaySlips from '../screen/PaySlips/PaySlips';
 import Notifications from '../screen/Notifications/Notification';
 import SupportTicket from '../screen/SupportTicket';
 
+
 import {useSelector} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
@@ -82,13 +83,9 @@ function MainDrawerNavigation() {
         header: ({navigation, route, options}) => {
           const title = getHeaderTitle(options, route.name);
 
-          return (
-            <CustomHeader
-              title={title}
-              navigation={navigation}
-              onPress={() => navigation.navigate('Notifications')}
-            />
-          );
+
+          return <CustomHeader title={title} navigation={navigation} onPress={()=>navigation.navigate("Notifications") }/>;
+
         },
       }}
       drawerContent={props => (
