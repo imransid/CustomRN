@@ -46,14 +46,16 @@ const SupportTicket = () => {
   }, [data, documentLoader, documentData]);
 
   const OnEdit = async (info, type) => {
-    console.log('hited', info, type);
-
     setModalVisible(false);
+
+    info[2] = ['support_ticket_opener_id', id, 'SUPPORT TICKET OPENER ID'];
 
     let parm = {
       bodyData: info,
-      uri: 'document-update',
+      uri: 'support-ticket-update',
     };
+
+    console.log('parm', parm, info);
 
     const result = await _postApiFetch(parm);
 
@@ -79,10 +81,22 @@ const SupportTicket = () => {
   const onPressEdit = data => {
     setModalVisible(true);
 
+    setType('edit');
+
     let objectData = Object.entries(data);
 
     let finalData = objectData.filter(e => {
-      if (e[0] === 'created_at' || e[0] === 'updated_at') {
+      if (
+        e[0] === 'created_at' ||
+        e[0] === 'updated_at' ||
+        e[0] === 'support_ticket_department_name' ||
+        e[0] === 'support_ticket_employee_name' ||
+        e[0] === 'support_ticket_desc' ||
+        e[0] === 'support_ticket_note' ||
+        e[0] === 'support_ticket_attachment' ||
+        e[0] === 'support_ticket_priority' ||
+        e[0] === 'support_ticket_subject'
+      ) {
       } else {
         e[2] = e[0].toUpperCase().replaceAll('_', ' ');
         return e;
@@ -104,10 +118,24 @@ const SupportTicket = () => {
               setModalVisible(false);
             }}>
             <CustomModal
-              modalName={'Document'}
+              modalName={'Support Ticket'}
               type={type}
               onValue={infoValue}
+              dropDownValue={{
+                priority: [
+                  {label: 'Critical', value: 'Critical'},
+                  {label: 'High', value: 'High'},
+                  {label: 'Medium', value: 'Medium'},
+                  {label: 'Low', value: 'Low'},
+                ],
+                status: [
+                  {label: 'Pending', value: 'Pending'},
+                  {label: 'Opened', value: 'Opened'},
+                  {label: 'Closed', value: 'Closed'},
+                ],
+              }}
               onPress={(e, type) => {
+                console.log('type', type);
                 type === 'edit' ? OnEdit(e, type) : setModalVisible(false);
               }}
               children

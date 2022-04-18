@@ -8,20 +8,24 @@ import {
 import {Box, FormControl, Input, Stack} from 'native-base';
 import React, {useEffect, useState} from 'react';
 import DocumentPicker from 'react-native-document-picker';
-
-import DropDownPicker from 'react-native-dropdown-picker';
 var ImagePicker = require('react-native-image-picker');
+import DropDown from '../DorpDown';
 
-const CustomModal = ({children, onPress, onValue, type, modalName}) => {
+const CustomModal = ({
+  children,
+  onPress,
+  onValue,
+  type,
+  modalName,
+  dropDownValue,
+}) => {
+  console.log('type type type', type);
   const [value, setValue] = useState(onValue);
   const [singleFile, setSingleFile] = useState(null);
 
-  const [open, setOpen] = useState(false);
-  const [pickerValue, setPickerValue] = useState([]);
-  const [items, setItems] = useState([
-    {label: 'Other', value: 'Other'},
-    {label: 'Certificate', value: 'Certificate'},
-  ]);
+  const [pickerValue, setPickerValue] = useState({});
+
+  const [pickerStatus, setPickerStatus] = useState(true);
 
   const OnTextChange = (name, val) => {
     let filterItem = value.filter(e => {
@@ -35,6 +39,7 @@ const CustomModal = ({children, onPress, onValue, type, modalName}) => {
   };
 
   const Onsubmit = () => {
+    console.log('is', value, type);
     onPress(value, type);
   };
 
@@ -80,17 +85,71 @@ const CustomModal = ({children, onPress, onValue, type, modalName}) => {
 
   // update picker
   useEffect(() => {
+    console.log('pickerStatus', pickerStatus, pickerValue);
+
     if (pickerValue) {
       let filterItem = value.filter(e => {
         if (e[2].includes('TYPE')) {
-          e[1] = pickerValue;
+          e[1] = pickerValue.TYPE;
+        } else if (e[2].includes('PRIORITY')) {
+          e[1] = pickerValue.PRIORITY;
+        } else if (e[2].includes('STATUS')) {
+          e[1] = pickerValue.STATUS;
         }
         return e;
       });
 
       setValue(filterItem);
     }
-  }, [pickerValue]);
+  }, [pickerValue, pickerStatus]);
+
+  const getDropDownRender = data => {
+    let result = [];
+    if (data[2].includes('TYPE')) {
+      result[0] = true;
+      result[1] = dropDownValue;
+    } else if (data[2].includes('PRIORITY')) {
+      result[0] = true;
+      result[1] = dropDownValue.priority;
+    } else if (data[2].includes('STATUS')) {
+      result[0] = true;
+      result[1] = dropDownValue.status;
+    } else {
+      result[0] = false;
+      result[1] = [];
+    }
+    return result;
+  };
+
+  const getDropDownValue = data => {
+    let value = '';
+
+    if (data[2].includes('TYPE')) {
+      value = pickerValue.TYPE;
+    } else if (data[2].includes('PRIORITY')) {
+      value = pickerValue.PRIORITY;
+    } else if (data[2].includes('STATUS')) {
+      value = pickerValue.STATUS;
+    }
+    return value;
+  };
+
+  const setDropDownValue = (data, info) => {
+    let result = pickerValue;
+    if (data[2].includes('TYPE')) {
+      result.TYPE = info;
+
+      setPickerValue(result);
+    } else if (data[2].includes('PRIORITY')) {
+      result.PRIORITY = info;
+      setPickerValue(result);
+    } else if (data[2].includes('STATUS')) {
+      result.STATUS = info;
+      setPickerValue(result);
+    }
+
+    setPickerStatus(!pickerStatus);
+  };
 
   const FormControlItem = ({data}) => {
     return (
@@ -114,17 +173,11 @@ const CustomModal = ({children, onPress, onValue, type, modalName}) => {
             </TouchableOpacity>
           )
         ) : // check Document && Type
-        data[2].includes('TYPE') ? (
-          <DropDownPicker
-            open={open}
-            value={pickerValue}
-            items={items}
-            setOpen={setOpen}
-            setValue={setPickerValue}
-            setItems={setItems}
-            theme="LIGHT"
-            multiple={false}
-            mode="BADGE"
+        getDropDownRender(data)[0] ? (
+          <DropDown
+            data={getDropDownRender(data)[1]}
+            selectValue={val => setDropDownValue(data, val)}
+            pickerValue={getDropDownValue(data)}
           />
         ) : (
           <Input

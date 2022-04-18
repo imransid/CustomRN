@@ -73,6 +73,8 @@ const Document = () => {
   const onPressEdit = data => {
     setModalVisible(true);
 
+    setType('edit');
+
     let objectData = Object.entries(data);
 
     let finalData = objectData.filter(e => {
@@ -154,6 +156,10 @@ const Document = () => {
               modalName={'Document'}
               type={type}
               onValue={infoValue}
+              dropDownValue={[
+                {label: 'Other', value: 'Other'},
+                {label: 'Certificate', value: 'Certificate'},
+              ]}
               onPress={(e, type) => {
                 type === 'edit' ? OnEdit(e, type) : OnAddPress(e, type);
               }}
