@@ -13,16 +13,14 @@ import { useSelector } from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 
 
-const Leave = () => {
-
-
-
+const PaySlips = () => {
 
     const id = useSelector(state => state.user.userAllData.id);
+    const com_id = useSelector(state => state.user.userAllData.com_id);
 
     let data = useFetchData(
-        [['leaves_employee_id', id]],
-        'leave',
+        [['pay_slip_employee_id', id]],
+        'pay-slip',
         'post',
     );
 
@@ -55,25 +53,8 @@ const Leave = () => {
 
                                 sl={data.id}
                                 datas={[
-                                    // {title: 'Commission Name', data: data.id},
-                                    { title: 'Leave Type', value: data.leaves_leave_type_name },
-                                    { title: 'Department', value: data.leaves_department_name },
-                                    { title: 'Designation', value: data.leaves_designation_name },
-                                    { title: 'Employee Name', value: data.leaves_employee_name },
-                                    { title: 'Leave Start Date', value: data.leaves_start_date },
-                                    { title: 'Leave End Date', value: data.leaves_end_date },
-                                    { title: 'Total Days', value: data.total_days },
-                                    { title: 'Reason', value: data.leave_reason },
-                                    { title: 'Status', value: data.leaves_status },
-                                    { title: 'Region', value: data.leaves_region_name },
-                                    { title: 'Area', value: data.leaves_area_name },
-                                    { title: 'Territory', value: data.leaves_territory_name },
-                                    { title: 'Town', value: data.leaves_town_name },
-                                    { title: 'House', value: data.leaves_db_house_name },
-                                    { title: 'Is Half', value: data.is_half },
-
-
-
+                                    { title: 'Net Salary', value: data.pay_slip_net_salary },
+                                    { title: 'Status', value: data.pay_slip_status },
                                 ]}
                                 variant="Leaves"
 
@@ -87,7 +68,7 @@ const Leave = () => {
         </>
     );
 };
-export default Leave;
+export default PaySlips;
 
 const styles = ScaledSheet.create({
     container: {

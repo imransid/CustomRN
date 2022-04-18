@@ -13,16 +13,14 @@ import { useSelector } from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 
 
-const Leave = () => {
-
-
-
+const Tasks = () => {
 
     const id = useSelector(state => state.user.userAllData.id);
+    const com_id = useSelector(state => state.user.userAllData.com_id);
 
     let data = useFetchData(
-        [['leaves_employee_id', id]],
-        'leave',
+        [['project_employee_id', id], ['project_com_id', com_id]],
+        'project',
         'post',
     );
 
@@ -52,27 +50,14 @@ const Leave = () => {
                         documentData?.map((data, i) => (
                             <TableCard
                                 key={i}
-
                                 sl={data.id}
                                 datas={[
-                                    // {title: 'Commission Name', data: data.id},
-                                    { title: 'Leave Type', value: data.leaves_leave_type_name },
-                                    { title: 'Department', value: data.leaves_department_name },
-                                    { title: 'Designation', value: data.leaves_designation_name },
-                                    { title: 'Employee Name', value: data.leaves_employee_name },
-                                    { title: 'Leave Start Date', value: data.leaves_start_date },
-                                    { title: 'Leave End Date', value: data.leaves_end_date },
-                                    { title: 'Total Days', value: data.total_days },
-                                    { title: 'Reason', value: data.leave_reason },
-                                    { title: 'Status', value: data.leaves_status },
-                                    { title: 'Region', value: data.leaves_region_name },
-                                    { title: 'Area', value: data.leaves_area_name },
-                                    { title: 'Territory', value: data.leaves_territory_name },
-                                    { title: 'Town', value: data.leaves_town_name },
-                                    { title: 'House', value: data.leaves_db_house_name },
-                                    { title: 'Is Half', value: data.is_half },
-
-
+                                    { title: 'Assign To', value: data.task_assigned_to },
+                                    { title: 'Title', value: data.task_title },
+                                    { title: 'Start Date', value: data.project_start_date },
+                                    { title: 'End Date', value: data.project_end_date },
+                                    { title: 'Assigned By', value: data.task_assigned_by },
+                                    { title: 'Progress', value: data.progress_progress },
 
                                 ]}
                                 variant="Leaves"
@@ -87,7 +72,7 @@ const Leave = () => {
         </>
     );
 };
-export default Leave;
+export default Tasks;
 
 const styles = ScaledSheet.create({
     container: {
