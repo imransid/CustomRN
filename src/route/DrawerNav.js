@@ -35,6 +35,9 @@ import SalaryPension from '../screen/Salary/SalaryPension';
 import MobileBill from '../screen/Salary/MobileBill';
 import TADA from '../screen/Salary/TADA';
 import Leave from '../screen/Leave';
+import Projects from '../screen/Projects/Projects';
+import Tasks from '../screen/Tasks/Tasks';
+import PaySlips from '../screen/PaySlips/PaySlips';
 
 import { useSelector } from 'react-redux';
 
@@ -121,6 +124,9 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="MobileBill" component={MobileBill} />
       <Drawer.Screen name="TADA" component={TADA} />
       <Drawer.Screen name="Leaves" component={Leave} />
+      <Drawer.Screen name="Projects" component={Projects} />
+      <Drawer.Screen name="Tasks" component={Tasks} />
+      <Drawer.Screen name="PaySlips" component={PaySlips} />
     </Drawer.Navigator>
   );
 }
