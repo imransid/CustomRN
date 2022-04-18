@@ -1,11 +1,11 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 
 import DrawerNav from './DrawerNav';
 import CustomHeader from './Drawer/CustomHeader';
 // import {MainStackNavigator} from './StackNavigator';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import ApiSetupScreen from '../screen/ApiSetupScreen';
 import SignIn from '../screen/SignIn';
@@ -14,7 +14,7 @@ import SignIn from '../screen/SignIn';
 
 // import ApplicationUpdateScreen from '../components/new/ApplicationUpdateScreen';
 
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const Stack = createStackNavigator();
 

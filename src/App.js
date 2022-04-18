@@ -8,19 +8,13 @@ import store from './config/Store';
 import Router from './route/';
 
 const App = () => {
-  // useEffect(() => {
-  //   SplashScreen.hide();
-  // }, []);
   return (
-    // <Router />
     <NativeBaseProvider>
       <Provider store={store.store}>
         <PersistGate loading={null} persistor={store.persistor}>
-          {/* <StyleProvider style={getTheme(ptsTheme)}> */}
           <SafeAreaView style={styles.container}>
             <Router />
           </SafeAreaView>
-          {/* </StyleProvider> */}
         </PersistGate>
       </Provider>
     </NativeBaseProvider>

@@ -4,9 +4,9 @@ import BasicInfo from '../screen/Profile/BasicInfo';
 import Dashboard from '../screen/Dashboard/Dashboard';
 import DateWiseAttendance from '../screen/timeSheets/DateWiseAttendances';
 
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
-import { drawerItemsMain, drawerItemsSubMain } from './Drawer/DrawerItemsMain';
+import {drawerItemsMain, drawerItemsSubMain} from './Drawer/DrawerItemsMain';
 import CustomDrawerContent from './Drawer/CustomDrawerContent';
 import CustomHeader from './Drawer/CustomHeader';
 import Attendances from '../screen/timeSheets/Attendances';
@@ -38,9 +38,11 @@ import Leave from '../screen/Leave';
 import Projects from '../screen/Projects/Projects';
 import Tasks from '../screen/Tasks/Tasks';
 import PaySlips from '../screen/PaySlips/PaySlips';
-import Notifications from '../screen/Notifications/Notification'
+import Notifications from '../screen/Notifications/Notification';
+import SupportTicket from '../screen/SupportTicket';
 
-import { useSelector } from 'react-redux';
+
+import {useSelector} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
@@ -78,10 +80,12 @@ function MainDrawerNavigation() {
     <Drawer.Navigator
       initialRouteName="Home"
       screenOptions={{
-        header: ({ navigation, route, options }) => {
+        header: ({navigation, route, options}) => {
           const title = getHeaderTitle(options, route.name);
 
+
           return <CustomHeader title={title} navigation={navigation} onPress={()=>navigation.navigate("Notifications") }/>;
+
         },
       }}
       drawerContent={props => (
@@ -125,10 +129,11 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="MobileBill" component={MobileBill} />
       <Drawer.Screen name="TADA" component={TADA} />
       <Drawer.Screen name="Leaves" component={Leave} />
+      <Drawer.Screen name="SupportTicket" component={SupportTicket} />
       <Drawer.Screen name="Projects" component={Projects} />
       <Drawer.Screen name="Tasks" component={Tasks} />
       <Drawer.Screen name="PaySlips" component={PaySlips} />
-      <Drawer.Screen name="Notifications" component={Notifications}/>
+      <Drawer.Screen name="Notifications" component={Notifications} />
     </Drawer.Navigator>
   );
 }
