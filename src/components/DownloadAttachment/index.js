@@ -5,10 +5,10 @@ import RNFetchBlob from 'rn-fetch-blob';
 import {Button} from 'react-native-paper';
 import {ScaledSheet} from 'react-native-size-matters';
 
-const DownLoadAttachment = () => {
-  const [url, setUrl] = useState(
-    'https://hrmspvm.predictionla.com/uploads/employee-ticket-files/1649063706.png',
-  );
+const DownLoadAttachment = ({uri}) => {
+  const appUrl = 'https://hrmspvm.predictionla.com/';
+  const [url, setUrl] = useState(appUrl + uri);
+
   const [saving, setSaving] = useState(false);
 
   const updateUrl = url => {
@@ -65,7 +65,7 @@ const DownLoadAttachment = () => {
             Alert.alert(
               'Save remote Image',
               'Image Saved Successfully',
-              [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+              [{text: 'OK', onPress: () => console.log('OK Pressed', url)}],
               {cancelable: false},
             );
           })
@@ -73,7 +73,7 @@ const DownLoadAttachment = () => {
             Alert.alert(
               'Save remote Image',
               'Failed to save Image: ' + err.message,
-              [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+              [{text: 'OK', onPress: () => console.log('OK Pressed', url)}],
               {cancelable: false},
             );
           })
@@ -84,7 +84,7 @@ const DownLoadAttachment = () => {
         Alert.alert(
           'Save remote Image',
           'Failed to save Image: ' + error.message,
-          [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+          [{text: 'OK', onPress: () => console.log('OK Pressed', url)}],
           {cancelable: false},
         );
       });

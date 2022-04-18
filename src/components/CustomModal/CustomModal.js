@@ -97,7 +97,7 @@ const CustomModal = ({children, onPress, onValue, type, modalName}) => {
       <>
         <FormControl.Label>{data[2]}</FormControl.Label>
 
-        {data[2].includes('FILE') ? (
+        {data[2].includes('FILE') || data[2].includes('ATTACHMENT') ? (
           singleFile != null ? (
             <Text style={styles.textStyle}>
               File Name: {singleFile.fileName ? singleFile.fileName : ''}
@@ -107,7 +107,10 @@ const CustomModal = ({children, onPress, onValue, type, modalName}) => {
               style={styles.buttonStyle}
               activeOpacity={0.5}
               onPress={SelectFile}>
-              <Text style={styles.buttonTextStyle}>Select File</Text>
+              <Text style={styles.buttonTextStyle}>
+                {' '}
+                {data[1].toString() ? 'Upload File' : 'Select File'}
+              </Text>
             </TouchableOpacity>
           )
         ) : // check Document && Type

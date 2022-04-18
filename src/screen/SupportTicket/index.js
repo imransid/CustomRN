@@ -29,8 +29,6 @@ const SupportTicket = () => {
     'post',
   );
 
-  console.log('data', data);
-
   const [documentData, setDocumentData] = useState([]);
   const [documentLoader, setDocumentLoader] = useState(false);
   const [infoValue, setInfoValue] = useState([]);
@@ -48,6 +46,8 @@ const SupportTicket = () => {
   }, [data, documentLoader, documentData]);
 
   const OnEdit = async (info, type) => {
+    console.log('hited', info, type);
+
     setModalVisible(false);
 
     let parm = {
@@ -92,59 +92,6 @@ const SupportTicket = () => {
     setInfoValue(finalData);
   };
 
-  const OnAddNow = () => {
-    setType('add');
-
-    let objectData = [
-      ['document_com_id', com_id.toString(), 'document_com_id'],
-      ['document_employee_id', id.toString(), 'document_employee_id'],
-      ['document_title', '', 'document_title'],
-      ['document_type', '', 'document_type'],
-      ['document_description', '', 'document_description'],
-      ['document_file', '', 'document_employee_id'],
-      ['document_date', '', 'document_date'],
-    ];
-
-    let finalData = objectData.filter(e => {
-      if (e[0] === 'created_at' || e[0] === 'updated_at') {
-      } else {
-        e[2] = e[0].toUpperCase().replaceAll('_', ' ');
-        return e;
-      }
-    });
-
-    setInfoValue(finalData);
-
-    setModalVisible(true);
-  };
-
-  const OnAddPress = async (info, type) => {
-    setModalVisible(false);
-    setDocumentLoader(true);
-
-    let parm = {
-      bodyData: info,
-      uri: 'document-add',
-    };
-
-    const result = await _postApiADD(parm);
-
-    if (result.status) {
-      setDocumentData(result.data);
-      setDocumentLoader(false);
-    } else {
-      setDocumentLoader(false);
-    }
-
-    let msg = result.status
-      ? type === 'edit'
-        ? 'Update Successfully'
-        : 'Save Successfully'
-      : 'Failed Please Check Again.!';
-
-    showToastWithGravityAndOffset(msg);
-  };
-
   return (
     <>
       <ScrollView>
@@ -161,7 +108,7 @@ const SupportTicket = () => {
               type={type}
               onValue={infoValue}
               onPress={(e, type) => {
-                type === 'edit' ? OnEdit(e, type) : OnAddPress(e, type);
+                type === 'edit' ? OnEdit(e, type) : setModalVisible(false);
               }}
               children
             />
@@ -186,7 +133,6 @@ const SupportTicket = () => {
                     title: 'Department',
                     value: data.support_ticket_department_name,
                   },
-
                   {
                     title: 'Priority',
                     value: data.support_ticket_priority,

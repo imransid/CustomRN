@@ -27,7 +27,7 @@ const TableCard = props => {
                   {data.title} :
                 </Subheading>
               </Paragraph>
-              <DownloadAttachment url={data.value} />
+              <DownloadAttachment uri={data.value} />
             </View>
           ) : (
             <Paragraph
@@ -41,7 +41,7 @@ const TableCard = props => {
               <Subheading style={{fontWeight: '500'}}>
                 {data.title} :
               </Subheading>{' '}
-              data.value
+              {data.value}
             </Paragraph>
           ),
         )}
