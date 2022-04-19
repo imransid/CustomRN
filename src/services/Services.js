@@ -14,8 +14,6 @@ export const _postApiFetch = async data => {
 
     data.bodyData.length > 0
       ? data.bodyData.map(e => {
-          console.log(e[0], typeof e[1] === 'string');
-
           let idValueCheck = typeof e[1] === 'string' ? e[1] : e[1].toString();
           formdata.append(e[0], e[0] === 'id' ? idValueCheck : e[1]);
         })
@@ -26,8 +24,6 @@ export const _postApiFetch = async data => {
       body: formdata,
       redirect: 'follow',
     };
-
-    console.log('requestOptions', requestOptions);
 
     let response = fetch(
       'https://hrmspvm.predictionla.com/api/user/' + data.uri,
@@ -60,6 +56,8 @@ export const _postApiFetch = async data => {
 };
 
 const _ImageValueGenerate = (name, val) => {
+  console.log('name, val', name, val);
+
   if (typeof val !== 'string') {
     //console.log('console val', name, val);
     let photo = val;
@@ -112,6 +110,8 @@ export const _postApiADD = async data => {
         return res;
       })
       .catch(error => {
+        console.log('error', error);
+
         let res = {
           status: false,
           data: [],

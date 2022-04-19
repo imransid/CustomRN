@@ -11,6 +11,7 @@ import DocumentPicker from 'react-native-document-picker';
 var ImagePicker = require('react-native-image-picker');
 import DropDown from '../DorpDown';
 import Calendars from '../Calender/Calender';
+import InputBox from '../InputBox';
 
 const CustomModal = ({
   children,
@@ -39,7 +40,6 @@ const CustomModal = ({
   };
 
   const Onsubmit = () => {
-    console.log('is', value, type);
     onPress(value, type);
   };
 
@@ -160,6 +160,12 @@ const CustomModal = ({
     setValue(filterItem);
   };
 
+  const _getInputValue = name => {
+    let filterItem = value.filter(e => (e[0] === name ? e : null));
+
+    return filterItem[0][1];
+  };
+
   const FormControlItem = ({data}) => {
     return (
       <>
@@ -197,13 +203,10 @@ const CustomModal = ({
             updateDateValue={(key, val) => _updateDateValue(key, val)}
           />
         ) : (
-          <Input
-            type="text"
-            editable={data[2].includes('ID') ? false : true}
-            onChangeText={e => OnTextChange(data[0], e)}
-            defaultValue={data[1].toString()}
-            variant={data[2].includes('ID') ? 'filled' : 'outline'}
-            placeholder={data[1].toString() !== '' ? '' : data[2]}
+          <InputBox
+            data={data}
+            val={_getInputValue(data[0])}
+            OnFocus={(name, val) => OnTextChange(name, val)}
           />
         )}
       </>
