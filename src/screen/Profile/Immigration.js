@@ -7,6 +7,7 @@ import {
   ToastAndroid,
 } from 'react-native';
 
+import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
 import {ScaledSheet} from 'react-native-size-matters';
 import CustomModal from '../../components/CustomModal/CustomModal';
@@ -33,6 +34,7 @@ const Immigration = () => {
   const [documentType, setDocumentType] = useState('');
   const [documentLoader, setDocumentLoader] = useState(false);
   const [infoValue, setInfoValue] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
 
   // type
   const [type, setType] = useState('');
@@ -176,6 +178,8 @@ const Immigration = () => {
 
     const result = await _postApiADD(parm);
 
+    result.status ? setDocumentData(result.data) : null;
+
     if (result.status) {
       setDocumentData(result.data);
       setDocumentLoader(false);
@@ -187,6 +191,35 @@ const Immigration = () => {
       ? type === 'edit'
         ? 'Update Successfully'
         : 'Save Successfully'
+      : 'Failed Please Check Again.!';
+
+    showToastWithGravityAndOffset(msg);
+  };
+
+  const _onDelete = async info => {
+    setModalVisible(false);
+    setDocumentLoader(true);
+
+    let parm = {
+      bodyData: info,
+      uri: 'immigration-delete',
+    };
+
+    const result = await _postApiADD(parm);
+
+    result.status ? setDocumentData(result.data) : null;
+
+    if (result.status) {
+      setDocumentData(result.data);
+      setDocumentLoader(false);
+    } else {
+      setDocumentLoader(false);
+    }
+
+    result.status ? setDocumentData(result.data) : null;
+
+    let msg = result.status
+      ? 'Deleted Successfully. !'
       : 'Failed Please Check Again.!';
 
     showToastWithGravityAndOffset(msg);
@@ -204,7 +237,7 @@ const Immigration = () => {
               setModalVisible(false);
             }}>
             <CustomModal
-              modalName={'Document'}
+              modalName={'Immigration'}
               type={type}
               onValue={infoValue}
               dropDownValue={[
@@ -232,6 +265,11 @@ const Immigration = () => {
                 key={i}
                 sl={i + 1}
                 onEdit={() => onPressEdit(data)}
+                onDelete={() => {
+                  let val = [['id', data.id.toString(), 'ID']];
+                  _onDelete(val);
+                  setShowAlert(false);
+                }}
                 datas={[
                   {title: 'Document Type', value: data.immigrant_document_type},
 
@@ -251,6 +289,28 @@ const Immigration = () => {
               />
             ))
           )}
+
+          <AwesomeAlert
+            show={showAlert}
+            showProgress={false}
+            title=""
+            message="Are You Sure Want To Delete it?"
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={true}
+            showConfirmButton={true}
+            cancelText="No, cancel"
+            confirmText="Yes, delete it"
+            confirmButtonColor="#DD6B55"
+            onCancelPressed={() => {
+              // this.hideAlert();
+              setShowAlert(false);
+            }}
+            onConfirmPressed={() => {
+              console.log('id', infoValue);
+              // this.hideAlert();
+            }}
+          />
 
           {/* ))} */}
           {/* </TouchableOpacity> */}

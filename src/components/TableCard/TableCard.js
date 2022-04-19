@@ -6,8 +6,6 @@ import {Subheading, Paragraph} from 'react-native-paper';
 import DownloadAttachment from '../DownloadAttachment';
 
 const TableCard = props => {
-  console.log('props', props);
-
   const checkAttachment = data => {
     return data.includes('ATTACHMENTS') || data.includes('FILE') ? true : false;
   };
