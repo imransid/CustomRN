@@ -2,13 +2,13 @@ export const drawerItemsMain = [
   {
     key: 'Home',
     title: 'Home',
-    routes: [{nav: 'MainDrawer', routeName: 'Home', title: 'Home'}],
+    routes: [{ nav: 'MainDrawer', routeName: 'Home', title: 'Home' }],
   },
   {
     key: 'TimeSheets',
     title: 'Time Sheets',
     routes: [
-      {nav: 'MainDrawer', routeName: 'Attendances', title: 'Attendances'},
+      { nav: 'MainDrawer', routeName: 'Attendances', title: 'Attendances' },
       {
         nav: 'MainDrawer',
         routeName: 'DateWiseAttendances',
@@ -46,13 +46,13 @@ export const drawerItemsMain = [
     key: 'HrCalenders',
     title: 'HR Calenders',
     routes: [
-      {nav: 'MainDrawer', routeName: 'HrCalenders', title: 'HR Calenders'},
+      { nav: 'MainDrawer', routeName: 'HrCalenders', title: 'HR Calenders' },
     ],
   },
   {
     key: 'Assets',
     title: 'Assets',
-    routes: [{nav: 'MainDrawer', routeName: 'Assets', title: 'Assets'}],
+    routes: [{ nav: 'MainDrawer', routeName: 'Assets', title: 'Assets' }],
   },
 ];
 
@@ -60,13 +60,13 @@ export const drawerItemsSubMain = [
   {
     key: 'Home',
     title: 'Dashboard',
-    routes: [{nav: 'MainDrawer', routeName: 'Home', title: 'Home'}],
+    routes: [{ nav: 'MainDrawer', routeName: 'Home', title: 'Home' }],
   },
   {
     key: 'Profile',
     title: 'Profile',
     routes: [
-      {nav: 'BasicInfo', routeName: 'BasicInfo', title: 'Basic Info'},
+      { nav: 'BasicInfo', routeName: 'BasicInfo', title: 'Basic Info' },
       {
         nav: 'Immigration',
         routeName: 'Immigration',
@@ -180,20 +180,20 @@ export const drawerItemsSubMain = [
     key: 'CoreHR',
     title: 'Core HR',
     routes: [
-      {nav: 'MainDrawer', routeName: 'HrCalenders', title: 'HR Calenders'},
+      { nav: 'MainDrawer', routeName: 'HrCalenders', title: 'HR Calenders' },
     ],
   },
   {
     key: 'SupportTicket',
     title: 'Support Ticket',
     routes: [
-      {nav: 'MainDrawer', routeName: 'SupportTicket', title: 'Support Ticket'},
+      { nav: 'MainDrawer', routeName: 'SupportTicket', title: 'Support Ticket' },
     ],
   },
   {
     key: 'Leaves',
     title: 'Leaves',
-    routes: [{nav: 'MainDrawer', routeName: 'Leaves', title: 'Leaves'}],
+    routes: [{ nav: 'MainDrawer', routeName: 'Leaves', title: 'Leaves' }],
   },
   {
     key: 'Projects',
@@ -220,9 +220,5 @@ export const drawerItemsSubMain = [
     title: 'Tasks',
     routes: [{ nav: 'MainDrawer', routeName: 'Tasks', title: 'Tasks' }],
   },
-  {
-    key: 'PaySlips',
-    title: 'Pay Slips',
-    routes: [{ nav: 'MainDrawer', routeName: 'PaySlips', title: 'Pay Slips' }],
-  },
+
 ];

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     Text,
@@ -37,29 +37,30 @@ const Notification = (navigation) => {
             console.log('Error in useEffect ', err);
         }
     }, [data, documentLoader, documentData]);
-   
-                return (
-                    <View style={styles.root}>
-                   {documentData.map(data=> ( <View style={styles.container}>
-                        <Image source={{ uri: "https://img.icons8.com/external-smashingstocks-circular-smashing-stocks/65/000000/external-bell-education-smashingstocks-circular-smashing-stocks.png" }} style={styles.avatar} />
-                        <View style={styles.content}>
-                                <View style={styles.text}>
-                                    <Text style={styles.name}>{data.notification_title}</Text>
-                                    
-                                </View>
-                                <Text style={styles.notificationType}>{data.notification_type}</Text>
-                                <Text style={styles.timeAgo}>
-                                    {data.notification_status}
-                                </Text>
-                                <Text style={styles.timeAgo}>
-                                    {data.created_at}
-                                </Text>
-                        </View>
-                    </View>))}
+
+    return (
+        <View style={styles.root}>
+            {documentLoader && <CustomIndicator />}
+            {documentData.map(data => (<View style={styles.container}>
+                <Image source={{ uri: "https://img.icons8.com/external-smashingstocks-circular-smashing-stocks/65/000000/external-bell-education-smashingstocks-circular-smashing-stocks.png" }} style={styles.avatar} />
+                <View style={styles.content}>
+                    <View style={styles.text}>
+                        <Text style={styles.name}>{data.notification_title}</Text>
+
                     </View>
-                );
-            
-    
+                    <Text style={styles.notificationType}>{data.notification_type}</Text>
+                    <Text style={styles.timeAgo}>
+                        {data.notification_status}
+                    </Text>
+                    <Text style={styles.timeAgo}>
+                        {data.created_at}
+                    </Text>
+                </View>
+            </View>))}
+        </View>
+    );
+
+
 }
 
 export default Notification
