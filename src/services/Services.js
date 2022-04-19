@@ -4,15 +4,30 @@ var FormData = require('form-data');
 //
 export const _postApiFetch = async data => {
   try {
+    var myHeaders = new Headers();
+    // myHeaders.append(
+    //   'Cookie',
+    //   'XSRF-TOKEN=eyJpdiI6InJxcUVRVkwrQmFIZ2drUGZDQUplaFE9PSIsInZhbHVlIjoidmVHTnFkZmZTbnA1TTRFNlR2ZG1RWktuaVhTdE0xbkFWeVJXZGJ5K1JZbmxCWTNvVytQa1FubGF3d29Qa0UxSE54bEc2ZkFrY1pYZnlrNEhNUXdQVFJLTXFha0FnS1dsZ0M5QlN1WDQrSE16R0Nybm5SeCt3dXFxYU5tY1J1akgiLCJtYWMiOiIzYTkwYmNmYWM5ZWNkODVlOGE4ZTVlMDMwYmIyNzViNWUzMWM2ZDA2ZWJkNzYzYzQxY2ZlNTY5Yjc4NGFkODU0IiwidGFnIjoiIn0%3D; predictionit_session=eyJpdiI6IlkwRFFtR1dzaHcvT0Y0STVLejcwUXc9PSIsInZhbHVlIjoiall0ckd6NmpiZlBwSmNZQ0JCWllLQzBOS3VKTklwR2JGWGpGam95c3RBOGdkZmduTmZ1akNneFhxenI1dUZ3d1EwWVNlU0FFVTd4cVdaMTlVcENqdEFSbXRXRUNDaXR2YnQra3JUMEc1OGlleEtxdEJXRWdJcFM2eDNyZituakQiLCJtYWMiOiI5OTgwNjhhOWNjNmMwYTczMzk3MjY3NzQ2MTFjYjIzZWIxOTc4MDM1YTU2OTg3ZDc2ZmM1NDY4N2E2ZjVhYzdlIiwidGFnIjoiIn0%3D',
+    // );
+
     var formdata = new FormData();
+
     data.bodyData.length > 0
-      ? data.bodyData.map(e => formdata.append(e[0], e[1]))
+      ? data.bodyData.map(e => {
+          console.log(e[0], typeof e[1] === 'string');
+
+          let idValueCheck = typeof e[1] === 'string' ? e[1] : e[1].toString();
+          formdata.append(e[0], e[0] === 'id' ? idValueCheck : e[1]);
+        })
       : null;
+
     var requestOptions = {
       method: 'POST',
       body: formdata,
       redirect: 'follow',
     };
+
+    console.log('requestOptions', requestOptions);
 
     let response = fetch(
       'https://hrmspvm.predictionla.com/api/user/' + data.uri,

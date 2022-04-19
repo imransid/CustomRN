@@ -87,7 +87,7 @@ const SocialProfile = () => {
           {/* </TouchableOpacity> */}
         </SafeAreaView>
       </ScrollView>
-      <PlusButton OnPress={() => setModalVisible(true)} />
+      {/* <PlusButton OnPress={() => setModalVisible(true)} /> */}
     </>
   );
 };
