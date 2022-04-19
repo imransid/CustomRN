@@ -6,6 +6,12 @@ import {Subheading, Paragraph} from 'react-native-paper';
 import DownloadAttachment from '../DownloadAttachment';
 
 const TableCard = props => {
+  console.log('props', props);
+
+  const checkAttachment = data => {
+    return data.includes('ATTACHMENTS') || data.includes('FILE') ? true : false;
+  };
+
   return (
     <View style={styles.listitem}>
       <View style={styles.sl}>
@@ -13,7 +19,7 @@ const TableCard = props => {
       </View>
       <View style={styles.poilcyContent}>
         {props.datas.map(data =>
-          data.title.toUpperCase().includes('ATTACHMENTS') ? (
+          checkAttachment(data.title.toUpperCase()) ? (
             <View style={styles.attachment}>
               <Paragraph
                 style={

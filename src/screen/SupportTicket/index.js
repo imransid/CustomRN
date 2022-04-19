@@ -135,7 +135,6 @@ const SupportTicket = () => {
                 ],
               }}
               onPress={(e, type) => {
-                console.log('type', type);
                 type === 'edit' ? OnEdit(e, type) : setModalVisible(false);
               }}
               children

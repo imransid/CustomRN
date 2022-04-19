@@ -10,6 +10,7 @@ import React, {useEffect, useState} from 'react';
 import DocumentPicker from 'react-native-document-picker';
 var ImagePicker = require('react-native-image-picker');
 import DropDown from '../DorpDown';
+import Calendars from '../Calender/Calender';
 
 const CustomModal = ({
   children,
@@ -19,7 +20,6 @@ const CustomModal = ({
   modalName,
   dropDownValue,
 }) => {
-  console.log('type type type', type);
   const [value, setValue] = useState(onValue);
   const [singleFile, setSingleFile] = useState(null);
 
@@ -85,8 +85,6 @@ const CustomModal = ({
 
   // update picker
   useEffect(() => {
-    console.log('pickerStatus', pickerStatus, pickerValue);
-
     if (pickerValue) {
       let filterItem = value.filter(e => {
         if (e[2].includes('TYPE')) {
@@ -151,6 +149,17 @@ const CustomModal = ({
     setPickerStatus(!pickerStatus);
   };
 
+  const _updateDateValue = (key, val) => {
+    let filterItem = value.filter(e => {
+      if (e[0] === key) {
+        e[1] = val;
+      }
+      return e;
+    });
+
+    setValue(filterItem);
+  };
+
   const FormControlItem = ({data}) => {
     return (
       <>
@@ -178,6 +187,14 @@ const CustomModal = ({
             data={getDropDownRender(data)[1]}
             selectValue={val => setDropDownValue(data, val)}
             pickerValue={getDropDownValue(data)}
+          />
+        ) : // check DATE
+
+        data[2].includes('DATE') ? (
+          <Calendars
+            valueDate={data[1]}
+            keyDate={data[0]}
+            updateDateValue={(key, val) => _updateDateValue(key, val)}
           />
         ) : (
           <Input
