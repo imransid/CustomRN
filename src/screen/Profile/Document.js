@@ -7,6 +7,7 @@ import {
   ToastAndroid,
 } from 'react-native';
 
+import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
 import {ScaledSheet} from 'react-native-size-matters';
 import CustomModal from '../../components/CustomModal/CustomModal';
@@ -26,8 +27,10 @@ const Document = () => {
   let data = useFetchData([['document_employee_id', id]], 'document', 'post');
 
   const [documentData, setDocumentData] = useState([]);
+  const [documentType, setDocumentType] = useState('');
   const [documentLoader, setDocumentLoader] = useState(false);
   const [infoValue, setInfoValue] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
 
   // type
   const [type, setType] = useState('');
@@ -44,12 +47,42 @@ const Document = () => {
   const OnEdit = async (info, type) => {
     setModalVisible(false);
 
+    let filterInfo = info.filter(e => {
+      if (e[0] !== 'document_employee_id' && e[0] !== 'document_com_id') {
+        return e;
+      }
+    });
+
+    let parmZ = [];
+
+    // when need to check attachment and type
+
+    for (let i = 0; i < filterInfo.length; i++) {
+      if (filterInfo[i][0] === 'document_type') {
+        if (filterInfo[i][1] !== undefined) {
+          parmZ.push(filterInfo[i]);
+        } else {
+          filterInfo[i][1] = documentType;
+          console.log('infoValue', documentType);
+          parmZ.push(filterInfo[i]);
+        }
+      } else if (filterInfo[i][0] === 'document_file') {
+        if (typeof filterInfo[i][1] !== 'string') {
+          parmZ.push(filterInfo[i]);
+        }
+      } else {
+        parmZ.push(filterInfo[i]);
+      }
+    }
+
     let parm = {
-      bodyData: info,
+      bodyData: parmZ,
       uri: 'document-update',
     };
 
     const result = await _postApiFetch(parm);
+
+    result.status ? setDocumentData(result.data) : null;
 
     let msg = result.status
       ? type === 'edit'
@@ -77,6 +110,8 @@ const Document = () => {
 
     let objectData = Object.entries(data);
 
+    setDocumentType(data.document_type);
+
     let finalData = objectData.filter(e => {
       if (e[0] === 'created_at' || e[0] === 'updated_at') {
       } else {
@@ -98,7 +133,7 @@ const Document = () => {
       ['document_type', '', 'document_type'],
       ['document_description', '', 'document_description'],
       ['document_file', '', 'document_employee_id'],
-      ['document_date', '', 'document_date'],
+      ['document_date', 'Select Date', 'document_date'],
     ];
 
     let finalData = objectData.filter(e => {
@@ -125,6 +160,8 @@ const Document = () => {
 
     const result = await _postApiADD(parm);
 
+    result.status ? setDocumentData(result.data) : null;
+
     if (result.status) {
       setDocumentData(result.data);
       setDocumentLoader(false);
@@ -136,6 +173,35 @@ const Document = () => {
       ? type === 'edit'
         ? 'Update Successfully'
         : 'Save Successfully'
+      : 'Failed Please Check Again.!';
+
+    showToastWithGravityAndOffset(msg);
+  };
+
+  const _onDelete = async info => {
+    setModalVisible(false);
+    setDocumentLoader(true);
+
+    let parm = {
+      bodyData: info,
+      uri: 'document-delete',
+    };
+
+    const result = await _postApiADD(parm);
+
+    result.status ? setDocumentData(result.data) : null;
+
+    if (result.status) {
+      setDocumentData(result.data);
+      setDocumentLoader(false);
+    } else {
+      setDocumentLoader(false);
+    }
+
+    result.status ? setDocumentData(result.data) : null;
+
+    let msg = result.status
+      ? 'Deleted Successfully. !'
       : 'Failed Please Check Again.!';
 
     showToastWithGravityAndOffset(msg);
@@ -161,7 +227,11 @@ const Document = () => {
                 {label: 'Certificate', value: 'Certificate'},
               ]}
               onPress={(e, type) => {
-                type === 'edit' ? OnEdit(e, type) : OnAddPress(e, type);
+                if (type) {
+                  type === 'edit' ? OnEdit(e, type) : OnAddPress(e, type);
+                } else {
+                  setModalVisible(false);
+                }
               }}
               children
             />
@@ -177,6 +247,11 @@ const Document = () => {
                 key={i}
                 sl={i + 1}
                 onEdit={() => onPressEdit(data)}
+                onDelete={() => {
+                  let val = [['id', data.id.toString(), 'ID']];
+                  _onDelete(val);
+                  setShowAlert(false);
+                }}
                 datas={[
                   {
                     title: 'Document Uploaded BY',
@@ -187,10 +262,34 @@ const Document = () => {
                   {title: 'Description', value: data.document_description},
                   {title: 'Document File', value: data.document_file},
                 ]}
+                deleteButton={true}
+                buttonVisible={true}
                 variant="Immigration"
               />
             ))
           )}
+
+          <AwesomeAlert
+            show={showAlert}
+            showProgress={false}
+            title=""
+            message="Are You Sure Want To Delete it?"
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={true}
+            showConfirmButton={true}
+            cancelText="No, cancel"
+            confirmText="Yes, delete it"
+            confirmButtonColor="#DD6B55"
+            onCancelPressed={() => {
+              // this.hideAlert();
+              setShowAlert(false);
+            }}
+            onConfirmPressed={() => {
+              console.log('id', infoValue);
+              // this.hideAlert();
+            }}
+          />
 
           {/* ))} */}
           {/* </TouchableOpacity> */}

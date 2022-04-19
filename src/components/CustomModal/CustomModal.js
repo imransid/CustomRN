@@ -160,6 +160,14 @@ const CustomModal = ({
     setValue(filterItem);
   };
 
+  const _getDateShowStatus = name => {
+    // let filterItem = value.filter(e => (e[0] === name ? e : null));
+
+    // return filterItem[0][1];
+
+    return name.includes('DATE');
+  };
+
   const _getInputValue = name => {
     let filterItem = value.filter(e => (e[0] === name ? e : null));
 
@@ -167,11 +175,18 @@ const CustomModal = ({
   };
 
   const FormControlItem = ({data}) => {
+    const checkAttachment = data => {
+      return data.includes('ATTACHMENTS') ||
+        (data.includes('FILE') && !data.includes('PROFILE'))
+        ? true
+        : false;
+    };
+
     return (
       <>
         <FormControl.Label>{data[2]}</FormControl.Label>
 
-        {data[2].includes('FILE') || data[2].includes('ATTACHMENT') ? (
+        {checkAttachment(data[2]) ? (
           singleFile != null ? (
             <Text style={styles.textStyle}>
               File Name: {singleFile.fileName ? singleFile.fileName : ''}
@@ -196,7 +211,7 @@ const CustomModal = ({
           />
         ) : // check DATE
 
-        data[2].includes('DATE') ? (
+        _getDateShowStatus(data[2]) ? (
           <Calendars
             valueDate={data[1]}
             keyDate={data[0]}

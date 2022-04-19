@@ -4,10 +4,14 @@ import React from 'react';
 import {Subheading, Paragraph} from 'react-native-paper';
 
 import DownloadAttachment from '../DownloadAttachment';
+import {Linking} from 'react-native';
 
 const TableCard = props => {
   const checkAttachment = data => {
-    return data.includes('ATTACHMENTS') || data.includes('FILE') ? true : false;
+    return data.includes('ATTACHMENTS') ||
+      (data.includes('FILE') && !data.includes('PROFILE'))
+      ? true
+      : false;
   };
 
   return (
@@ -33,6 +37,24 @@ const TableCard = props => {
               </Paragraph>
               <DownloadAttachment uri={data.value} />
             </View>
+          ) : data.title.toUpperCase().includes('PROFILE') ? ( // check link address
+            <Paragraph
+              style={
+                data.title == 'Title'
+                  ? styles.policyTitle
+                  : data.title == 'Description'
+                  ? styles.description
+                  : styles.addedBy
+              }>
+              <Subheading style={{fontWeight: '500'}}>
+                {data.title} :
+              </Subheading>{' '}
+              <Text
+                style={{color: 'blue'}}
+                onPress={() => Linking.openURL(data.value)}>
+                {data.value}
+              </Text>
+            </Paragraph>
           ) : (
             <Paragraph
               style={
