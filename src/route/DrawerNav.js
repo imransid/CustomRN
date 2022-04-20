@@ -40,7 +40,13 @@ import Tasks from '../screen/Tasks/Tasks';
 import PaySlips from '../screen/PaySlips/PaySlips';
 import Notifications from '../screen/Notifications/Notification';
 import SupportTicket from '../screen/SupportTicket';
-
+import Award from '../screen/CoreHr/Award';
+import Travel from '../screen/CoreHr/Travel';
+import Transfer from '../screen/CoreHr/Transfer';
+import Warning from '../screen/CoreHr/Warning';
+import Promotion from '../screen/CoreHr/Promotion';
+import Complaints from '../screen/CoreHr/Complaints';
+import Termination from '../screen/CoreHr/Termination';
 
 import {useSelector} from 'react-redux';
 
@@ -83,9 +89,13 @@ function MainDrawerNavigation() {
         header: ({navigation, route, options}) => {
           const title = getHeaderTitle(options, route.name);
 
-
-          return <CustomHeader title={title} navigation={navigation} onPress={()=>navigation.navigate("Notifications") }/>;
-
+          return (
+            <CustomHeader
+              title={title}
+              navigation={navigation}
+              onPress={() => navigation.navigate('Notifications')}
+            />
+          );
         },
       }}
       drawerContent={props => (
@@ -134,6 +144,13 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="Tasks" component={Tasks} />
       <Drawer.Screen name="PaySlips" component={PaySlips} />
       <Drawer.Screen name="Notifications" component={Notifications} />
+      <Drawer.Screen name="Award" component={Award} />
+      <Drawer.Screen name="Travel" component={Travel} />
+      <Drawer.Screen name="Transfer" component={Transfer} />
+      <Drawer.Screen name="Warning" component={Warning} />
+      <Drawer.Screen name="Promotion" component={Promotion} />
+      <Drawer.Screen name="Complaints" component={Complaints} />
+      <Drawer.Screen name="Termination" component={Termination} />
     </Drawer.Navigator>
   );
 }
