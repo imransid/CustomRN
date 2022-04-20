@@ -12,9 +12,43 @@ import moment from 'moment';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const RnPdf = props => {
-  const {Filename, headerItem, bodyItem} = props;
+  const {Filename, value} = props;
 
-  var header = `<table><tr>${headerItem.map(e => {
+  const createHeader = () => {
+    let headerItem = [];
+    value.map(e => {
+      let objectData = Object.entries(e);
+      objectData.filter(e => {
+        if (e[0] === 'created_at' || e[0] === 'updated_at' || e[0] === 'id') {
+        } else {
+          headerItem.push(e[0].toUpperCase().replaceAll('_', ' '));
+          return e;
+        }
+      });
+    });
+    return headerItem;
+  };
+
+  const createBodyItem = () => {
+    let bodyItem = [];
+    value.map(e => {
+      let row = [];
+      let objectData = Object.entries(e);
+      objectData.filter(e => {
+        if (e[0] === 'created_at' || e[0] === 'updated_at' || e[0] === 'id') {
+        } else {
+          row.push(e[1]);
+          return e;
+        }
+      });
+
+      row.length > 0 ? bodyItem.push(row) : null;
+    });
+
+    return bodyItem;
+  };
+
+  var header = `<table><tr>${createHeader()?.map(e => {
     return (
       '<th style="color:#fff;background-color:#00695c;padding: 10px;">' +
       e +
@@ -22,7 +56,7 @@ const RnPdf = props => {
     );
   })}</tr>`;
 
-  var body = `${bodyItem.map(
+  var body = `${createBodyItem()?.map(
     e =>
       '<tr>' +
       e.map(i => '<td style="text-align:center;">' + i + '</td>') +
@@ -39,11 +73,8 @@ const RnPdf = props => {
       fileName: `${Filename + moment().unix()}`,
       directory: 'Documents',
     };
-
     let file = await RNHTMLtoPDF.convert(options);
-
     let data = `Download Successfully. \n File path : ${file.filePath} `;
-
     ToastAndroid.showWithGravityAndOffset(
       data,
       ToastAndroid.LONG,
