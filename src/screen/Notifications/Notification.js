@@ -39,8 +39,15 @@ const Notification = (navigation) => {
     }, [data, documentLoader, documentData]);
 
     return (
+
+
+
         <View style={styles.root}>
-            {documentLoader && <CustomIndicator />}
+            {documentLoader &&
+                <View style={styles.loader}>
+                    <CustomIndicator />
+                </View>
+            }
             {documentData.map(data => (<View style={styles.container}>
                 <Image source={{ uri: "https://img.icons8.com/external-smashingstocks-circular-smashing-stocks/65/000000/external-bell-education-smashingstocks-circular-smashing-stocks.png" }} style={styles.avatar} />
                 <View style={styles.content}>
@@ -58,6 +65,7 @@ const Notification = (navigation) => {
                 </View>
             </View>))}
         </View>
+
     );
 
 
@@ -68,6 +76,16 @@ export default Notification
 const styles = StyleSheet.create({
     root: {
         backgroundColor: "#FFFFFF"
+    },
+    loader: {
+        padding: 16,
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+        borderColor: "#FFFFFF",
+        alignItems: 'flex-start',
+        height: "100%",
+        top: "40%",
+
     },
     container: {
         padding: 16,

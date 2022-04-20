@@ -29,35 +29,35 @@ const ControlCenter = () => {
   }, [dispatch, checkInStatus]);
 
   return (
- 
-      <View style={styles.header}>
-        <View style={styles.headerContent}>
-          <Image
-            style={styles.avatar}
-            source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar1.png' }}
-          />
 
-          <Text style={styles.name}>{user.first_name} {user.last_name} </Text>
-          <Text style={styles.designation}>{user.designation_id}</Text>
-          <Text style={styles.officeShift}>
-            Office Shift: 9:00 AM To 6:00 PM(Night Shift)
-          </Text>
-          <Text style={styles.Location}>
-            Long: {parseFloat(long).toFixed(2) || 0.0}, Lat:{' '}
-            {parseFloat(lat).toFixed(2) || 0.0}
-          </Text>
-          <TouchableOpacity style={styles.buttonContainer} onPress={OnPress}>
-            {!checkInLoader ? (
-              <Text style={styles.designation}>
-                Check {checkInStatus ? 'Out' : 'In'}
-              </Text>
-            ) : (
-              <ActivityIndicator size="small" color="#CFCFCF" />
-            )}
-          </TouchableOpacity>
-        </View>
+    <View style={styles.header}>
+      <View style={styles.headerContent}>
+        <Image
+          style={styles.avatar}
+          source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar1.png' }}
+        />
+
+        <Text style={styles.name}>{user.first_name} {user.last_name} </Text>
+        <Text style={styles.designation}>{user.designation_id}</Text>
+        <Text style={styles.officeShift}>
+          Office Shift: 9:00 AM To 6:00 PM(Night Shift)
+        </Text>
+        <Text style={styles.Location}>
+          Long: {parseFloat(long).toFixed(2) || 0.0}, Lat:{' '}
+          {parseFloat(lat).toFixed(2) || 0.0}
+        </Text>
+        <TouchableOpacity style={styles.buttonContainer} onPress={OnPress}>
+          {!checkInLoader ? (
+            <Text style={styles.designation}>
+              Check {checkInStatus ? 'Out' : 'In'}
+            </Text>
+          ) : (
+            <ActivityIndicator size="small" color="#CFCFCF" />
+          )}
+        </TouchableOpacity>
       </View>
- 
+    </View>
+
   );
 };
 
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#00BFFF',
   },
   headerContent: {
-    padding:20,
+    padding: 20,
     alignItems: 'center',
   },
   avatar: {

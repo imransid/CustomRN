@@ -10,18 +10,20 @@ import {
     ScrollView,
     FlatList,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const items = [
-    { id: 1, title: "Leave", color: "#FF4500", route: "", image: "https://img.icons8.com/fluency/48/000000/leave.png" },
-    { id: 2, title: "Travel", color: "#FFD32D", route: "", image: "https://img.icons8.com/office/16/000000/airplane-take-off.png" },
-    { id: 3, title: "Tickets", color: "#4682B4", route: "", image: "https://img.icons8.com/color/48/000000/pnr-code.png" },
-    { id: 4, title: "Payslip", color: "#6A5ACD", route: "", image: "https://img.icons8.com/fluency/48/000000/purchase-order.png" },
-    { id: 5, title: "Award", color: "#FF69B4", route: "", image: "https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/58/000000/external-award-online-learning-vitaliy-gorbachev-flat-vitaly-gorbachev.png" },
+    { id: 1, title: "Leave", color: "#FF4500", route: "Leaves", image: "https://img.icons8.com/fluency/48/000000/leave.png" },
+    { id: 2, title: "Travel", color: "#FFD32D", route: "Travel", image: "https://img.icons8.com/office/16/000000/airplane-take-off.png" },
+    { id: 3, title: "Tickets", color: "#4682B4", route: "SupportTicket", image: "https://img.icons8.com/color/48/000000/pnr-code.png" },
+    { id: 4, title: "Payslip", color: "#6A5ACD", route: "PaySlips", image: "https://img.icons8.com/fluency/48/000000/purchase-order.png" },
+    { id: 5, title: "Award", color: "#FF69B4", route: "Award", image: "https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/58/000000/external-award-online-learning-vitaliy-gorbachev-flat-vitaly-gorbachev.png" },
     { id: 6, title: "Anouncement", color: "#00BFFF", route: "Announcements", image: "https://img.icons8.com/external-smashingstocks-circular-smashing-stocks/65/000000/external-announcement-education-smashingstocks-circular-smashing-stocks.png" },
     { id: 7, title: "Upcomping Holiday", color: "#008E89", route: "", image: "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-holiday-comfort-flaticons-lineal-color-flat-icons-2.png" },
 
 ]
-const Dashboard = ({ navigation }) => {
+const Dashboard = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <FlatList style={styles.list}
@@ -35,7 +37,7 @@ const Dashboard = ({ navigation }) => {
                 renderItem={({ item }) => {
                     return (
                         <View>
-                            <TouchableOpacity style={[styles.card, { backgroundColor: item.color }]} onPress={() => navigation.navigate("Announcements")}>
+                            <TouchableOpacity style={[styles.card, { backgroundColor: item.color }]} onPress={() => navigation.navigate(item.route)}>
                                 <Image style={styles.cardImage} source={{ uri: item.image }} />
 
                             </TouchableOpacity>
@@ -92,8 +94,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-   
-  
+
+
     cardImage: {
         height: 30,
         width: 30,

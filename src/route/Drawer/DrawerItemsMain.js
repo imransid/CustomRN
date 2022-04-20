@@ -181,7 +181,7 @@ export const drawerItemsSubMain = [
     key: 'CoreHR',
     title: 'Core HR',
     routes: [
-      {nav: 'Award', routeName: 'Award', title: 'Award'},
+      { nav: 'Award', routeName: 'Award', title: 'Award' },
       {
         nav: 'Travel',
         routeName: 'Travel',
@@ -233,33 +233,19 @@ export const drawerItemsSubMain = [
     routes: [{ nav: 'MainDrawer', routeName: 'Leaves', title: 'Leaves' }],
   },
   {
-    key: 'Projects',
-    title: 'Projects',
-    routes: [{nav: 'MainDrawer', routeName: 'Projects', title: 'Projects'}],
-  },
-  {
-    key: 'Tasks',
-    title: 'Tasks',
-    routes: [{nav: 'MainDrawer', routeName: 'Tasks', title: 'Tasks'}],
-  },
-  {
     key: 'PaySlips',
     title: 'Pay Slips',
-    routes: [{nav: 'MainDrawer', routeName: 'PaySlips', title: 'Pay Slips'}],
+    routes: [{ nav: 'MainDrawer', routeName: 'PaySlips', title: 'Pay Slips' }],
   },
   {
     key: 'Projects',
     title: 'Projects',
-    routes: [{nav: 'MainDrawer', routeName: 'Projects', title: 'Projects'}],
+    routes: [{ nav: 'MainDrawer', routeName: 'Projects', title: 'Projects' }],
   },
   {
     key: 'Tasks',
     title: 'Tasks',
-    routes: [{nav: 'MainDrawer', routeName: 'Tasks', title: 'Tasks'}],
+    routes: [{ nav: 'MainDrawer', routeName: 'Tasks', title: 'Tasks' }],
   },
-  {
-    key: 'PaySlips',
-    title: 'Pay Slips',
-    routes: [{nav: 'MainDrawer', routeName: 'PaySlips', title: 'Pay Slips'}],
-  },
+
 ];
