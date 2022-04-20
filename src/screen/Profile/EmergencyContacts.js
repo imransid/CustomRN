@@ -13,7 +13,7 @@ import {ScaledSheet} from 'react-native-size-matters';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
 import {_postApiFetch, _postApiADD} from '../../services/Services';
-
+import RnPdf from '../../components/GenaratePdf';
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
 import {useSelector} from 'react-redux';
@@ -182,8 +182,6 @@ const EmergencyContacts = () => {
 
     const result = await _postApiADD(parm);
 
-    console.log('result', result);
-
     result.status ? setDocumentData(result.data) : null;
 
     if (result.status) {
@@ -233,6 +231,9 @@ const EmergencyContacts = () => {
           </Modal>
           <View style={styles.search}>
             <SearchBox />
+          </View>
+          <View style={styles.pdfBox}>
+            <RnPdf Filename={'DateWiseAttendance'} value={data[0]} />
           </View>
           {documentLoader ? (
             <CustomIndicator />
@@ -392,5 +393,11 @@ const styles = ScaledSheet.create({
     padding: 10,
   },
   activityIndicator: {alignSelf: 'center', paddingVertical: '50%'},
+  pdfBox: {
+    paddingTop: 10,
+    paddingRight: 20,
+    width: '100%',
+    alignItems: 'flex-end',
+  },
 });
 export default EmergencyContacts;
