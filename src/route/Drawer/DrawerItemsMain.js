@@ -176,11 +176,48 @@ export const drawerItemsSubMain = [
       },
     ],
   },
+
   {
     key: 'CoreHR',
     title: 'Core HR',
     routes: [
-      {nav: 'MainDrawer', routeName: 'HrCalenders', title: 'HR Calenders'},
+      {nav: 'Award', routeName: 'Award', title: 'Award'},
+      {
+        nav: 'Travel',
+        routeName: 'Travel',
+        title: 'Travel',
+      },
+      {
+        nav: 'Training',
+        routeName: 'Training',
+        title: 'Training',
+      },
+      {
+        nav: 'Transfer',
+        routeName: 'Transfer',
+        title: 'Transfer',
+      },
+      {
+        nav: 'Termination',
+        routeName: 'Termination',
+        title: 'Termination',
+      },
+      {
+        nav: 'Promotion',
+        routeName: 'Promotion',
+        title: 'Promotion',
+      },
+      {
+        nav: 'Complaints',
+        routeName: 'Complaints',
+        title: 'Complaints',
+      },
+
+      {
+        nav: 'Warning',
+        routeName: 'Warning',
+        title: 'Warning',
+      },
     ],
   },
   {
@@ -198,31 +235,31 @@ export const drawerItemsSubMain = [
   {
     key: 'Projects',
     title: 'Projects',
-    routes: [{ nav: 'MainDrawer', routeName: 'Projects', title: 'Projects' }],
+    routes: [{nav: 'MainDrawer', routeName: 'Projects', title: 'Projects'}],
   },
   {
     key: 'Tasks',
     title: 'Tasks',
-    routes: [{ nav: 'MainDrawer', routeName: 'Tasks', title: 'Tasks' }],
+    routes: [{nav: 'MainDrawer', routeName: 'Tasks', title: 'Tasks'}],
   },
   {
     key: 'PaySlips',
     title: 'Pay Slips',
-    routes: [{ nav: 'MainDrawer', routeName: 'PaySlips', title: 'Pay Slips' }],
+    routes: [{nav: 'MainDrawer', routeName: 'PaySlips', title: 'Pay Slips'}],
   },
   {
     key: 'Projects',
     title: 'Projects',
-    routes: [{ nav: 'MainDrawer', routeName: 'Projects', title: 'Projects' }],
+    routes: [{nav: 'MainDrawer', routeName: 'Projects', title: 'Projects'}],
   },
   {
     key: 'Tasks',
     title: 'Tasks',
-    routes: [{ nav: 'MainDrawer', routeName: 'Tasks', title: 'Tasks' }],
+    routes: [{nav: 'MainDrawer', routeName: 'Tasks', title: 'Tasks'}],
   },
   {
     key: 'PaySlips',
     title: 'Pay Slips',
-    routes: [{ nav: 'MainDrawer', routeName: 'PaySlips', title: 'Pay Slips' }],
+    routes: [{nav: 'MainDrawer', routeName: 'PaySlips', title: 'Pay Slips'}],
   },
 ];

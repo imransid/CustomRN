@@ -10,13 +10,13 @@ const TableCardAttachment = props => {
         <View style={styles.mainContent}>
           <View style={styles.text}>
             <Text style={styles.name}>{props.headline}</Text>
-            {props.datas.map(data => (
+            {props.datas?.map(data => (
               <Text style={styles.fields}>
                 {data.title}:{data.value}
               </Text>
             ))}
           </View>
-          {props.dates.map(data => (
+          {props.dates?.map(data => (
             <Text style={styles.date}>
               {data.title}:{data.value}
             </Text>
