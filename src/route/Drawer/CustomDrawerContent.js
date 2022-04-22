@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {Avatar, Card, Title, Paragraph} from 'react-native-paper';
-import {LogOut} from '../../actions/SignIn';
+import { useDispatch, useSelector } from 'react-redux';
+import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
+import { LogOut } from '../../actions/SignIn';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import {DrawerChange} from '../../actions/Settings';
+import { DrawerChange } from '../../actions/Settings';
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ function CustomDrawerContent(props) {
                 onItemParentPress(parent.key);
               }}>
               <View style={styles.parentItem}>
+                <Icon name={parent?.icon} size={25} color={'#525E75'} style={{ marginLeft: 5 }} />
                 <Text style={[styles.icon, styles.title]}>{parent.title}</Text>
               </View>
             </TouchableOpacity>
@@ -101,6 +103,7 @@ function CustomDrawerContent(props) {
       <View>
         <TouchableOpacity onPress={logOut} testID="customDrawer-logout">
           <View style={styles.parentItem}>
+            <Icon name="sign-out-alt" size={25} color={'#525E75'} style={{ marginLeft: 5 }} />
             <Text style={styles.title}>{'Log out'}</Text>
           </View>
         </TouchableOpacity>
@@ -112,7 +115,7 @@ function CustomDrawerContent(props) {
     <ScrollView style={styles.drawerContainer}>
       <SafeAreaView
         style={styles.container}
-        forceInset={{top: 'always', horizontal: 'never'}}>
+        forceInset={{ top: 'always', horizontal: 'never' }}>
         <Card>
           <Card.Content>
             <Avatar.Image
