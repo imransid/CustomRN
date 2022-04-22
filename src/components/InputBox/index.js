@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Input} from 'native-base';
 
 const InputBox = ({data, OnFocus, val}) => {
-  const [value, setValue] = useState(val);
+  const [value, setValue] = useState(val ? val : '');
 
   const handleChange = text => setValue(text);
 
