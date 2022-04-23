@@ -7,9 +7,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 function CustomHeader(props) {
   const toggleDrawer = () =>
     props.navigation.dispatch(DrawerActions.toggleDrawer());
-    
-   
-
 
   return (
     <SafeAreaView>
@@ -25,14 +22,16 @@ function CustomHeader(props) {
         <View style={styles.header}>
           <Title style={styles.headerTxt}>{props.title}</Title>
         </View>
-       {props.title=="Home" && <View style={styles.headerRight}>
-          <TouchableOpacity
-           onPress={props.onPress }
-            style={styles.rightButton}
-            testID="CustomHeader-onPress">
-            <Icon name="bell" size={30} color="#000" />
-          </TouchableOpacity>
-          </View>}
+        {props.title == 'Home' && (
+          <View style={styles.headerRight}>
+            <TouchableOpacity
+              onPress={props.onPress}
+              style={styles.rightButton}
+              testID="CustomHeader-onPress">
+              <Icon name="bell" size={30} color="#000" />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
