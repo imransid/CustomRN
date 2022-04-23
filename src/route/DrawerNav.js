@@ -4,9 +4,9 @@ import BasicInfo from '../screen/Profile/BasicInfo';
 import Dashboard from '../screen/Dashboard/Dashboard';
 import DateWiseAttendance from '../screen/timeSheets/DateWiseAttendances';
 
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import {drawerItemsMain, drawerItemsSubMain} from './Drawer/DrawerItemsMain';
+import { drawerItemsMain, drawerItemsSubMain } from './Drawer/DrawerItemsMain';
 import CustomDrawerContent from './Drawer/CustomDrawerContent';
 import CustomHeader from './Drawer/CustomHeader';
 import Attendances from '../screen/timeSheets/Attendances';
@@ -49,7 +49,7 @@ import Complaints from '../screen/CoreHr/Complaints';
 import Termination from '../screen/CoreHr/Termination';
 import ChangePassword from '../screen/Profile/ChangePassword';
 
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
@@ -87,7 +87,7 @@ function MainDrawerNavigation() {
     <Drawer.Navigator
       initialRouteName="Home"
       screenOptions={{
-        header: ({navigation, route, options}) => {
+        header: ({ navigation, route, options }) => {
           const title = getHeaderTitle(options, route.name);
 
           return (

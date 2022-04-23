@@ -3,6 +3,7 @@ export const drawerItemsMain = [
     key: 'Home',
     title: 'Home',
     routes: [{ nav: 'MainDrawer', routeName: 'Home', title: 'Home' }],
+    icon: "home"
   },
   {
     key: 'TimeSheets',
@@ -25,6 +26,7 @@ export const drawerItemsMain = [
         title: 'Approve Employee Leaves',
       },
     ],
+    icon: "clock"
   },
   {
     key: 'Organization',
@@ -41,6 +43,7 @@ export const drawerItemsMain = [
         title: 'Company Policy',
       },
     ],
+    icon: "globe"
   },
   {
     key: 'HrCalenders',
@@ -48,11 +51,13 @@ export const drawerItemsMain = [
     routes: [
       { nav: 'MainDrawer', routeName: 'HrCalenders', title: 'HR Calenders' },
     ],
+    icon: "calendar-alt"
   },
   {
     key: 'Assets',
     title: 'Assets',
     routes: [{ nav: 'MainDrawer', routeName: 'Assets', title: 'Assets' }],
+    icon: "archive"
   },
 ];
 
@@ -61,6 +66,7 @@ export const drawerItemsSubMain = [
     key: 'Home',
     title: 'Dashboard',
     routes: [{ nav: 'MainDrawer', routeName: 'Home', title: 'Home' }],
+    icon: "th"
   },
   {
     key: 'Profile',
@@ -119,6 +125,7 @@ export const drawerItemsSubMain = [
         title: 'Download Latest ID Card',
       },
     ],
+    icon: "user-alt"
   },
   {
     key: 'Salary',
@@ -175,6 +182,7 @@ export const drawerItemsSubMain = [
         title: 'TA/DA',
       },
     ],
+    icon: "money-bill-alt"
   },
 
   {
@@ -219,6 +227,7 @@ export const drawerItemsSubMain = [
         title: 'Warning',
       },
     ],
+    icon: "user-check"
   },
   {
     key: 'SupportTicket',
@@ -226,26 +235,31 @@ export const drawerItemsSubMain = [
     routes: [
       { nav: 'MainDrawer', routeName: 'SupportTicket', title: 'Support Ticket' },
     ],
+    icon: "ticket-alt"
   },
   {
     key: 'Leaves',
     title: 'Leaves',
     routes: [{ nav: 'MainDrawer', routeName: 'Leaves', title: 'Leaves' }],
+    icon: "calendar-minus"
   },
   {
     key: 'PaySlips',
     title: 'Pay Slips',
     routes: [{ nav: 'MainDrawer', routeName: 'PaySlips', title: 'Pay Slips' }],
+    icon: "file-invoice"
   },
   {
     key: 'Projects',
     title: 'Projects',
     routes: [{ nav: 'MainDrawer', routeName: 'Projects', title: 'Projects' }],
+    icon: "project-diagram"
   },
   {
     key: 'Tasks',
     title: 'Tasks',
     routes: [{ nav: 'MainDrawer', routeName: 'Tasks', title: 'Tasks' }],
+    icon: "tasks"
   },
 
 ];
