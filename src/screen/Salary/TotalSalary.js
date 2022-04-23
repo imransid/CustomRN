@@ -5,22 +5,23 @@ import TableCard from '../../components/TableCard/TableCard';
 import { ScaledSheet } from 'react-native-size-matters';
 
 import SearchBox from '../../components/searchBox/SearchBox';
-import { _postApiFetch } from '../../services/Services';
+import { _postApiFetch, _searchData } from '../../services/Services';
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 
 import { useSelector } from 'react-redux';
 
 import useFetchData from '../../components/HOC/withGetData';
+import { TextInput } from 'react-native-paper';
 
 
 const TotalSalary = () => {
 
-
-
-
     const id = useSelector(state => state.user.userAllData.id);
     const com_id = useSelector(state => state.user.userAllData.com_id);
-
+    const [searchText, setSearchText] = useState('');
+    const onChangeSearchText = (text) => {
+        setSearchText(text);
+    }
     let data = useFetchData(
         [['id', id], ['com_id', com_id]],
         'total-salary',
@@ -40,6 +41,21 @@ const TotalSalary = () => {
         }
     }, [data, documentLoader, documentData]);
 
+    useEffect(() => {
+        try {
+            console.log('searchText', searchText.length);
+            let lngth = searchText.length
+            if (lngth > 0) {
+                var newData = _searchData(documentData, searchText);
+                setDocumentData(newData);
+            } else {
+                data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+            }
+        } catch (err) {
+            console.log('Error in useEffect2 ', err);
+        }
+    }, [data, searchText, documentData]);
+
     return (
         <>
             <ScrollView>
@@ -47,7 +63,12 @@ const TotalSalary = () => {
 
 
                     <View style={styles.search}>
-                        <SearchBox />
+                        <TextInput
+                            label='Search'
+                            value={searchText}
+                            onChangeText={text => onChangeSearchText(text)}
+                            mode="outlined"
+                        />
                     </View>
                     {documentLoader && <CustomIndicator />}
 
