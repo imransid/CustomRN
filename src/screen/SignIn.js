@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   FormControl,
   Input,
@@ -6,12 +6,14 @@ import {
   Divider,
   Box,
   WarningOutlineIcon,
+  Image,
+  View
 } from 'native-base';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TapButton from '../components/tapButton/TapButton';
-import {useDispatch, useSelector} from 'react-redux';
-import {LogIn} from '../actions/SignIn';
-import {SafeAreaView} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { LogIn } from '../actions/SignIn';
+import { SafeAreaView } from 'react-native';
 const SignIn = () => {
   const dispatch = useDispatch();
 
@@ -62,7 +64,7 @@ const SignIn = () => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, paddingTop: '50%'}}>
+    <SafeAreaView style={{ flex: 1, paddingTop: '50%' }}>
       <KeyboardAwareScrollView
         style={{
           width: '100%',
@@ -77,6 +79,9 @@ const SignIn = () => {
             base: '100%',
             md: '25%',
           }}>
+          <View style={{ justifyContent: "center", alignSelf: "center", padding: 20 }}>
+            <Image source={require('../assets/fav.png')} />
+          </View>
           <Box>
             <FormControl mb="5" isInvalid={userInvalid}>
               <Input
