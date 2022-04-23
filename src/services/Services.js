@@ -1,5 +1,7 @@
 var axios = require('axios');
 var FormData = require('form-data');
+import RNFetchBlob from 'rn-fetch-blob';
+import {ToastAndroid, Platform} from 'react-native';
 
 //
 export const _postApiFetch = async data => {
@@ -124,6 +126,48 @@ export const _postApiADD = async data => {
   } catch (err) {
     console.log('Error in _postApiFetch ', err);
   }
+};
+
+export const _fetchPostImage = async data => {
+  let imageName = data.name;
+  let dirs = RNFetchBlob.fs.dirs;
+  let path =
+    Platform.OS === 'ios'
+      ? dirs['MainBundleDir'] + imageName
+      : dirs.PictureDir + imageName;
+
+  await RNFetchBlob.config({
+    fileCache: true,
+    appendExt: 'pdf',
+    indicator: true,
+    IOSBackgroundTask: true,
+    path: path,
+    addAndroidDownloads: {
+      useDownloadManager: true,
+      notification: true,
+      path: path,
+      description: 'Image',
+    },
+  })
+    .fetch('GET', data.uri)
+    .then(res => {
+      ToastAndroid.showWithGravityAndOffset(
+        'Downloading...',
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50,
+      );
+    })
+    .catch(err => {
+      ToastAndroid.showWithGravityAndOffset(
+        'Something is wrong! Please try again later.',
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50,
+      );
+    });
 };
 
 export const _searchData = (documentData, searchText) => {

@@ -12,9 +12,12 @@ import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import { LogOut } from '../../actions/SignIn';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import { DrawerChange } from '../../actions/Settings';
+import {DrawerChange} from '../../actions/Settings';
+import {_fetchPostImage} from '../../services/Services';
+
 
 function CustomDrawerContent(props) {
+  const userID = useSelector(state => state.user.userAllData.id);
   const dispatch = useDispatch();
 
   const userData = useSelector(state => state.user.userAllData);
@@ -25,6 +28,33 @@ function CustomDrawerContent(props) {
   const toggleMainDrawer = () => {
     setMainDrawer(true);
     setFilteredItems([]);
+  };
+
+  const checkRouteName = name => {
+    if (name === 'AppointmentLetter' || name === 'DownloadLatestIDCard') {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const downloadItem = name => {
+    let filename = name + '.pdf';
+
+    let appUrl = 'https://hrmspvm.predictionla.com/api/user/';
+
+    let fileUri =
+      name === 'DownloadLatestIDCard'
+        ? `${appUrl}id-card/${userID}`
+        : `${appUrl}appointment-letter/${userID}`;
+
+    let data = {
+      name: filename,
+      uri: fileUri,
+    };
+
+    _fetchPostImage(data);
+    toggleMainDrawer();
   };
 
   const onItemParentPress = key => {
@@ -84,11 +114,14 @@ function CustomDrawerContent(props) {
             <TouchableOpacity
               key={route.routeName}
               testID={route.routeName}
-              onPress={() =>
-                props.navigation.navigate(route.nav, {
-                  screen: route.routeName,
-                })
-              }
+              onPress={() => {
+                //console.log('header', route.routeName)
+                checkRouteName(route.routeName)
+                  ? props.navigation.navigate(route.nav, {
+                      screen: route.routeName,
+                    })
+                  : downloadItem(route.routeName);
+              }}
               style={styles.item}>
               <Text style={styles.title}>{route.title}</Text>
             </TouchableOpacity>
