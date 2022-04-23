@@ -11,19 +11,24 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import {_postApiFetch, _postApiADD} from '../../services/Services';
+import {_postApiFetch, _postApiADD,_searchData} from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
 import {useSelector} from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import styles from './Styles';
+import { TextInput } from 'react-native-paper';
+
 
 const Immigration = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
-
+  const [searchText, setSearchText] = useState('');
+  const onChangeSearchText = (text) => {
+      setSearchText(text);
+  }
   let data = useFetchData(
     [['immigrant_employee_id', id]],
     'immigration',
@@ -48,6 +53,22 @@ const Immigration = () => {
     }
   }, [data, documentLoader, documentData]);
 
+  useEffect(() => {
+    try {
+        console.log('searchText', searchText.length);
+        let lngth = searchText.length
+        if (lngth > 0) {
+            var newData = _searchData(documentData, searchText);
+            setDocumentData(newData);
+        } else {
+            data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+        }
+    } catch (err) {
+        console.log('Error in useEffect2 ', err);
+    }
+}, [data, searchText, documentData]);
+
+  
   const OnEdit = async (info, type) => {
     setModalVisible(false);
 
@@ -255,7 +276,12 @@ const Immigration = () => {
             />
           </Modal>
           <View style={styles.search}>
-            <SearchBox />
+          <TextInput
+                            label='Search'
+                            value={searchText}
+                            onChangeText={text => onChangeSearchText(text)}
+                            mode="outlined"
+                        />
           </View>
           <View style={styles.pdfBox}>
             <RnPdf Filename={'Immigration'} value={data[0]} />
