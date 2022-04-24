@@ -18,7 +18,7 @@ import PlusButton from '../../components/plusButton';
 import { useSelector } from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import { TextInput } from 'react-native-paper';
-
+import RnPdf from '../../components/GenaratePdf';
 const SupportTicket = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const id = useSelector(state => state.user.userAllData.id);
@@ -166,6 +166,9 @@ const SupportTicket = () => {
               onChangeText={text => onChangeSearchText(text)}
               mode="outlined"
             />
+          </View>
+          <View style={styles.pdfBox}>
+            <RnPdf Filename={'SupportTicket'} value={data[0]} />
           </View>
           {documentLoader ? (
             <CustomIndicator />
@@ -322,5 +325,11 @@ const styles = ScaledSheet.create({
     padding: 10,
   },
   activityIndicator: { alignSelf: 'center', paddingVertical: '50%' },
+  pdfBox: {
+    paddingTop: 10,
+    paddingRight: 20,
+    width: '100%',
+    alignItems: 'flex-end',
+  },
 });
 export default SupportTicket;
