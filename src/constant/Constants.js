@@ -38,3 +38,7 @@ export const BASIC_INFO_ERROR = 'BASIC_INFO_ERROR';
 export const IMMIGRATION = 'IMMIGRATION';
 export const IMMIGRATION_FETCH = 'IMMIGRATION_FETCH';
 export const IMMIGRATION_ERROR = 'IMMIGRATION_ERROR';
+
+// Domain Store
+export const API_SETUP_SUCCESS = 'API_SETUP_SUCCESS';
+export const API_SET_UP = 'API_SET_UP';
