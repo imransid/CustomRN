@@ -5,13 +5,14 @@ import { ScaledSheet } from 'react-native-size-matters';
 import { View } from 'native-base';
 import SearchBox from '../../components/searchBox/SearchBox';
 import TableCard from '../../components/TableCard/TableCard';
-import { _postApiFetch,_searchData } from '../../services/Services';
+import { _postApiFetch, _searchData } from '../../services/Services';
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 
 import { useSelector } from 'react-redux';
 
 import useFetchData from '../../components/HOC/withGetData';
 import { TextInput } from 'react-native-paper';
+import RnPdf from '../../components/GenaratePdf';
 
 
 const CompanyPolicy = ({ navigation }) => {
@@ -20,9 +21,9 @@ const CompanyPolicy = ({ navigation }) => {
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
   const [searchText, setSearchText] = useState('');
-    const onChangeSearchText = (text) => {
-        setSearchText(text);
-    }
+  const onChangeSearchText = (text) => {
+    setSearchText(text);
+  }
   let data = useFetchData(
     [['policy_com_id', com_id]],
     'company-policy',
@@ -43,29 +44,32 @@ const CompanyPolicy = ({ navigation }) => {
   }, [data, documentLoader, documentData]);
   useEffect(() => {
     try {
-        console.log('searchText', searchText.length);
-        let lngth = searchText.length
-        if (lngth > 0) {
-            var newData = _searchData(documentData, searchText);
-            setDocumentData(newData);
-        } else {
-            data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-        }
+      console.log('searchText', searchText.length);
+      let lngth = searchText.length
+      if (lngth > 0) {
+        var newData = _searchData(documentData, searchText);
+        setDocumentData(newData);
+      } else {
+        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+      }
     } catch (err) {
-        console.log('Error in useEffect2 ', err);
+      console.log('Error in useEffect2 ', err);
     }
-}, [data, searchText, documentData]);
+  }, [data, searchText, documentData]);
 
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
         <View style={styles.search}>
-        <TextInput
-                            label='Search'
-                            value={searchText}
-                            onChangeText={text => onChangeSearchText(text)}
-                            mode="outlined"
-                        />
+          <TextInput
+            label='Search'
+            value={searchText}
+            onChangeText={text => onChangeSearchText(text)}
+            mode="outlined"
+          />
+        </View>
+        <View style={styles.pdfBox}>
+          <RnPdf Filename={'Document'} value={data[0]} />
         </View>
         {documentLoader && <CustomIndicator />}
         {!documentLoader && documentData.map(data => (
@@ -149,6 +153,12 @@ const styles = ScaledSheet.create({
   addedBy: {
     fontSize: 16,
     color: "#151515",
+  },
+  pdfBox: {
+    paddingTop: 10,
+    paddingRight: 20,
+    width: '100%',
+    alignItems: 'flex-end',
   },
 });
 

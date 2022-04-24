@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -9,14 +9,14 @@ import {
 
 import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
-import {ScaledSheet} from 'react-native-size-matters';
+import { ScaledSheet } from 'react-native-size-matters';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import {_postApiFetch, _postApiADD} from '../../services/Services';
+import { _postApiFetch, _postApiADD, _searchData } from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import TableCardAttachment from '../../components/TableCardAttachment/TableCardAttachment';
 
@@ -24,6 +24,10 @@ const Travel = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
+  const [searchText, setSearchText] = useState('');
+  const onChangeSearchText = (text) => {
+    setSearchText(text);
+  }
 
   let data = useFetchData([['travel_employee_id', id]], 'travel', 'post');
 
@@ -44,6 +48,23 @@ const Travel = () => {
       console.log('Error in useEffect ', err);
     }
   }, [data, documentLoader, documentData]);
+
+  useEffect(() => {
+    try {
+      console.log('searchText', searchText.length);
+      let lngth = searchText.length
+      if (lngth > 0) {
+        var newData = _searchData(documentData, searchText);
+        setDocumentData(newData);
+      } else {
+        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+      }
+    } catch (err) {
+      console.log('Error in useEffect2 ', err);
+    }
+  }, [data, searchText, documentData]);
+
+
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
@@ -229,8 +250,8 @@ const Travel = () => {
               type={type}
               onValue={infoValue}
               dropDownValue={[
-                {label: 'Other', value: 'Other'},
-                {label: 'Certificate', value: 'Certificate'},
+                { label: 'Other', value: 'Other' },
+                { label: 'Certificate', value: 'Certificate' },
               ]}
               onPress={(e, type) => {
                 if (type) {
@@ -243,7 +264,15 @@ const Travel = () => {
             />
           </Modal>
           <View style={styles.search}>
-            <SearchBox />
+            <TextInput
+              label='Search'
+              value={searchText}
+              onChangeText={text => onChangeSearchText(text)}
+              mode="outlined"
+            />
+          </View>
+          <View style={styles.pdfBox}>
+            <RnPdf Filename={'Document'} value={data[0]} />
           </View>
           {documentLoader ? (
             <CustomIndicator />
@@ -271,16 +300,16 @@ const Travel = () => {
                     title: 'Visit Purpose',
                     value: data.travel_purpose,
                   },
-                  {title: 'Place name', value: data.travel_place},
-                  {title: 'Description', value: data.travel_desc},
-                  {title: 'Start Date', value: data.travel_start_date},
-                  {title: 'End Date', value: data.travel_end_date},
+                  { title: 'Place name', value: data.travel_place },
+                  { title: 'Description', value: data.travel_desc },
+                  { title: 'Start Date', value: data.travel_start_date },
+                  { title: 'End Date', value: data.travel_end_date },
                   {
                     title: 'Expected Budget',
                     value: data.travel_expected_budget,
                   },
-                  {title: 'Actual Budget', value: data.travel_actual_budget},
-                  {title: 'Travel Mode', value: data.travel_mode},
+                  { title: 'Actual Budget', value: data.travel_actual_budget },
+                  { title: 'Travel Mode', value: data.travel_mode },
                 ]}
                 deleteButton={true}
                 buttonVisible={false}
@@ -416,6 +445,12 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-around',
     padding: 10,
   },
-  activityIndicator: {alignSelf: 'center', paddingVertical: '50%'},
+  pdfBox: {
+    paddingTop: 10,
+    paddingRight: 20,
+    width: '100%',
+    alignItems: 'flex-end',
+  },
+  activityIndicator: { alignSelf: 'center', paddingVertical: '50%' },
 });
 export default Travel;

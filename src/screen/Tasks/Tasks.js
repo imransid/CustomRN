@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 
 import useFetchData from '../../components/HOC/withGetData';
 import { TextInput } from 'react-native-paper';
-
+import RnPdf from '../../components/GenaratePdf';
 
 const Tasks = () => {
 
@@ -67,6 +67,9 @@ const Tasks = () => {
                             onChangeText={text => onChangeSearchText(text)}
                             mode="outlined"
                         />
+                    </View>
+                    <View style={styles.pdfBox}>
+                        <RnPdf Filename={'Tasks'} value={data[0]} />
                     </View>
                     {documentLoader && <CustomIndicator />}
 
@@ -200,5 +203,11 @@ const styles = ScaledSheet.create({
         padding: 10,
         marginTop: 10,
         borderRadius: 10,
+    },
+    pdfBox: {
+        paddingTop: 10,
+        paddingRight: 20,
+        width: '100%',
+        alignItems: 'flex-end',
     },
 });

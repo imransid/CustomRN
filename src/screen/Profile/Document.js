@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -6,18 +6,20 @@ import {
   View,
   ToastAndroid,
 } from 'react-native';
-import RnPdf from '../../components/GenaratePdf';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import {_postApiFetch, _postApiADD,_searchData} from '../../services/Services';
+import { _postApiFetch, _postApiADD, _searchData } from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import styles from './Styles';
+
+import RnPdf from '../../components/GenaratePdf';
+import { TextInput } from 'react-native-paper';
 
 const Document = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -25,7 +27,7 @@ const Document = () => {
   const com_id = useSelector(state => state.user.userAllData.com_id);
   const [searchText, setSearchText] = useState('');
   const onChangeSearchText = (text) => {
-      setSearchText(text);
+    setSearchText(text);
   }
 
   let data = useFetchData([['document_employee_id', id]], 'document', 'post');
@@ -50,18 +52,18 @@ const Document = () => {
 
   useEffect(() => {
     try {
-        console.log('searchText', searchText.length);
-        let lngth = searchText.length
-        if (lngth > 0) {
-            var newData = _searchData(documentData, searchText);
-            setDocumentData(newData);
-        } else {
-            data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-        }
+      console.log('searchText', searchText.length);
+      let lngth = searchText.length
+      if (lngth > 0) {
+        var newData = _searchData(documentData, searchText);
+        setDocumentData(newData);
+      } else {
+        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+      }
     } catch (err) {
-        console.log('Error in useEffect2 ', err);
+      console.log('Error in useEffect2 ', err);
     }
-}, [data, searchText, documentData]);
+  }, [data, searchText, documentData]);
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
@@ -242,8 +244,8 @@ const Document = () => {
               type={type}
               onValue={infoValue}
               dropDownValue={[
-                {label: 'Other', value: 'Other'},
-                {label: 'Certificate', value: 'Certificate'},
+                { label: 'Other', value: 'Other' },
+                { label: 'Certificate', value: 'Certificate' },
               ]}
               onPress={(e, type) => {
                 if (type) {
@@ -256,12 +258,12 @@ const Document = () => {
             />
           </Modal>
           <View style={styles.search}>
-          <TextInput
-                            label='Search'
-                            value={searchText}
-                            onChangeText={text => onChangeSearchText(text)}
-                            mode="outlined"
-                        />
+            <TextInput
+              label='Search'
+              value={searchText}
+              onChangeText={text => onChangeSearchText(text)}
+              mode="outlined"
+            />
           </View>
           <View style={styles.pdfBox}>
             <RnPdf Filename={'Document'} value={data[0]} />
@@ -284,10 +286,10 @@ const Document = () => {
                     title: 'Document Uploaded BY',
                     value: data.document_uploaded_by,
                   },
-                  {title: 'Document Type', value: data.document_type},
-                  {title: 'Document Title', value: data.document_title},
-                  {title: 'Description', value: data.document_description},
-                  {title: 'Document File', value: data.document_file},
+                  { title: 'Document Type', value: data.document_type },
+                  { title: 'Document Title', value: data.document_title },
+                  { title: 'Description', value: data.document_description },
+                  { title: 'Document File', value: data.document_file },
                 ]}
                 deleteButton={true}
                 buttonVisible={true}

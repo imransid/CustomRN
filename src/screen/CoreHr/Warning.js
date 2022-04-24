@@ -1,5 +1,5 @@
 // Warning
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -10,21 +10,27 @@ import {
 
 import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
-import {ScaledSheet} from 'react-native-size-matters';
+import { ScaledSheet } from 'react-native-size-matters';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import {_postApiFetch, _postApiADD} from '../../services/Services';
+import { _postApiFetch, _postApiADD, _searchData } from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import TableCardAttachment from '../../components/TableCardAttachment/TableCardAttachment';
+import RnPdf from '../../components/GenaratePdf';
+import { TextInput } from 'react-native-paper';
 
 const Warning = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
+  const [searchText, setSearchText] = useState('');
+  const onChangeSearchText = (text) => {
+    setSearchText(text);
+  }
 
   let data = useFetchData([['warning_employee_id', id]], 'warning', 'post');
 
@@ -45,6 +51,22 @@ const Warning = () => {
       console.log('Error in useEffect ', err);
     }
   }, [data, documentLoader, documentData]);
+
+  useEffect(() => {
+    try {
+      console.log('searchText', searchText.length);
+      let lngth = searchText.length
+      if (lngth > 0) {
+        var newData = _searchData(documentData, searchText);
+        setDocumentData(newData);
+      } else {
+        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+      }
+    } catch (err) {
+      console.log('Error in useEffect2 ', err);
+    }
+  }, [data, searchText, documentData]);
+
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
@@ -230,8 +252,8 @@ const Warning = () => {
               type={type}
               onValue={infoValue}
               dropDownValue={[
-                {label: 'Other', value: 'Other'},
-                {label: 'Certificate', value: 'Certificate'},
+                { label: 'Other', value: 'Other' },
+                { label: 'Certificate', value: 'Certificate' },
               ]}
               onPress={(e, type) => {
                 if (type) {
@@ -244,7 +266,15 @@ const Warning = () => {
             />
           </Modal>
           <View style={styles.search}>
-            <SearchBox />
+            <TextInput
+              label='Search'
+              value={searchText}
+              onChangeText={text => onChangeSearchText(text)}
+              mode="outlined"
+            />
+          </View>
+          <View style={styles.pdfBox}>
+            <RnPdf Filename={'Document'} value={data[0]} />
           </View>
           {documentLoader ? (
             <CustomIndicator />
@@ -278,9 +308,9 @@ const Warning = () => {
                     title: 'Warning Date',
                     value: data.warning_date,
                   },
-                  {title: 'Subject', value: data.warning_subject},
-                  {title: 'Description', value: data.warning_desc},
-                  {title: 'Warning Status', value: data.warning_status},
+                  { title: 'Subject', value: data.warning_subject },
+                  { title: 'Description', value: data.warning_desc },
+                  { title: 'Warning Status', value: data.warning_status },
                 ]}
                 deleteButton={true}
                 buttonVisible={false}
@@ -416,6 +446,12 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-around',
     padding: 10,
   },
-  activityIndicator: {alignSelf: 'center', paddingVertical: '50%'},
+  pdfBox: {
+    paddingTop: 10,
+    paddingRight: 20,
+    width: '100%',
+    alignItems: 'flex-end',
+  },
+  activityIndicator: { alignSelf: 'center', paddingVertical: '50%' },
 });
 export default Warning;
