@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, {useState, useMemo} from 'react';
 import {
   FormControl,
   Input,
@@ -7,19 +7,20 @@ import {
   Box,
   WarningOutlineIcon,
   Image,
-  View
+  View,
 } from 'native-base';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import TapButton from '../components/tapButton/TapButton';
-import { useDispatch, useSelector } from 'react-redux';
-import { LogIn } from '../actions/SignIn';
-import { SafeAreaView } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {LogIn} from '../actions/SignIn';
+import {SafeAreaView} from 'react-native';
 const SignIn = () => {
   const dispatch = useDispatch();
 
   // global asset
   const loader = useSelector(state => state.user.loader);
   const errorMsg = useSelector(state => state.user.errorMsg);
+  const apiUri = useSelector(state => state.api.domainName);
 
   const [userName, setUserName] = useState('');
   const [userInvalid, setUserInvalid] = useState(false);
@@ -41,15 +42,13 @@ const SignIn = () => {
 
   // button pressed
   const OnPress = () => {
-    console.log('userName', userName);
-
     if (userName !== '' && password !== '') {
       let data = {
         userName: userName,
         password: password,
       };
 
-      dispatch(LogIn(data));
+      dispatch(LogIn(data, apiUri));
       setAppLoaded(true);
     } else {
       if (userName === '' && password === '') {
@@ -64,7 +63,7 @@ const SignIn = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingTop: '50%' }}>
+    <SafeAreaView style={{flex: 1, paddingTop: '50%'}}>
       <KeyboardAwareScrollView
         style={{
           width: '100%',
@@ -79,7 +78,12 @@ const SignIn = () => {
             base: '100%',
             md: '25%',
           }}>
-          <View style={{ justifyContent: "center", alignSelf: "center", padding: 20 }}>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignSelf: 'center',
+              padding: 20,
+            }}>
             <Image source={require('../assets/fav.png')} />
           </View>
           <Box>

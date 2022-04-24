@@ -1,128 +1,109 @@
-import React, {useEffect, useState, useCallback} from 'react';
-import {Dimensions, StyleSheet, StatusBar, Image, Text} from 'react-native';
-// import { connect } from "react-redux";
-import {useSelector, useDispatch} from 'react-redux';
-// import {
-//   Container,
-//   Content,
-//   Form,
-//   Item,
-//   Input,
-//   Button,
-//   Text,
-//   Spinner,
-// } from 'native-base';
-// import {scaleModerate, scaleVertical} from '../../utils/scale';
-// import { ApiSetupValidation } from "../actions";
-
-import {AppStartUp} from '../../actions/new/ApiSetupAction';
-
+import React, {useState, useMemo} from 'react';
+import {
+  FormControl,
+  Input,
+  Stack,
+  Box,
+  WarningOutlineIcon,
+  Image,
+  View,
+} from 'native-base';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import TapButton from '../components/tapButton/TapButton';
+import {useDispatch, useSelector} from 'react-redux';
+import {setDomainName} from '../actions/Settings';
+import {SafeAreaView} from 'react-native';
 const ApiSetupScreen = () => {
-  // const dispatch = useDispatch();
-  // // global redux state
-  // const spinner = false; //useSelector(state => state.spinner.loading);
+  const dispatch = useDispatch();
 
-  // // local state
-  // const [inputValue, setInputValue] = useState('https://');
-  // const [loading, setLoading] = useState(false);
+  // global asset
+  const loader = useSelector(state => state.user.loader);
+  const errorMsg = useSelector(state => state.user.errorMsg);
 
-  // useEffect(() => {
-  //   if (spinner !== loading) {
-  //     setLoading(spinner);
-  //   }
-  // }, [spinner, loading]);
+  const [userInvalid, setUserInvalid] = useState(false);
+  const [value, setValue] = useState('');
+  const [passwordInvalid, setPasswordInvalid] = useState(false);
+  const [appLoaded, setAppLoaded] = useState(false);
 
-  // const onSubmitClick = useCallback(() => {
-  //   dispatch(AppStartUp(inputValue));
-  // }, [inputValue]);
+  const errorMsgUser = useMemo(() => {
+    return 'User Name Required. ';
+  }, [userInvalid]);
 
-  // const RenderImage = () => {
-  //   const screenSize = Dimensions.get('window');
-  //   const imageSize = {
-  //     width: screenSize.width,
-  //     height: screenSize.height - scaleModerate(325, 1),
-  //   };
-  //   return (
-  //     <Image
-  //       style={[styles.image, imageSize]}
-  //       source={require('../../assets/images/loginBg.png')}
-  //     />
-  //   );
-  // };
+  const errorMsgPassword = useMemo(() => {
+    if (value !== '') {
+      setPasswordInvalid(true);
+      return errorMsg;
+    }
+    return 'Domain Required. ';
+  }, [setPasswordInvalid, value]);
 
-  // const RenderButton = () => {
-  //   if (loading) {
-  //     return <Spinner color={styleVariables.brandPrimary} />;
-  //   }
-  //   return (
-  //     <Button
-  //       onPress={onSubmitClick}
-  //       style={{
-  //         marginLeft: 10,
-  //         marginRight: 10,
-  //         marginBottom: 10,
-  //         backgroundColor: styleVariables.buttonBackground,
-  //       }}
-  //       full
-  //       rounded
-  //       primary>
-  //       <Text>Save</Text>
-  //     </Button>
-  //   );
-  // };
+  // button pressed
+  const OnPress = () => {
+    if (value !== '') {
+      let data = {
+        value: value,
+      };
 
-  // return (
-  //   <Container>
-  //     <Content>
-  //       <StatusBar
-  //         backgroundColor={styleVariables.fixedStartupColor}
-  //         barStyle="light-content"
-  //       />
-  //       <RenderImage />
-  //       <Content
-  //         style={{
-  //           marginLeft: 15,
-  //           marginRight: 15,
-  //           marginBottom: 35,
-  //           textAlign: 'center',
-  //         }}>
-  //         <Text style={{textAlign: 'center', fontSize: 14}}>
-  //           It looks like it is a first launch of application on this device.
-  //           Please provide Webservice base URL.
-  //         </Text>
-  //       </Content>
-  //       <Form>
-  //         <Item
-  //           rounded
-  //           last
-  //           style={{marginLeft: 15, marginRight: 15, marginBottom: 15}}>
-  //           <Input
-  //             value={inputValue}
-  //             onChangeText={e => setInputValue(e)}
-  //             autoCorrect={false}
-  //             caretHidden={false}
-  //             contextMenuHidden={true}
-  //             placeholder="Webservice URL"
-  //           />
-  //         </Item>
-  //         <RenderButton />
-  //       </Form>
-  //     </Content>
-  //   </Container>
-  // );
+      dispatch(setDomainName(data));
+      setAppLoaded(true);
+    } else {
+      setPasswordInvalid(true);
+    }
+  };
 
-  return <Text>ok done</Text>;
+  return (
+    <SafeAreaView style={{flex: 1, paddingTop: '50%'}}>
+      <KeyboardAwareScrollView
+        style={{
+          width: '100%',
+        }}>
+        <Stack
+          space={2.5}
+          alignSelf="center"
+          px="4"
+          safeArea
+          mt="4"
+          w={{
+            base: '100%',
+            md: '25%',
+          }}>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignSelf: 'center',
+              padding: 20,
+            }}>
+            <Image source={require('../assets/fav.png')} />
+          </View>
+
+          <Box>
+            <FormControl mb="5" isInvalid={passwordInvalid}>
+              <Input
+                placeholder="Enter Domain Name"
+                type="text"
+                value={value}
+                onChangeText={e => setValue(e)}
+              />
+              <FormControl.ErrorMessage
+                leftIcon={<WarningOutlineIcon size="xs" />}>
+                {errorMsgPassword}
+              </FormControl.ErrorMessage>
+            </FormControl>
+          </Box>
+
+          <Box>
+            <TapButton
+              text={'Submit'}
+              _singleTap={() => OnPress()}
+              _doubleTap={() => OnPress()}
+              _longTap={() => OnPress()}
+              spinner={loader}
+            />
+          </Box>
+        </Stack>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
+  );
 };
 
 export default ApiSetupScreen;
-
-const styles = StyleSheet.create({
-  image: {
-    resizeMode: 'cover',
-    //marginBottom: scaleVertical(10),
-  },
-  buttonStyle: {
-    height: 50,
-    width: 400,
-  },
-});

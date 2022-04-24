@@ -1,41 +1,26 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-
+import {useSelector} from 'react-redux';
 import DrawerNav from './DrawerNav';
 import CustomHeader from './Drawer/CustomHeader';
-// import {MainStackNavigator} from './StackNavigator';
-
 import {createStackNavigator} from '@react-navigation/stack';
-
 import ApiSetupScreen from '../screen/ApiSetupScreen';
 import SignIn from '../screen/SignIn';
-
-// import LoginScreen from '../screens/login/LoginScreen';
-
-// import ApplicationUpdateScreen from '../components/new/ApplicationUpdateScreen';
-
-import {useSelector} from 'react-redux';
 
 const Stack = createStackNavigator();
 
 const MainStackNavigator = () => {
+  const screen = useSelector(state => state.api.level);
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="SignIn" component={SignIn} />
-
-      {/* {screen === 1 ? (
-        <Stack.Screen name="ApiSetupScreen" component={ApiSetupScreen} />
-      ) : screen === 4 ? (
-        <Stack.Screen
-          name="ApplicationUpdateScreen"
-          component={ApplicationUpdateScreen}
-        />
+      {screen === 1 ? (
+        <Stack.Screen name="SignIn" component={SignIn} />
       ) : (
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
-      )} */}
+        <Stack.Screen name="ApiSetupScreen" component={ApiSetupScreen} />
+      )}
     </Stack.Navigator>
   );
 };

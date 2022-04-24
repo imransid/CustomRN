@@ -16,9 +16,9 @@ export const _postApiFetch = async data => {
 
     data.bodyData.length > 0
       ? data.bodyData.map(e => {
-        let idValueCheck = typeof e[1] === 'string' ? e[1] : e[1].toString();
-        formdata.append(e[0], e[0] === 'id' ? idValueCheck : e[1]);
-      })
+          let idValueCheck = typeof e[1] === 'string' ? e[1] : e[1].toString();
+          formdata.append(e[0], e[0] === 'id' ? idValueCheck : e[1]);
+        })
       : null;
 
     var requestOptions = {
@@ -27,13 +27,9 @@ export const _postApiFetch = async data => {
       redirect: 'follow',
     };
 
-    let response = fetch(
-      'https://hrmspvm.predictionla.com/api/user/' + data.uri,
-      requestOptions,
-    )
+    let response = fetch(data.domainName + data.uri, requestOptions)
       .then(response => response.json())
       .then(result => {
-        console.log('result', result);
         let res = {
           status: true,
           data: result.data,
@@ -84,8 +80,8 @@ export const _postApiADD = async data => {
     var formdata = new FormData();
     data.bodyData.length > 0
       ? data.bodyData.map(e =>
-        formdata.append(e[0], _ImageValueGenerate(e[0], e[1])),
-      )
+          formdata.append(e[0], _ImageValueGenerate(e[0], e[1])),
+        )
       : null;
     var requestOptions = {
       method: 'POST',
@@ -177,7 +173,6 @@ export const _searchData = (documentData, searchText) => {
       return String(item[key]).includes(searchText);
     });
   });
-  console.log("kkkkkkkkkk", searchData);
+  console.log('kkkkkkkkkk', searchData);
   return searchData;
-
-}
+};

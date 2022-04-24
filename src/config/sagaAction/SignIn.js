@@ -4,7 +4,6 @@ import {SIGH_IN_ERROR, SIGH_IN_SUCCESSFULLY} from '../../constant/Constants';
 const _authApiCall = function* (action) {
   try {
     const uri = action.uri;
-
     return yield axios
       .post(uri, {
         emailPhone: action.username,
@@ -44,7 +43,9 @@ export const _signIn = function* (action) {
   try {
     const State = yield select();
 
-    const uri = 'https://hrmspvm.predictionla.com/api/user/login'; //State.api + '/authentication';
+    const uri = action.uri + 'login'; //State.api + '/authentication';
+
+    console.log('uri', uri);
 
     let data = {
       username: action.data.userName,
