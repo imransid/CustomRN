@@ -15,6 +15,7 @@ import { TextInput } from 'react-native-paper';
 import RnPdf from '../../components/GenaratePdf';
 
 const Tasks = () => {
+    const apiUri = useSelector(state => state.api.domainName);
 
     const id = useSelector(state => state.user.userAllData.id);
     const com_id = useSelector(state => state.user.userAllData.com_id);
@@ -26,6 +27,7 @@ const Tasks = () => {
         [['project_employee_id', id], ['project_com_id', com_id]],
         'project',
         'post',
+        apiUri
     );
 
     const [documentData, setDocumentData] = useState([]);

@@ -21,6 +21,8 @@ import { TextInput } from 'react-native-paper';
 import RnPdf from '../../components/GenaratePdf';
 const SupportTicket = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const apiUri = useSelector(state => state.api.domainName);
+
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
   const [searchText, setSearchText] = useState('');
@@ -31,6 +33,7 @@ const SupportTicket = () => {
     [['support_ticket_employee_id', id]],
     'support-ticket-own-details',
     'post',
+    apiUri
   );
 
   const [documentData, setDocumentData] = useState([]);
