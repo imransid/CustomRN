@@ -138,6 +138,8 @@ const temp = [
 ];
 
 const Assets = () => {
+  const apiUri = useSelector(state => state.api.domainName);
+
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
 
@@ -145,6 +147,7 @@ const Assets = () => {
     [['asset_employee_id', id], ['asset_com_id', com_id]],
     'asset',
     'post',
+    apiUri
   );
 
   const [documentData, setDocumentData] = useState([]);

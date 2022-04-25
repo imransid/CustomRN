@@ -29,10 +29,13 @@ const Termination = () => {
   const onChangeSearchText = (text) => {
     setSearchText(text);
   }
+  const apiUri = useSelector(state => state.api.domainName);
+
   let data = useFetchData(
     [['termination_employee_id', id]],
     'termination',
     'post',
+    apiUri,
   );
 
   const [documentData, setDocumentData] = useState([]);

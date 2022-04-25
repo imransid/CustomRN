@@ -24,13 +24,15 @@ import { TextInput } from 'react-native-paper';
 
 const Promotion = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const apiUri = useSelector(state => state.api.domainName);
+
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
   const [searchText, setSearchText] = useState('');
   const onChangeSearchText = (text) => {
     setSearchText(text);
   }
-  let data = useFetchData([['promotion_employee_id', id]], 'promotion', 'post');
+  let data = useFetchData([['promotion_employee_id', id]], 'promotion', 'post', apiUri);
 
   const [documentData, setDocumentData] = useState([]);
   const [documentType, setDocumentType] = useState('');

@@ -28,8 +28,9 @@ const Travel = () => {
   const onChangeSearchText = (text) => {
     setSearchText(text);
   }
+  const apiUri = useSelector(state => state.api.domainName);
 
-  let data = useFetchData([['travel_employee_id', id]], 'travel', 'post');
+  let data = useFetchData([['travel_employee_id', id]], 'travel', 'post', apiUri);
 
   const [documentData, setDocumentData] = useState([]);
   const [documentType, setDocumentType] = useState('');

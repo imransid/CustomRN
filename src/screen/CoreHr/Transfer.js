@@ -29,8 +29,9 @@ const Transfer = () => {
   const onChangeSearchText = (text) => {
     setSearchText(text);
   }
+  const apiUri = useSelector(state => state.api.domainName);
 
-  let data = useFetchData([['transfer_employee_id', id]], 'transfer', 'post');
+  let data = useFetchData([['transfer_employee_id', id]], 'transfer', 'post', apiUri);
 
   const [documentData, setDocumentData] = useState([]);
   const [documentType, setDocumentType] = useState('');

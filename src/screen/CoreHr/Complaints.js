@@ -24,6 +24,8 @@ import RnPdf from '../../components/GenaratePdf';
 
 const Complaints = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const apiUri = useSelector(state => state.api.domainName);
+
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
   const [searchText, setSearchText] = useState('');
@@ -34,6 +36,7 @@ const Complaints = () => {
     [['complaint_from_employee_id', id]],
     'complaint',
     'post',
+    apiUri,
   );
 
   const [documentData, setDocumentData] = useState([]);

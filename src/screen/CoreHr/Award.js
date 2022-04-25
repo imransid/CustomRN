@@ -24,13 +24,14 @@ import RnPdf from '../../components/GenaratePdf';
 
 const Award = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const apiUri = useSelector(state => state.api.domainName);
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
   const [searchText, setSearchText] = useState('');
   const onChangeSearchText = (text) => {
     setSearchText(text);
   }
-  let data = useFetchData([['award_employee_id', id]], 'award', 'post');
+  let data = useFetchData([['award_employee_id', id]], 'award', 'post', apiUri);
 
   const [documentData, setDocumentData] = useState([]);
   const [documentType, setDocumentType] = useState('');

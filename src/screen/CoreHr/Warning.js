@@ -31,8 +31,9 @@ const Warning = () => {
   const onChangeSearchText = (text) => {
     setSearchText(text);
   }
+  const apiUri = useSelector(state => state.api.domainName);
 
-  let data = useFetchData([['warning_employee_id', id]], 'warning', 'post');
+  let data = useFetchData([['warning_employee_id', id]], 'warning', 'post', apiUri);
 
   const [documentData, setDocumentData] = useState([]);
   const [documentType, setDocumentType] = useState('');
