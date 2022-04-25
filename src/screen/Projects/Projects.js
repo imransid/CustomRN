@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 
 import useFetchData from '../../components/HOC/withGetData';
 import { TextInput } from 'react-native-paper';
+import RnPdf from '../../components/GenaratePdf/index'
 
 const Projects = () => {
     const apiUri = useSelector(state => state.api.domainName);
@@ -32,14 +33,14 @@ const Projects = () => {
     const [documentData, setDocumentData] = useState([]);
     const [documentLoader, setDocumentLoader] = useState(false);
 
-    useEffect(() => {
-        try {
-            data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-            data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
-        } catch (err) {
-            console.log('Error in useEffect ', err);
-        }
-    }, [data, documentLoader, documentData]);
+    // useEffect(() => {
+    //     try {
+    //         data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+    //         data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+    //     } catch (err) {
+    //         console.log('Error in useEffect ', err);
+    //     }
+    // }, [data, documentLoader, documentData]);
 
     useEffect(() => {
         try {
@@ -50,11 +51,14 @@ const Projects = () => {
                 setDocumentData(newData);
             } else {
                 data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+                data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+
+
             }
         } catch (err) {
             console.log('Error in useEffect2 ', err);
         }
-    }, [data, searchText, documentData]);
+    }, [data, searchText, documentData, documentLoader]);
 
     return (
         <>
@@ -205,5 +209,11 @@ const styles = ScaledSheet.create({
         padding: 10,
         marginTop: 10,
         borderRadius: 10,
+    },
+    pdfBox: {
+        paddingTop: 10,
+        paddingRight: 20,
+        width: '100%',
+        alignItems: 'flex-end',
     },
 });

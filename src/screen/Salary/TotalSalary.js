@@ -43,22 +43,6 @@ const TotalSalary = () => {
         }
     }, [data, documentLoader, documentData]);
 
-    useEffect(() => {
-        try {
-            console.log('searchText', searchText.length);
-            let lngth = searchText.length
-            if (lngth > 0) {
-                console.log("first if", lngth)
-                var newData = _searchData(documentData, searchText);
-                console.log(" newData", newData)
-                setDocumentData(newData);
-            } else {
-                data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-            }
-        } catch (err) {
-            console.log('Error in useEffect2 ', err);
-        }
-    }, [data, searchText, documentData]);
 
     return (
         <>

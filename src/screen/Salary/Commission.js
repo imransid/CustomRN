@@ -35,14 +35,14 @@ const Commission = () => {
     const [documentData, setDocumentData] = useState([]);
     const [documentLoader, setDocumentLoader] = useState(false);
 
-    useEffect(() => {
-        try {
-            data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-            data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
-        } catch (err) {
-            console.log('Error in useEffect ', err);
-        }
-    }, [data, documentLoader, documentData]);
+    // useEffect(() => {
+    //     try {
+    //         data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+    //         data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+    //     } catch (err) {
+    //         console.log('Error in useEffect ', err);
+    //     }
+    // }, [data, documentLoader, documentData]);
 
     useEffect(() => {
         try {
@@ -53,11 +53,13 @@ const Commission = () => {
                 setDocumentData(newData);
             } else {
                 data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+                data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+
             }
         } catch (err) {
             console.log('Error in useEffect2 ', err);
         }
-    }, [data, searchText, documentData]);
+    }, [data, searchText, documentData, documentLoader]);
 
     return (
         <>
