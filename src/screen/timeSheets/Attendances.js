@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -11,11 +11,11 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import {_postApiFetch, _postApiADD, _searchData} from '../../services/Services';
+import { _postApiFetch, _postApiADD, _searchData } from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import styles from './Styles';
 
@@ -46,29 +46,40 @@ const Attendances = () => {
   // type
   const [type, setType] = useState('');
 
-  useEffect(() => {
-    try {
-      data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-      documentData.length === 0 ? setDocumentData(data[0]) : null;
-    } catch (err) {
-      console.log('Error in useEffect ', err);
-    }
-  }, [data, documentLoader, documentData]);
+  // useEffect(() => {
+  //   try {
+  //     data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+  //     documentData.length === 0 ? setDocumentData(data[0]) : null;
+  //   } catch (err) {
+  //     console.log('Error in useEffect ', err);
+  //   }
+  // }, [data, documentLoader, documentData]);
 
   useEffect(() => {
+    const controller = new AbortController();
     try {
       console.log('searchText', searchText.length);
-      let lngth = searchText.length;
+      let lngth = searchText.length
       if (lngth > 0) {
         var newData = _searchData(documentData, searchText);
-        setDocumentData(newData);
+        // setDocumentData(newData);
+        documentData.length !== newData.length ? setDocumentData(newData) : null;
       } else {
         data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+        data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+
       }
     } catch (err) {
       console.log('Error in useEffect2 ', err);
     }
-  }, [data, searchText, documentData]);
+
+
+    return () => {
+      controller.abort();
+    }
+
+  }, [data, searchText, documentData, documentLoader]);
+
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
@@ -249,8 +260,8 @@ const Attendances = () => {
               type={type}
               onValue={infoValue}
               dropDownValue={[
-                {label: 'Other', value: 'Other'},
-                {label: 'Certificate', value: 'Certificate'},
+                { label: 'Other', value: 'Other' },
+                { label: 'Certificate', value: 'Certificate' },
               ]}
               onPress={(e, type) => {
                 if (type) {
@@ -291,13 +302,13 @@ const Attendances = () => {
                     title: 'EMPLOYEE',
                     value: data.employee_name,
                   },
-                  {title: 'DATE', value: data.attendance_date},
-                  {title: 'STATUS', value: data.attendance_status},
-                  {title: 'CLOCK IN', value: data.clock_in},
-                  {title: 'CLOCK OUT', value: data.check_in_out},
-                  {title: 'LATE', value: data.time_late},
-                  {title: 'EVERY LEAVING', value: data.early_leaving},
-                  {title: 'TOTAL WORK', value: data.total_work},
+                  { title: 'DATE', value: data.attendance_date },
+                  { title: 'STATUS', value: data.attendance_status },
+                  { title: 'CLOCK IN', value: data.clock_in },
+                  { title: 'CLOCK OUT', value: data.check_in_out },
+                  { title: 'LATE', value: data.time_late },
+                  { title: 'EVERY LEAVING', value: data.early_leaving },
+                  { title: 'TOTAL WORK', value: data.total_work },
                 ]}
                 deleteButton={true}
                 buttonVisible={false}

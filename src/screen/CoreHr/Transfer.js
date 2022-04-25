@@ -43,13 +43,30 @@ const Transfer = () => {
   const [type, setType] = useState('');
 
   useEffect(() => {
+    const controller = new AbortController();
     try {
-      data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-      documentData.length === 0 ? setDocumentData(data[0]) : null;
+      console.log('searchText', searchText.length);
+      let lngth = searchText.length
+      if (lngth > 0) {
+        var newData = _searchData(documentData, searchText);
+        // setDocumentData(newData);
+        documentData.length !== newData.length ? setDocumentData(newData) : null;
+      } else {
+        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+        data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+
+      }
     } catch (err) {
-      console.log('Error in useEffect ', err);
+      console.log('Error in useEffect2 ', err);
     }
-  }, [data, documentLoader, documentData]);
+
+
+    return () => {
+      controller.abort();
+    }
+
+  }, [data, searchText, documentData, documentLoader]);
+
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
@@ -257,7 +274,7 @@ const Transfer = () => {
             />
           </View>
           <View style={styles.pdfBox}>
-            <RnPdf Filename={'Document'} value={data[0]} />
+            <RnPdf Filename={'Transfer'} value={data[0]} />
           </View>
           {documentLoader ? (
             <CustomIndicator />

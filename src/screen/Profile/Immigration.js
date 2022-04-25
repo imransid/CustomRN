@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -11,14 +11,14 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import {_postApiFetch, _postApiADD, _searchData} from '../../services/Services';
+import { _postApiFetch, _postApiADD, _searchData } from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import styles from './Styles';
-import {TextInput} from 'react-native-paper';
+import { TextInput } from 'react-native-paper';
 
 const Immigration = () => {
   const apiUri = useSelector(state => state.api.domainName);
@@ -45,29 +45,29 @@ const Immigration = () => {
   // type
   const [type, setType] = useState('');
 
-  useEffect(() => {
-    try {
-      data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-      documentData.length === 0 ? setDocumentData(data[0]) : null;
-    } catch (err) {
-      console.log('Error in useEffect ', err);
-    }
-  }, [data, documentLoader, documentData]);
+  // useEffect(() => {
+  //   try {
+  //     data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+  //     documentData.length === 0 ? setDocumentData(data[0]) : null;
+  //   } catch (err) {
+  //     console.log('Error in useEffect ', err);
+  //   }
+  // }, [data, documentLoader, documentData]);
 
-  useEffect(() => {
-    try {
-      console.log('searchText', searchText.length);
-      let lngth = searchText.length;
-      if (lngth > 0) {
-        var newData = _searchData(documentData, searchText);
-        setDocumentData(newData);
-      } else {
-        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-      }
-    } catch (err) {
-      console.log('Error in useEffect2 ', err);
-    }
-  }, [data, searchText, documentData]);
+  // useEffect(() => {
+  //   try {
+  //     console.log('searchText', searchText.length);
+  //     let lngth = searchText.length;
+  //     if (lngth > 0) {
+  //       var newData = _searchData(documentData, searchText);
+  //       setDocumentData(newData);
+  //     } else {
+  //       data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+  //     }
+  //   } catch (err) {
+  //     console.log('Error in useEffect2 ', err);
+  //   }
+  // }, [data, searchText, documentData]);
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
@@ -262,8 +262,8 @@ const Immigration = () => {
               type={type}
               onValue={infoValue}
               dropDownValue={[
-                {label: 'VIP', value: 'VIP'},
-                {label: 'VVIP', value: 'VVIP'},
+                { label: 'VIP', value: 'VIP' },
+                { label: 'VVIP', value: 'VVIP' },
               ]}
               onPress={(e, type) => {
                 if (type) {
@@ -300,17 +300,17 @@ const Immigration = () => {
                   setShowAlert(false);
                 }}
                 datas={[
-                  {title: 'Document Type', value: data.immigrant_document_type},
+                  { title: 'Document Type', value: data.immigrant_document_type },
 
-                  {title: 'Issue Date', value: data.immigrant_issue_date},
+                  { title: 'Issue Date', value: data.immigrant_issue_date },
                   {
                     title: 'Review Date',
                     value: data.immigrant_eligible_review_date,
                   },
-                  {title: 'Expired Dtae', value: data.immigrant_expired_date},
+                  { title: 'Expired Dtae', value: data.immigrant_expired_date },
 
-                  {title: 'Document File', value: data.immigrant_document_file},
-                  {title: 'Country', value: data.immigrant_country},
+                  { title: 'Document File', value: data.immigrant_document_file },
+                  { title: 'Country', value: data.immigrant_country },
                 ]}
                 deleteButton={true}
                 buttonVisible={true}

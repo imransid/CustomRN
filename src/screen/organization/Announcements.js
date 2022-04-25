@@ -35,28 +35,39 @@ const Announcements = ({ navigation }) => {
   const [documentData, setDocumentData] = React.useState([]);
   const [documentLoader, setDocumentLoader] = React.useState(true);
 
+  // React.useEffect(() => {
+  //   try {
+  //     data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+  //     data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+  //   } catch (err) {
+  //     console.log('Error in useEffect ', err);
+  //   }
+  // }, [data, documentLoader, documentData]);
   React.useEffect(() => {
-    try {
-      data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-      data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
-    } catch (err) {
-      console.log('Error in useEffect ', err);
-    }
-  }, [data, documentLoader, documentData]);
-  React.useEffect(() => {
+    const controller = new AbortController();
     try {
       console.log('searchText', searchText.length);
       let lngth = searchText.length
       if (lngth > 0) {
         var newData = _searchData(documentData, searchText);
-        setDocumentData(newData);
+        // setDocumentData(newData);
+        documentData.length !== newData.length ? setDocumentData(newData) : null;
       } else {
         data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+        data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
+
       }
     } catch (err) {
       console.log('Error in useEffect2 ', err);
     }
-  }, [data, searchText, documentData]);
+
+
+    return () => {
+      controller.abort();
+    }
+
+  }, [data, searchText, documentData, documentLoader]);
+
 
   return (
     <ScrollView>
@@ -70,7 +81,7 @@ const Announcements = ({ navigation }) => {
           />
         </View>
         <View style={styles.pdfBox}>
-          <RnPdf Filename={'Document'} value={data[0]} />
+          <RnPdf Filename={'Announcement'} value={data[0]} />
         </View>
         {documentLoader && <CustomIndicator />}
         {!documentLoader && documentData.map(data => (
