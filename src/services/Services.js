@@ -1,7 +1,7 @@
 var axios = require('axios');
 var FormData = require('form-data');
 import RNFetchBlob from 'rn-fetch-blob';
-import {ToastAndroid, Platform} from 'react-native';
+import { ToastAndroid, Platform } from 'react-native';
 
 //
 export const _postApiFetch = async data => {
@@ -16,9 +16,9 @@ export const _postApiFetch = async data => {
 
     data.bodyData.length > 0
       ? data.bodyData.map(e => {
-          let idValueCheck = typeof e[1] === 'string' ? e[1] : e[1].toString();
-          formdata.append(e[0], e[0] === 'id' ? idValueCheck : e[1]);
-        })
+        let idValueCheck = typeof e[1] === 'string' ? e[1] : e[1].toString();
+        formdata.append(e[0], e[0] === 'id' ? idValueCheck : e[1]);
+      })
       : null;
 
     var requestOptions = {
@@ -80,8 +80,8 @@ export const _postApiADD = async data => {
     var formdata = new FormData();
     data.bodyData.length > 0
       ? data.bodyData.map(e =>
-          formdata.append(e[0], _ImageValueGenerate(e[0], e[1])),
-        )
+        formdata.append(e[0], _ImageValueGenerate(e[0], e[1])),
+      )
       : null;
     var requestOptions = {
       method: 'POST',
@@ -168,6 +168,7 @@ export const _fetchPostImage = async data => {
 
 export const _searchData = (documentData, searchText) => {
   // search by any value of the object documentData
+  console.log("first", documentData);
   let searchData = documentData.filter(function (item) {
     return Object.keys(item).some(function (key) {
       return String(item[key]).includes(searchText);

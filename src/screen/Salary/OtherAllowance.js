@@ -76,9 +76,9 @@ const OtherAllowance = () => {
                     <View style={styles.pdfBox}>
                         <RnPdf Filename={'OttherAllowance'} value={data[0]} />
                     </View>
-                    {documentLoader && <CustomIndicator />}
 
-                    {!documentLoader &&
+
+                    {documentLoader ? <CustomIndicator /> :
                         documentData?.map((data, i) => (
                             <TableCard
                                 key={i}

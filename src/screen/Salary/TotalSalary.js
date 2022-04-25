@@ -48,7 +48,9 @@ const TotalSalary = () => {
             console.log('searchText', searchText.length);
             let lngth = searchText.length
             if (lngth > 0) {
+                console.log("first if", lngth)
                 var newData = _searchData(documentData, searchText);
+                console.log(" newData", newData)
                 setDocumentData(newData);
             } else {
                 data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
@@ -64,16 +66,16 @@ const TotalSalary = () => {
                 <SafeAreaView style={styles.container}>
 
 
-                    <View style={styles.search}>
+                    {/* <View style={styles.search}>
                         <TextInput
                             label='Search'
                             value={searchText}
                             onChangeText={text => onChangeSearchText(text)}
                             mode="outlined"
                         />
-                    </View>
+                    </View> */}
                     <View style={styles.pdfBox}>
-                        <RnPdf Filename={'TotalSalary'} value={data[0]} />
+                        <RnPdf Filename={'TotalSalary'} value={[data[0]]} />
                     </View>
                     {documentLoader && <CustomIndicator />}
 

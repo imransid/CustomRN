@@ -62,16 +62,16 @@ const TADA = () => {
             <ScrollView>
                 <SafeAreaView style={styles.container}>
 
-                    <View style={styles.search}>
+                    {/* <View style={styles.search}>
                         <TextInput
                             label='Search'
                             value={searchText}
                             onChangeText={text => onChangeSearchText(text)}
                             mode="outlined"
                         />
-                    </View>
+                    </View> */}
                     <View style={styles.pdfBox}>
-                        <RnPdf Filename={'TADA'} value={data[0]} />
+                        <RnPdf Filename={'TADA'} value={[data[0]]} />
                     </View>
                     {/* {documentLoader && <CustomIndicator />} */}
 

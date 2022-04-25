@@ -75,12 +75,12 @@ const Commission = () => {
                     <View style={styles.pdfBox}>
                         <RnPdf Filename={'Commission'} value={data[0]} />
                     </View>
-                    {documentLoader && <CustomIndicator />}
 
-                    {!documentLoader &&
+
+                    {documentLoader ? <CustomIndicator /> :
                         documentData?.map((data, i) => (
                             <TableCard
-                                // key={i}
+                                key={i}
                                 sl={data.id}
                                 datas={[
                                     // {title: 'Commission Name', data: data.id},
