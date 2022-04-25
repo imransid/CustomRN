@@ -218,6 +218,8 @@ const timeToString = time => {
 };
 
 const Schedule = () => {
+  const apiUri = useSelector(state => state.api.domainName);
+
   const [items, setItems] = useState({});
   const [documentData, setDocumentData] = useState([]);
   const [documentLoader, setDocumentLoader] = useState(false);
@@ -227,6 +229,8 @@ const Schedule = () => {
     [['company_calendar_employee_id', id], ['company_calendar_com_id', com_id]],
     'calendar',
     'post',
+    apiUri,
+
   );
 
   useEffect(() => {
@@ -259,7 +263,7 @@ const Schedule = () => {
           }
         }
       }
-      const newItems = documentData;
+      const newItems = {};
       Object.keys(items).forEach(key => {
         newItems[key] = items[key];
       });
