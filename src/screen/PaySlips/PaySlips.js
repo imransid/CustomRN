@@ -14,6 +14,7 @@ import useFetchData from '../../components/HOC/withGetData';
 import { TextInput } from 'react-native-paper';
 
 const PaySlips = () => {
+    const apiUri = useSelector(state => state.api.domainName);
 
     const id = useSelector(state => state.user.userAllData.id);
     const com_id = useSelector(state => state.user.userAllData.com_id);
@@ -26,6 +27,7 @@ const PaySlips = () => {
         [['pay_slip_employee_id', id]],
         'pay-slip',
         'post',
+        apiUri
     );
 
     const [documentData, setDocumentData] = useState([]);

@@ -15,6 +15,7 @@ import { TextInput } from 'react-native-paper';
 import RnPdf from '../../components/GenaratePdf';
 
 const Leave = () => {
+    const apiUri = useSelector(state => state.api.domainName);
 
     const id = useSelector(state => state.user.userAllData.id);
     const [searchText, setSearchText] = useState('');
@@ -25,6 +26,7 @@ const Leave = () => {
         [['leaves_employee_id', id]],
         'leave',
         'post',
+        apiUri
     );
 
     const [documentData, setDocumentData] = useState([]);

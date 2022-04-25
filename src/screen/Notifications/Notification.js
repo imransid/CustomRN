@@ -16,6 +16,7 @@ import useFetchData from '../../components/HOC/withGetData';
 
 
 const Notification = (navigation) => {
+    const apiUri = useSelector(state => state.api.domainName);
 
     const id = useSelector(state => state.user.userAllData.id);
     const com_id = useSelector(state => state.user.userAllData.com_id);
@@ -24,6 +25,7 @@ const Notification = (navigation) => {
         [['employee_id', id], ['com_id', com_id]],
         'notifications',
         'post',
+        apiUri
     );
 
     const [documentData, setDocumentData] = useState([]);

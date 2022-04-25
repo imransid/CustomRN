@@ -17,6 +17,7 @@ import RnPdf from '../../components/GenaratePdf';
 
 const CompanyPolicy = ({ navigation }) => {
 
+  const apiUri = useSelector(state => state.api.domainName);
 
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
@@ -28,6 +29,7 @@ const CompanyPolicy = ({ navigation }) => {
     [['policy_com_id', com_id]],
     'company-policy',
     'post',
+    apiUri
   );
 
 

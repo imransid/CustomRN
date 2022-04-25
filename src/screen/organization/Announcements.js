@@ -16,6 +16,7 @@ import RnPdf from '../../components/GenaratePdf';
 
 const Announcements = ({ navigation }) => {
 
+  const apiUri = useSelector(state => state.api.domainName);
 
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
@@ -27,6 +28,7 @@ const Announcements = ({ navigation }) => {
     [['announcement_com_id', com_id]],
     'announcement',
     'post',
+    apiUri
   );
 
 
