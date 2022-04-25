@@ -201,12 +201,16 @@
 
 // // exm 3
 
-import React, {useState} from 'react';
-import {View, TouchableOpacity} from 'react-native';
-import {Agenda} from 'react-native-calendars';
-import {Card, Avatar} from 'react-native-paper';
+import React, { useState, useEffect } from 'react';
+import { View, TouchableOpacity } from 'react-native';
+import { Agenda } from 'react-native-calendars';
+import { Card, Avatar } from 'react-native-paper';
 // import Typography from '../components/Typography';
-import {Paragraph} from 'react-native-paper';
+import { Paragraph } from 'react-native-paper';
+import { _postApiFetch } from '../../services/Services';
+import useFetchData from '../../components/HOC/withGetData';
+import { useSelector } from 'react-redux';
+
 
 const timeToString = time => {
   const date = new Date(time);
@@ -215,6 +219,29 @@ const timeToString = time => {
 
 const Schedule = () => {
   const [items, setItems] = useState({});
+  const [documentData, setDocumentData] = useState([]);
+  const [documentLoader, setDocumentLoader] = useState(false);
+  const id = useSelector(state => state.user.userAllData.id);
+  const com_id = useSelector(state => state.user.userAllData.com_id);
+  let data = useFetchData(
+    [['company_calendar_employee_id', id], ['company_calendar_com_id', com_id]],
+    'calendar',
+    'post',
+  );
+
+  useEffect(() => {
+    try {
+      data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+      documentData.length === 0 ? setDocumentData(data[0]) : null;
+    } catch (err) {
+      console.log('Error in useEffect ', err);
+    }
+    console.log("Calendar data", documentData);
+
+  }, [data, documentLoader, documentData]);
+
+
+  console.log("Calendar data", documentData);
 
   const loadItems = day => {
     setTimeout(() => {
@@ -232,7 +259,7 @@ const Schedule = () => {
           }
         }
       }
-      const newItems = {};
+      const newItems = documentData;
       Object.keys(items).forEach(key => {
         newItems[key] = items[key];
       });
@@ -242,7 +269,7 @@ const Schedule = () => {
 
   const renderItem = item => {
     return (
-      <TouchableOpacity style={{marginRight: 10, marginTop: 17}}>
+      <TouchableOpacity style={{ marginRight: 10, marginTop: 17 }}>
         <Card>
           <Card.Content>
             <View
@@ -251,7 +278,7 @@ const Schedule = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <Paragraph>{item.name}</Paragraph>
+              <Paragraph>{item.id}</Paragraph>
               <Avatar.Text label="J" />
             </View>
           </Card.Content>
@@ -261,7 +288,7 @@ const Schedule = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Agenda
         items={items}
         loadItemsForMonth={loadItems}
