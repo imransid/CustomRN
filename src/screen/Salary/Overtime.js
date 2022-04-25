@@ -14,6 +14,7 @@ import RnPdf from '../../components/GenaratePdf';
 
 
 const Overtime = () => {
+    const apiUri = useSelector(state => state.api.domainName);
 
     const id = useSelector(state => state.user.userAllData.id);
     const [searchText, setSearchText] = useState('');
@@ -26,6 +27,7 @@ const Overtime = () => {
         [['over_time_employee_id', id]],
         'over-time',
         'post',
+        apiUri
     );
     console.log('data', data);
 

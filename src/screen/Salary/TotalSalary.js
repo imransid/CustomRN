@@ -15,6 +15,7 @@ import { TextInput } from 'react-native-paper';
 import RnPdf from '../../components/GenaratePdf';
 
 const TotalSalary = () => {
+    const apiUri = useSelector(state => state.api.domainName);
 
     const id = useSelector(state => state.user.userAllData.id);
     const com_id = useSelector(state => state.user.userAllData.com_id);
@@ -26,6 +27,7 @@ const TotalSalary = () => {
         [['id', id], ['com_id', com_id]],
         'total-salary',
         'post',
+        apiUri
     );
 
     console.log("fsdfsdfsdfs", data)

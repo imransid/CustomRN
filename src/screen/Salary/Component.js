@@ -18,6 +18,8 @@ const SalaryComponent = () => {
     const onChangeSearchText = (text) => {
         setSearchText(text);
     }
+    const apiUri = useSelector(state => state.api.domainName);
+
     const id = useSelector(state => state.user.userAllData.id);
     const com_id = useSelector(state => state.user.userAllData.com_id);
 
@@ -25,6 +27,7 @@ const SalaryComponent = () => {
         [['id', id], ['com_id', com_id]],
         'component',
         'post',
+        apiUri
     );
 
     console.log("fsdfsdfsdfs", data)

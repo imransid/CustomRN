@@ -15,6 +15,7 @@ import RnPdf from '../../components/GenaratePdf';
 
 
 const OtherAllowance = () => {
+    const apiUri = useSelector(state => state.api.domainName);
 
     const id = useSelector(state => state.user.userAllData.id);
     const [searchText, setSearchText] = useState('');
@@ -26,6 +27,7 @@ const OtherAllowance = () => {
         [['other_payment_employee_id', id]],
         'other-allowance',
         'post',
+        apiUri
     );
     console.log('data', data);
 

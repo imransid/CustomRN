@@ -20,6 +20,7 @@ const Commission = () => {
     const onChangeSearchText = (text) => {
         setSearchText(text);
     }
+    const apiUri = useSelector(state => state.api.domainName);
 
 
     const id = useSelector(state => state.user.userAllData.id);
@@ -28,6 +29,7 @@ const Commission = () => {
         [['commission_employee_id', id]],
         'commission',
         'post',
+        apiUri
     );
 
     const [documentData, setDocumentData] = useState([]);

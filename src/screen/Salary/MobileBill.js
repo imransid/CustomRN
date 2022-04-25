@@ -14,6 +14,7 @@ import RnPdf from '../../components/GenaratePdf';
 
 
 const MobileBill = () => {
+    const apiUri = useSelector(state => state.api.domainName);
 
     const id = useSelector(state => state.user.userAllData.id);
     const com_id = useSelector(state => state.user.userAllData.com_id);
@@ -26,6 +27,7 @@ const MobileBill = () => {
         [['employee_id', id], ['com_id', com_id]],
         'mobile-bill',
         'post',
+        apiUri
     );
     console.log('data', data);
 
