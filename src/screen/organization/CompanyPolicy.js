@@ -21,7 +21,7 @@ const CompanyPolicy = ({ navigation }) => {
 
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = React.useState('');
   const onChangeSearchText = (text) => {
     setSearchText(text);
   }
