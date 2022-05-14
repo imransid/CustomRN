@@ -1,5 +1,5 @@
-import React, {useState, useCallback} from 'react';
-import {Input} from 'native-base';
+import React, { useState, useCallback } from 'react';
+import { Input } from 'native-base';
 import {
   Alert,
   SafeAreaView,
@@ -8,10 +8,10 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import {Card, Button, Subheading} from 'react-native-paper';
-import {useSelector} from 'react-redux';
-import {ScaledSheet} from 'react-native-size-matters';
-import {_postApiFetch} from '../../services/Services';
+import { Card, Button, Subheading } from 'react-native-paper';
+import { useSelector } from 'react-redux';
+import { ScaledSheet } from 'react-native-size-matters';
+import { _postApiFetch } from '../../services/Services';
 import Loader from '../../components/Loader';
 
 const ChangePassword = () => {
@@ -25,6 +25,7 @@ const ChangePassword = () => {
   const id = useSelector(state => state.user.userAllData.id);
 
   const OnPress = useCallback(async () => {
+    console.log("change password");
     setLoading(true);
     if (password && confPass && password === confPass) {
       let data = [
@@ -50,7 +51,7 @@ const ChangePassword = () => {
           ? 'Password and Confirm Password are not same.'
           : "Input Filed can't be Empty.";
       Alert.alert('Warning!', msg, [
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
       ]);
     }
   }, [password, confPass]);
@@ -70,9 +71,9 @@ const ChangePassword = () => {
       <Card>
         <Card.Title title="Change Password" subtitle="" />
 
-        <Subheading style={{paddingLeft: 10}}>New Password * </Subheading>
+        <Subheading style={{ paddingLeft: 10 }}>New Password * </Subheading>
 
-        <View style={{padding: 10}}>
+        <View style={{ padding: 10 }}>
           <Input
             type="text"
             value={password}
@@ -83,9 +84,9 @@ const ChangePassword = () => {
           />
         </View>
 
-        <Subheading style={{paddingLeft: 10}}>Confirm Password * </Subheading>
+        <Subheading style={{ paddingLeft: 10 }}>Confirm Password * </Subheading>
 
-        <View style={{padding: 10}}>
+        <View style={{ padding: 10 }}>
           <Input
             type="text"
             value={confPass}

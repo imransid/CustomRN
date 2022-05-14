@@ -5,6 +5,7 @@ import {
   Modal,
   View,
   ToastAndroid,
+  TextInput
 } from 'react-native';
 
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -19,7 +20,7 @@ import PlusButton from '../../components/plusButton';
 import { useSelector } from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import TableCardAttachment from '../../components/TableCardAttachment/TableCardAttachment';
-
+import RnPdf from '../../components/GenaratePdf';
 const Travel = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const id = useSelector(state => state.user.userAllData.id);
@@ -51,7 +52,7 @@ const Travel = () => {
   // }, [data, documentLoader, documentData]);
 
   useEffect(() => {
-    const controller = new AbortController();
+    // const controller = new AbortController();
     try {
       console.log('searchText', searchText.length);
       let lngth = searchText.length
@@ -69,9 +70,9 @@ const Travel = () => {
     }
 
 
-    return () => {
-      controller.abort();
-    }
+    // return () => {
+    //   controller.abort();
+    // }
 
   }, [data, searchText, documentData, documentLoader]);
 
