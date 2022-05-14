@@ -95,8 +95,8 @@ const OtherAllowance = () => {
                                 key={i}
                                 sl={data.id}
                                 datas={[
-                                    { title: 'Company ID', value: data.other_allowance_com_id },
-                                    { title: 'Employee ID', value: data.other_allowance_employee_id },
+                                    // { title: 'Company ID', value: data.other_allowance_com_id },
+                                    // { title: 'Employee ID', value: data.other_allowance_employee_id },
                                     { title: 'Month & Year', data: data.other_allowance_month_year },
                                     { title: 'Title', value: data.other_allowance_title },
                                     { title: 'Amount', value: data.other_allowance_amount },
