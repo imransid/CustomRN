@@ -91,9 +91,9 @@ const StatutoryDeduction = () => {
                                 key={i}
                                 sl={data.id}
                                 datas={[
-                                    { title: 'Company ID', value: data.statutory_deduc_com_id },
+                                    // { title: 'Company ID', value: data.statutory_deduc_com_id },
 
-                                    { title: 'Employee ID', value: data.statutory_deduc_employee_id },
+                                    // { title: 'Employee ID', value: data.statutory_deduc_employee_id },
                                     { title: 'Statutory Deduct Month & Year', data: data.statutory_deduc_month_year },
 
                                     { title: 'Statutory Deduct Type', value: data.statutory_deduc_type },

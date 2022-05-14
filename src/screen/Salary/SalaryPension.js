@@ -90,8 +90,8 @@ const SalaryPension = () => {
                                 key={i}
                                 sl={data.id}
                                 datas={[
-                                    { title: 'Company ID', value: data.pension_com_id },
-                                    { title: 'Employee ID', value: data.pension_employee_id },
+                                    // { title: 'Company ID', value: data.pension_com_id },
+                                    // { title: 'Employee ID', value: data.pension_employee_id },
                                     { title: 'Pension Start Date', data: data.pension_start_date },
                                     { title: 'Pension Type', value: data.pension_type },
                                     { title: 'Pension Amount', value: data.pension_amount },

@@ -95,8 +95,8 @@ const Overtime = () => {
                                 key={i}
                                 sl={data.id}
                                 datas={[
-                                    { title: 'Company ID', value: data.over_time_com_id },
-                                    { title: 'Employee ID', value: data.over_time_employee_id },
+                                    // { title: 'Company ID', value: data.over_time_com_id },
+                                    // { title: 'Employee ID', value: data.over_time_employee_id },
                                     { title: 'Time Date', data: data.over_time_date },
                                     { title: 'Overtime Company Duty in Seconds', value: data.over_time_company_duty_in_seconds },
                                     { title: 'Overtime Employee in Seconds', value: data.over_time_employee_in_seconds },
