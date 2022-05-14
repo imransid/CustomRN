@@ -48,6 +48,7 @@ import Promotion from '../screen/CoreHr/Promotion';
 import Complaints from '../screen/CoreHr/Complaints';
 import Termination from '../screen/CoreHr/Termination';
 import ChangePassword from '../screen/Profile/ChangePassword';
+import ProfilePicture from '../screen/ProfilePicture/ProfilePicture';
 
 import { useSelector } from 'react-redux';
 
@@ -153,6 +154,7 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="Complaints" component={Complaints} />
       <Drawer.Screen name="Termination" component={Termination} />
       <Drawer.Screen name="ChangePassword" component={ChangePassword} />
+      <Drawer.Screen name="ProfilePicture" component={ProfilePicture} />
     </Drawer.Navigator>
   );
 }

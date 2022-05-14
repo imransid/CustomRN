@@ -24,6 +24,7 @@ DerivedData
 # Android/IntelliJ
 #
 build/
+wrapper/
 .idea
 .gradle
 local.properties

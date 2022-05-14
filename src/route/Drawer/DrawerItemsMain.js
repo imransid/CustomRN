@@ -69,8 +69,14 @@ export const drawerItemsSubMain = [
     icon: "th"
   },
   {
+    key: 'ProfilePicture',
+    title: 'Profile Picture',
+    routes: [{ nav: 'MainDrawer', routeName: 'ProfilePicture', title: 'Profile Picture' }],
+    icon: "camera"
+  },
+  {
     key: 'Profile',
-    title: 'Profile',
+    title: 'General',
     routes: [
       { nav: 'BasicInfo', routeName: 'BasicInfo', title: 'Basic Info' },
       {
@@ -261,5 +267,6 @@ export const drawerItemsSubMain = [
     routes: [{ nav: 'MainDrawer', routeName: 'Tasks', title: 'Tasks' }],
     icon: "tasks"
   },
+  
 
 ];

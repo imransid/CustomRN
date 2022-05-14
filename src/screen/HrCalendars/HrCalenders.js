@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, Modal,StyleSheet,Text,Pressable} from 'react-native';
 import {Agenda} from 'react-native-calendars';
 import {Card, Avatar} from 'react-native-paper';
 // import Typography from '../components/Typography';
@@ -23,6 +23,7 @@ const Schedule = () => {
   const [documentLoader, setDocumentLoader] = useState(false);
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
+  const [modalVisible, setModalVisible] = useState(false);
   let data = useFetchData(
     [
       ['company_calendar_employee_id', id],
@@ -34,6 +35,7 @@ const Schedule = () => {
   );
 
   useEffect(() => {
+    console.log('HR Calendar data ', data);
     try {
       data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
 
@@ -51,6 +53,11 @@ const Schedule = () => {
             value[e.start] = [
               {
                 name: e.title,
+                calander_detail_type: e.calander_detail_type,
+company_calendar_employee_name: e.company_calendar_employee_name,
+start: e.start,
+end: e.end,
+id: e.id,
               },
             ];
           }
@@ -93,7 +100,7 @@ const Schedule = () => {
   //     setItems(newItems);
   //   }, 1000);
   // };
-
+  console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', data);
   const loadItems = day => {
     let itemData = {
       '2017-05-22': [{name: 'item 1 - any js object'}],
@@ -112,7 +119,36 @@ const Schedule = () => {
   const renderItem = item => {
     console.log('item', item);
     return (
-      <TouchableOpacity style={{marginRight: 10, marginTop: 17}}>
+      <TouchableOpacity
+        style={{marginRight: 10, marginTop: 17}}
+        onPress={() => setModalVisible(!modalVisible)}>
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>{item.id}</Text>
+            <Text style={styles.modalText}>{item.name}</Text>
+            <Text style={styles.modalText}>{item.calander_detail_type}</Text>
+            <Text style={styles.modalText}>{item.company_calendar_employee_name}</Text>
+            <Text style={styles.modalText}>Start:{item.start}</Text>
+            <Text style={styles.modalText}>End:{item.end}</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Close</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
         <Card>
           <Card.Content>
             <View
@@ -143,5 +179,50 @@ const Schedule = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalView: {
+    width: '80%',
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
+});
 
 export default Schedule;
