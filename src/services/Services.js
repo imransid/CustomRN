@@ -1,7 +1,7 @@
 var axios = require('axios');
 var FormData = require('form-data');
 import RNFetchBlob from 'rn-fetch-blob';
-import { ToastAndroid, Platform } from 'react-native';
+import {ToastAndroid, Platform} from 'react-native';
 
 
 //
@@ -13,13 +13,15 @@ export const _postApiFetch = async data => {
     //   'XSRF-TOKEN=eyJpdiI6InJxcUVRVkwrQmFIZ2drUGZDQUplaFE9PSIsInZhbHVlIjoidmVHTnFkZmZTbnA1TTRFNlR2ZG1RWktuaVhTdE0xbkFWeVJXZGJ5K1JZbmxCWTNvVytQa1FubGF3d29Qa0UxSE54bEc2ZkFrY1pYZnlrNEhNUXdQVFJLTXFha0FnS1dsZ0M5QlN1WDQrSE16R0Nybm5SeCt3dXFxYU5tY1J1akgiLCJtYWMiOiIzYTkwYmNmYWM5ZWNkODVlOGE4ZTVlMDMwYmIyNzViNWUzMWM2ZDA2ZWJkNzYzYzQxY2ZlNTY5Yjc4NGFkODU0IiwidGFnIjoiIn0%3D; predictionit_session=eyJpdiI6IlkwRFFtR1dzaHcvT0Y0STVLejcwUXc9PSIsInZhbHVlIjoiall0ckd6NmpiZlBwSmNZQ0JCWllLQzBOS3VKTklwR2JGWGpGam95c3RBOGdkZmduTmZ1akNneFhxenI1dUZ3d1EwWVNlU0FFVTd4cVdaMTlVcENqdEFSbXRXRUNDaXR2YnQra3JUMEc1OGlleEtxdEJXRWdJcFM2eDNyZituakQiLCJtYWMiOiI5OTgwNjhhOWNjNmMwYTczMzk3MjY3NzQ2MTFjYjIzZWIxOTc4MDM1YTU2OTg3ZDc2ZmM1NDY4N2E2ZjVhYzdlIiwidGFnIjoiIn0%3D',
     // ); 
 
+    console.log('data', data);
+
     var formdata = new FormData();
 
     data.bodyData.length > 0
       ? data.bodyData.map(e => {
-        let idValueCheck = typeof e[1] === 'string' ? e[1] : e[1].toString();
-        formdata.append(e[0], e[0] === 'id' ? idValueCheck : e[1]);
-      })
+          let idValueCheck = typeof e[1] === 'string' ? e[1] : e[1].toString();
+          formdata.append(e[0], e[0] === 'id' ? idValueCheck : e[1]);
+        })
       : null;
 
     var requestOptions = {
@@ -27,6 +29,8 @@ export const _postApiFetch = async data => {
       body: formdata,
       redirect: 'follow',
     };
+
+    console.log('data', data);
 
     let response = fetch(data.domainName + data.uri, requestOptions)
       .then(response => response.json())
@@ -79,11 +83,12 @@ const _ImageValueGenerate = (name, val) => {
 export const _postApiADD = async data => {
   console.log("first data", data);
   try {
+    console.log('data', data);
     var formdata = new FormData();
     data.bodyData.length > 0
       ? data.bodyData.map(e =>
-        formdata.append(e[0], _ImageValueGenerate(e[0], e[1])),
-      )
+          formdata.append(e[0], _ImageValueGenerate(e[0], e[1])),
+        )
       : null;
     var requestOptions = {
       method: 'POST',
@@ -170,7 +175,7 @@ export const _fetchPostImage = async data => {
 
 export const _searchData = (documentData, searchText) => {
   // search by any value of the object documentData
-  console.log("first", documentData);
+  console.log('first', documentData);
   let searchData = documentData.filter(function (item) {
     return Object.keys(item).some(function (key) {
       return String(item[key]).includes(searchText);

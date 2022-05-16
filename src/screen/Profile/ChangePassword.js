@@ -23,6 +23,7 @@ const ChangePassword = () => {
   const handleChangeConfPass = text => setConfPass(text);
 
   const id = useSelector(state => state.user.userAllData.id);
+  const domainName = useSelector(state => state.api.domainName);
 
   const OnPress = useCallback(async () => {
     console.log("change password");
@@ -37,6 +38,7 @@ const ChangePassword = () => {
       let parm = {
         bodyData: data,
         uri: 'password-change',
+        domainName: domainName,
       };
 
       const result = await _postApiFetch(parm);
