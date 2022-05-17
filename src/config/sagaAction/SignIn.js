@@ -4,24 +4,32 @@ import {SIGH_IN_ERROR, SIGH_IN_SUCCESSFULLY} from '../../constant/Constants';
 const _authApiCall = function* (action) {
   try {
     const uri = action.uri;
-    return yield axios
-      .post(uri, {
-        emailPhone: action.username,
-        password: action.password,
-      })
-      .then(function (response) {
+
+    var formdata = new FormData();
+    formdata.append('emailPhone', action.username); //action.username
+    formdata.append('password', action.password); //action.password
+
+    var requestOptions = {
+      method: 'POST',
+      body: formdata,
+      redirect: 'follow',
+    };
+
+    return yield fetch(action.uri.toString(), requestOptions)
+      .then(response => response.json())
+      .then(response => {
         let res = {
           status: true,
-          token: response.data.access_token,
-          username: response.data.user.first_name,
-          expireTime: response.data.expires_in,
-          userAllData: response.data.user,
+          token: response.access_token,
+          username: response.user.first_name,
+          expireTime: response.expires_in,
+          userAllData: response.user,
         };
 
         return res;
       })
-      .catch(function (error) {
-        console.log('error', error);
+      .catch(error => {
+        console.log('error in ', error);
         let res = {
           status: false,
           msg: error.msg,
@@ -33,6 +41,36 @@ const _authApiCall = function* (action) {
 
         return res;
       });
+
+    // return yield axios
+    //   .post(uri, {
+    //     emailPhone: action.username,
+    //     password: action.password,
+    //   })
+    //   .then(function (response) {
+    //     let res = {
+    //       status: true,
+    //       token: response.data.access_token,
+    //       username: response.data.user.first_name,
+    //       expireTime: response.data.expires_in,
+    //       userAllData: response.data.user,
+    //     };
+
+    //     return res;
+    //   })
+    //   .catch(function (error) {
+    //     console.log('error', error);
+    //     let res = {
+    //       status: false,
+    //       msg: error.msg,
+    //       token: '',
+    //       username: '',
+    //       expireTime: '',
+    //       userAllData: {},
+    //     };
+
+    //     return res;
+    //   });
   } catch (err) {
     console.log('Error in  _authApiCall ', err);
   }
@@ -44,8 +82,6 @@ export const _signIn = function* (action) {
     const State = yield select();
 
     const uri = action.uri + 'login'; //State.api + '/authentication';
-
-    console.log('uri', uri);
 
     let data = {
       username: action.data.userName,

@@ -3,7 +3,6 @@ var FormData = require('form-data');
 import RNFetchBlob from 'rn-fetch-blob';
 import {ToastAndroid, Platform} from 'react-native';
 
-
 //
 export const _postApiFetch = async data => {
   try {
@@ -11,7 +10,7 @@ export const _postApiFetch = async data => {
     // myHeaders.append(
     //   'Cookie',
     //   'XSRF-TOKEN=eyJpdiI6InJxcUVRVkwrQmFIZ2drUGZDQUplaFE9PSIsInZhbHVlIjoidmVHTnFkZmZTbnA1TTRFNlR2ZG1RWktuaVhTdE0xbkFWeVJXZGJ5K1JZbmxCWTNvVytQa1FubGF3d29Qa0UxSE54bEc2ZkFrY1pYZnlrNEhNUXdQVFJLTXFha0FnS1dsZ0M5QlN1WDQrSE16R0Nybm5SeCt3dXFxYU5tY1J1akgiLCJtYWMiOiIzYTkwYmNmYWM5ZWNkODVlOGE4ZTVlMDMwYmIyNzViNWUzMWM2ZDA2ZWJkNzYzYzQxY2ZlNTY5Yjc4NGFkODU0IiwidGFnIjoiIn0%3D; predictionit_session=eyJpdiI6IlkwRFFtR1dzaHcvT0Y0STVLejcwUXc9PSIsInZhbHVlIjoiall0ckd6NmpiZlBwSmNZQ0JCWllLQzBOS3VKTklwR2JGWGpGam95c3RBOGdkZmduTmZ1akNneFhxenI1dUZ3d1EwWVNlU0FFVTd4cVdaMTlVcENqdEFSbXRXRUNDaXR2YnQra3JUMEc1OGlleEtxdEJXRWdJcFM2eDNyZituakQiLCJtYWMiOiI5OTgwNjhhOWNjNmMwYTczMzk3MjY3NzQ2MTFjYjIzZWIxOTc4MDM1YTU2OTg3ZDc2ZmM1NDY4N2E2ZjVhYzdlIiwidGFnIjoiIn0%3D',
-    // ); 
+    // );
 
     console.log('data', data);
 
@@ -81,9 +80,7 @@ const _ImageValueGenerate = (name, val) => {
 };
 
 export const _postApiADD = async data => {
-  console.log("first data", data);
   try {
-    console.log('data', data);
     var formdata = new FormData();
     data.bodyData.length > 0
       ? data.bodyData.map(e =>
@@ -99,10 +96,7 @@ export const _postApiADD = async data => {
       },
     };
 
-    let response = fetch(
-      'https://hrmspvm.predictionla.com/api/user/' + data.uri,
-      requestOptions,
-    )
+    let response = fetch(data.domainName + data.uri, requestOptions)
       .then(response => {
         return response.json();
       })
