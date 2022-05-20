@@ -51,6 +51,7 @@ import ChangePassword from '../screen/Profile/ChangePassword';
 import ProfilePicture from '../screen/ProfilePicture/ProfilePicture';
 import SupportTicketOrganization from '../screen/SupportTicketsOrganized';
 import Basic from '../screen/Profile/basic';
+import Details from '../screen/detailsScreen/Details';
 import {useSelector} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
@@ -156,6 +157,7 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="Termination" component={Termination} />
       <Drawer.Screen name="ChangePassword" component={ChangePassword} />
       <Drawer.Screen name="ProfilePicture" component={ProfilePicture} />
+      <Drawer.Screen name="DetailsNew" component={Details} />
       <Drawer.Screen
         name="SupportTicketOrganization"
         component={SupportTicketOrganization}

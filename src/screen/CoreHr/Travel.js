@@ -5,7 +5,8 @@ import {
   Modal,
   View,
   ToastAndroid,
-  TextInput
+  TextInput,
+  TouchableOpacity
 } from 'react-native';
 
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -21,6 +22,7 @@ import { useSelector } from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import TableCardAttachment from '../../components/TableCardAttachment/TableCardAttachment';
 import RnPdf from '../../components/GenaratePdf';
+import { useNavigation } from '@react-navigation/native';
 const Travel = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const id = useSelector(state => state.user.userAllData.id);
@@ -41,7 +43,7 @@ const Travel = () => {
 
   // type
   const [type, setType] = useState('');
-
+const navigation= useNavigation()
   // useEffect(() => {
   //   try {
   //     data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
@@ -165,15 +167,18 @@ const Travel = () => {
     setType('add');
 
     let objectData = [
-      ['qualification_com_id', com_id.toString(), 'qualification_com_id'],
-      ['qualification_employee_id', id.toString(), 'qualification_employee_id'],
-      ['qualification_institute_name', '', 'qualification_institute_name'],
-      ['qualification_education_level', '', 'qualification_education_level'],
-      ['qualification_from_date', 'Select Date', 'qualification_from_date'],
-      ['qualification_to_date', 'Select Date', 'qualification_to_date'],
-      ['qualification_language_version', '', 'qualification_language_version'],
-      ['qualification_skill', '', 'qualification_skill'],
-      ['qualification_description', '', 'qualification_description'],
+      ['com_id', com_id.toString(), 'com_id'],
+      ['travel_employee_id', id.toString(), 'travel_employee_id'],
+      ['travel_department_id', '', 'travel_department_id'],
+      ['travel_arrangement_type', '', 'travel_arrangement_type'],
+      ['travel_purpose', '', 'travel_purpose'],
+      ['travel_place', '', 'travel_place'],
+      ['travel_desc', '', 'travel_desc'],
+      ['travel_start_date', 'Select Date', 'travel_start_date'],
+      ['travel_end_date', 'Select Date', 'travel_end_date'],
+      ['travel_expected_budget', '', 'travel_expected_budget'],
+      ['travel_mode', '', 'travel_mode'],
+
     ];
 
     let finalData = objectData.filter(e => {
@@ -291,6 +296,33 @@ const Travel = () => {
             <CustomIndicator />
           ) : (
             documentData?.map((data, i) => (
+              <TouchableOpacity key={i}onPress={() => navigation.navigate('DetailsNew', {
+                data:[
+                  {
+                    title: 'Employee',
+                    value: data.travel_employee_full_name,
+                  },
+                  {
+                    title: 'Department',
+                    value: data.travel_employee_department_name,
+                  },
+                  {
+                    title: 'Visit Purpose',
+                    value: data.travel_purpose,
+                  },
+                  { title: 'Place name', value: data.travel_place },
+                  { title: 'Description', value: data.travel_desc },
+                  { title: 'Start Date', value: data.travel_start_date },
+                  { title: 'End Date', value: data.travel_end_date },
+                  {
+                    title: 'Expected Budget',
+                    value: data.travel_expected_budget,
+                  },
+                  { title: 'Actual Budget', value: data.travel_actual_budget },
+                  { title: 'Travel Mode', value: data.travel_mode },
+                ],
+                prevRoute: 'Travel',
+              })}>
               <TableCard
                 key={i}
                 sl={i + 1}
@@ -328,6 +360,7 @@ const Travel = () => {
                 buttonVisible={false}
                 variant="Immigration"
               />
+              </TouchableOpacity>
             ))
           )}
 
@@ -357,7 +390,7 @@ const Travel = () => {
           {/* </TouchableOpacity> */}
         </SafeAreaView>
       </ScrollView>
-      {/* <PlusButton OnPress={() => OnAddNow()} /> */}
+      <PlusButton OnPress={() => OnAddNow()} />
     </>
   );
 };

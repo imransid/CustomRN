@@ -82,10 +82,10 @@ const Announcements = ({ navigation }) => {
         </View>
         <View style={styles.pdfBox}>
           <RnPdf Filename={'Announcement'} value={data[0]} />
-        </View>
+        </View> 
         {documentLoader && <CustomIndicator />}
         {!documentLoader && documentData.map(data => (
-          <TouchableOpacity onPress={() => navigation.navigate('Details', {
+          <TouchableOpacity onPress={() => navigation.navigate('Detailss', {
             title: data.announcement_title,
             description: data.announcement_desc,
             announcedBy: data.announcement_by,
