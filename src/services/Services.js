@@ -61,8 +61,12 @@ const _ImageValueGenerate = (name, val) => {
   console.log('name, val', name, val);
 
   if (typeof val !== 'string') {
-    //console.log('console val', name, val);
-    let photo = val;
+    let photo;
+    if (name === 'profile_photo') {
+      photo = val.assets[0];
+    } else {
+      photo = val;
+    }
 
     let res = {
       name: photo.fileName,
@@ -72,6 +76,8 @@ const _ImageValueGenerate = (name, val) => {
           ? photo.uri
           : photo.uri.replace('file://', ''),
     };
+
+    console.log(res, 'res');
 
     return res;
   } else {
@@ -96,7 +102,7 @@ export const _postApiADD = async data => {
       },
     };
 
-    let response = fetch(data.domainName + data.uri, requestOptions)
+    let response = await fetch(data.domainName + data.uri, requestOptions)
       .then(response => {
         return response.json();
       })
@@ -109,8 +115,6 @@ export const _postApiADD = async data => {
         return res;
       })
       .catch(error => {
-        console.log('error', error);
-
         let res = {
           status: false,
           data: [],

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -11,14 +11,14 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import { _postApiFetch, _postApiADD, _searchData } from '../../services/Services';
+import {_postApiFetch, _postApiADD, _searchData} from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import styles from './Styles';
-import { TextInput } from 'react-native-paper';
+import {TextInput} from 'react-native-paper';
 
 const Qualification = () => {
   const apiUri = useSelector(state => state.api.domainName);
@@ -26,6 +26,9 @@ const Qualification = () => {
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
   const [searchText, setSearchText] = useState('');
+
+  const [updateAva, setUpdate] = useState(false);
+
   const onChangeSearchText = text => {
     setSearchText(text);
   };
@@ -56,27 +59,29 @@ const Qualification = () => {
   useEffect(() => {
     const controller = new AbortController();
     try {
-      console.log('searchText', searchText.length);
-      let lngth = searchText.length
-      if (lngth > 0) {
-        var newData = _searchData(documentData, searchText);
-        // setDocumentData(newData);
-        documentData.length !== newData.length ? setDocumentData(newData) : null;
-      } else {
-        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-        data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
-
+      if (!updateAva) {
+        let lngth = searchText.length;
+        if (lngth > 0) {
+          var newData = _searchData(documentData, searchText);
+          // setDocumentData(newData);
+          documentData.length !== newData.length
+            ? setDocumentData(newData)
+            : null;
+        } else {
+          data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+          data[0].length !== documentData.length
+            ? setDocumentData(data[0])
+            : null;
+        }
       }
     } catch (err) {
       console.log('Error in useEffect2 ', err);
     }
 
-
     return () => {
       controller.abort();
-    }
-
-  }, [data, searchText, documentData, documentLoader]);
+    };
+  }, [data, searchText, documentData, documentLoader, updateAva]);
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
@@ -115,9 +120,12 @@ const Qualification = () => {
     let parm = {
       bodyData: parmZ,
       uri: 'qualification-update',
+      domainName: apiUri,
     };
 
     const result = await _postApiFetch(parm);
+
+    setUpdate(true);
 
     result.status ? setDocumentData(result.data) : null;
 
@@ -142,6 +150,7 @@ const Qualification = () => {
 
   const onPressEdit = data => {
     setModalVisible(true);
+    setUpdate(true);
 
     setType('edit');
 
@@ -195,9 +204,12 @@ const Qualification = () => {
     let parm = {
       bodyData: info,
       uri: 'qualification-add',
+      domainName: apiUri,
     };
 
     const result = await _postApiADD(parm);
+
+    setUpdate(true);
 
     result.status ? setDocumentData(result.data) : null;
 
@@ -224,9 +236,12 @@ const Qualification = () => {
     let parm = {
       bodyData: info,
       uri: 'qualification-delete',
+      domainName: apiUri,
     };
 
     const result = await _postApiADD(parm);
+
+    setUpdate(true);
 
     result.status ? setDocumentData(result.data) : null;
 
@@ -238,6 +253,8 @@ const Qualification = () => {
     }
 
     result.status ? setDocumentData(result.data) : null;
+
+    console.log(result, '<<', parm);
 
     let msg = result.status
       ? 'Deleted Successfully. !'
@@ -262,8 +279,8 @@ const Qualification = () => {
               type={type}
               onValue={infoValue}
               dropDownValue={[
-                { label: 'Other', value: 'Other' },
-                { label: 'Certificate', value: 'Certificate' },
+                {label: 'Other', value: 'Other'},
+                {label: 'Certificate', value: 'Certificate'},
               ]}
               onPress={(e, type) => {
                 if (type) {
@@ -312,7 +329,7 @@ const Qualification = () => {
                     title: 'Passing Year',
                     value: data.qualification_passing_year,
                   },
-                  { title: 'Result', value: data.qualification_result },
+                  {title: 'Result', value: data.qualification_result},
                 ]}
                 deleteButton={true}
                 buttonVisible={true}

@@ -14,6 +14,8 @@ const TableCard = props => {
       : false;
   };
 
+  console.log('errror here');
+
   return (
     <View style={styles.listitem}>
       <View style={styles.sl}>
@@ -48,7 +50,7 @@ const TableCard = props => {
               }>
               <Subheading style={{fontWeight: '500'}}>
                 {data.title} :
-              </Subheading>{' '}
+              </Subheading>
               <Text
                 style={{color: 'blue'}}
                 onPress={() => Linking.openURL(data.value)}>
@@ -66,7 +68,7 @@ const TableCard = props => {
               }>
               <Subheading style={{fontWeight: '500'}}>
                 {data.title} :
-              </Subheading>{' '}
+              </Subheading>
               {data.value}
             </Paragraph>
           ),

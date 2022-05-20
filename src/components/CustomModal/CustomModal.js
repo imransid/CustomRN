@@ -182,6 +182,8 @@ const CustomModal = ({
         : false;
     };
 
+    data[1] === null ? (data[1] = '') : null;
+
     return (
       <>
         <FormControl.Label>{data[2]}</FormControl.Label>
@@ -197,7 +199,6 @@ const CustomModal = ({
               activeOpacity={0.5}
               onPress={SelectFile}>
               <Text style={styles.buttonTextStyle}>
-                {' '}
                 {data[1].toString() ? 'Upload File' : 'Select File'}
               </Text>
             </TouchableOpacity>
