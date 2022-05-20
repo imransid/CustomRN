@@ -95,6 +95,7 @@ const SocialProfile = () => {
     let parm = {
       bodyData: filterInfo,
       uri: 'social-profile-update',
+      domainName:apiUri
     };
 
     const result = await _postApiFetch(parm);
@@ -185,6 +186,7 @@ const SocialProfile = () => {
     let parm = {
       bodyData: info,
       uri: 'social-profile-add',
+      domainName:apiUri
     };
 
     const result = await _postApiADD(parm);
@@ -214,6 +216,7 @@ const SocialProfile = () => {
     let parm = {
       bodyData: info,
       uri: 'social-profile-delete',
+      domainName:apiUri
     };
 
     const result = await _postApiADD(parm);

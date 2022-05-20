@@ -202,6 +202,7 @@ const Document = () => {
     let parm = {
       bodyData: info,
       uri: 'document-add',
+      domainName:apiUri
     };
 
     const result = await _postApiADD(parm);

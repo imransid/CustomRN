@@ -116,6 +116,7 @@ const WorkExperience = () => {
     let parm = {
       bodyData: parmZ,
       uri: 'work-experience-update',
+      domainName:apiUri
     };
 
     const result = await _postApiFetch(parm);
@@ -227,6 +228,7 @@ const WorkExperience = () => {
     let parm = {
       bodyData: info,
       uri: 'work-experience-delete',
+      domainName:apiUri
     };
 
     const result = await _postApiADD(parm);

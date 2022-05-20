@@ -116,6 +116,7 @@ const SalaryBankAccount = () => {
     let parm = {
       bodyData: parmZ,
       uri: 'salary-bank-account-update',
+      domainName:apiUri
     };
 
     const result = await _postApiFetch(parm);
@@ -198,6 +199,7 @@ const SalaryBankAccount = () => {
     let parm = {
       bodyData: info,
       uri: 'salary-bank-account-add',
+      domainName:apiUri
     };
 
     const result = await _postApiADD(parm);
@@ -227,6 +229,7 @@ const SalaryBankAccount = () => {
     let parm = {
       bodyData: deleteValue,
       uri: 'work-experience-delete',
+      domainName:apiUri
     };
 
     const result = await _postApiADD(parm);

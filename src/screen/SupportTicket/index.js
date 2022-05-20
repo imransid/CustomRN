@@ -86,6 +86,7 @@ const SupportTicket = () => {
     let parm = {
       bodyData: info,
       uri: 'support-ticket-update',
+      domainName:apiUri
     };
 
     console.log('parm', parm, info);

@@ -35,7 +35,7 @@ const Immigration = () => {
     'post',
     apiUri,
   );
-
+console.log("imigration",data)
   const [documentData, setDocumentData] = useState([]);
   const [documentType, setDocumentType] = useState('');
   const [documentLoader, setDocumentLoader] = useState(false);
@@ -45,29 +45,29 @@ const Immigration = () => {
   // type
   const [type, setType] = useState('');
 
-  // useEffect(() => {
-  //   try {
-  //     data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-  //     documentData.length === 0 ? setDocumentData(data[0]) : null;
-  //   } catch (err) {
-  //     console.log('Error in useEffect ', err);
-  //   }
-  // }, [data, documentLoader, documentData]);
+  useEffect(() => {
+    try {
+      data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+      documentData.length === 0 ? setDocumentData(data[0]) : null;
+    } catch (err) {
+      console.log('Error in useEffect ', err);
+    }
+  }, [data, documentLoader, documentData]);
 
-  // useEffect(() => {
-  //   try {
-  //     console.log('searchText', searchText.length);
-  //     let lngth = searchText.length;
-  //     if (lngth > 0) {
-  //       var newData = _searchData(documentData, searchText);
-  //       setDocumentData(newData);
-  //     } else {
-  //       data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-  //     }
-  //   } catch (err) {
-  //     console.log('Error in useEffect2 ', err);
-  //   }
-  // }, [data, searchText, documentData]);
+  useEffect(() => {
+    try {
+      console.log('searchText', searchText.length);
+      let lngth = searchText.length;
+      if (lngth > 0) {
+        var newData = _searchData(documentData, searchText);
+        setDocumentData(newData);
+      } else {
+        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+      }
+    } catch (err) {
+      console.log('Error in useEffect2 ', err);
+    }
+  }, [data, searchText, documentData]);
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
@@ -111,6 +111,7 @@ const Immigration = () => {
     let parm = {
       bodyData: parmZ,
       uri: 'immigration-update',
+      domainName:apiUri
     };
 
     const result = await _postApiFetch(parm);
@@ -195,6 +196,7 @@ const Immigration = () => {
     let parm = {
       bodyData: info,
       uri: 'immigration-add',
+      domainName:apiUri
     };
 
     const result = await _postApiADD(parm);
@@ -224,6 +226,7 @@ const Immigration = () => {
     let parm = {
       bodyData: info,
       uri: 'immigration-delete',
+      domainName:apiUri
     };
 
     const result = await _postApiADD(parm);
@@ -245,6 +248,8 @@ const Immigration = () => {
 
     showToastWithGravityAndOffset(msg);
   };
+
+  console.log("documentData", documentData);
 
   return (
     <>
