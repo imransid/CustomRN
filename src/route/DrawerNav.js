@@ -50,7 +50,7 @@ import Termination from '../screen/CoreHr/Termination';
 import ChangePassword from '../screen/Profile/ChangePassword';
 import ProfilePicture from '../screen/ProfilePicture/ProfilePicture';
 import SupportTicketOrganization from '../screen/SupportTicketsOrganized';
-
+import Basic from '../screen/Profile/basic';
 import {useSelector} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
@@ -108,7 +108,7 @@ function MainDrawerNavigation() {
         />
       )}>
       <Drawer.Screen name="Home" component={Dashboard} />
-      <Drawer.Screen name="BasicInfo" component={BasicInfo} />
+      <Drawer.Screen name="BasicInfo" component={Basic} />
       <Drawer.Screen name="MonthlyAttendances" component={MonthlyAttendances} />
       <Drawer.Screen
         name="ApproveEmployeeLeaves"
