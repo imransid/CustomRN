@@ -5,7 +5,10 @@ import {
   Modal,
   View,
   ToastAndroid,
+  Platform,
+  KeyboardAvoidingView
 } from 'react-native';
+
 import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
 import CustomModal from '../../components/CustomModal/CustomModal';
@@ -272,6 +275,10 @@ const Document = () => {
             onRequestClose={() => {
               setModalVisible(false);
             }}>
+              <KeyboardAvoidingView 
+              style={{flex:1,backgroundColor:'#fff'}}
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              enabled>
             <CustomModal
               modalName={'Document'}
               type={type}
@@ -289,6 +296,7 @@ const Document = () => {
               }}
               children
             />
+            </KeyboardAvoidingView>
           </Modal>
           <View style={styles.search}>
             <TextInput
@@ -357,7 +365,9 @@ const Document = () => {
           {/* </TouchableOpacity> */}
         </SafeAreaView>
       </ScrollView>
+  
       <PlusButton OnPress={() => OnAddNow()} />
+
     </>
   );
 };
