@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -6,19 +6,23 @@ import {
   Text,
   TouchableOpacity,
   SafeAreaView,
+  Image,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
-import { LogOut } from '../../actions/SignIn';
+import {useDispatch, useSelector} from 'react-redux';
+import {Avatar, Card, Title, Paragraph} from 'react-native-paper';
+import {LogOut} from '../../actions/SignIn';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {DrawerChange} from '../../actions/Settings';
 import {_fetchPostImage} from '../../services/Services';
 
-
 function CustomDrawerContent(props) {
   const userID = useSelector(state => state.user.userAllData.id);
   const dispatch = useDispatch();
+
+  const user = useSelector(state => state.user.userAllData);
+  const apiUri = useSelector(state => state.api.domainName);
+  const URL_IMG = `${apiUri.slice(0, -10)}/${user.profile_photo}`;
 
   const userData = useSelector(state => state.user.userAllData);
 
@@ -90,7 +94,12 @@ function CustomDrawerContent(props) {
                 onItemParentPress(parent.key);
               }}>
               <View style={styles.parentItem}>
-                <Icon name={parent?.icon} size={25} color={'#525E75'} style={{ marginLeft: 5 }} />
+                <Icon
+                  name={parent?.icon}
+                  size={25}
+                  color={'#525E75'}
+                  style={{marginLeft: 5}}
+                />
                 <Text style={[styles.icon, styles.title]}>{parent.title}</Text>
               </View>
             </TouchableOpacity>
@@ -136,7 +145,12 @@ function CustomDrawerContent(props) {
       <View>
         <TouchableOpacity onPress={logOut} testID="customDrawer-logout">
           <View style={styles.parentItem}>
-            <Icon name="sign-out-alt" size={25} color={'#525E75'} style={{ marginLeft: 5 }} />
+            <Icon
+              name="sign-out-alt"
+              size={25}
+              color={'#525E75'}
+              style={{marginLeft: 5}}
+            />
             <Text style={styles.title}>{'Log out'}</Text>
           </View>
         </TouchableOpacity>
@@ -148,13 +162,17 @@ function CustomDrawerContent(props) {
     <ScrollView style={styles.drawerContainer}>
       <SafeAreaView
         style={styles.container}
-        forceInset={{ top: 'always', horizontal: 'never' }}>
+        forceInset={{top: 'always', horizontal: 'never'}}>
         <Card>
           <Card.Content>
-            <Avatar.Image
-              size={100}
-              source={require('../../../assets/images/download.png')}
-            />
+            {URL_IMG ? (
+              <Image style={styles.avatar} source={{uri: URL_IMG}} />
+            ) : (
+              <Avatar.Image
+                size={100}
+                source={require('../../../assets/images/download.png')}
+              />
+            )}
           </Card.Content>
           <Card.Content>
             <Title>{userData.username}</Title>
@@ -216,6 +234,14 @@ const styles = StyleSheet.create({
   backButtonText: {
     marginLeft: 10,
     color: '#000',
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 4,
+    borderColor: 'white',
+    marginBottom: 10,
   },
 });
 

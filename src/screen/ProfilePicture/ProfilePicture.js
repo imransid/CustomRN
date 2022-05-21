@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Image, Button, Platform} from 'react-native';
+import {View, Image, Button, Platform, ToastAndroid} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useSelector} from 'react-redux';
 import {_postApiADD} from '../../services/Services';
+import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 
 const createFormData = (photo, body = {}) => {
   const data = new FormData();
@@ -22,6 +23,8 @@ const createFormData = (photo, body = {}) => {
 
 const ProfilePicture = () => {
   const [photo, setPhoto] = React.useState(null);
+  const [documentLoader, setDocumentLoader] = React.useState(false);
+
   const id = useSelector(state => state.user.userAllData.id);
   const apiUri = useSelector(state => state.api.domainName);
   const handleChoosePhoto = () => {
@@ -33,7 +36,18 @@ const ProfilePicture = () => {
     });
   };
 
+  const showToastWithGravityAndOffset = msg => {
+    ToastAndroid.showWithGravityAndOffset(
+      msg,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+
   const handleUploadPhoto = async () => {
+    setDocumentLoader(true);
     let objectData = [
       ['id', id.toString()],
       ['profile_photo', photo],
@@ -48,37 +62,33 @@ const ProfilePicture = () => {
     const result = await _postApiADD(parm);
 
     let msg = result.status
-      ? type === 'edit'
-        ? 'Update Successfully'
-        : 'Save Successfully'
+      ? 'Save Successfully'
       : 'Failed Please Check Again.!';
 
-    console.log('msg', msg);
+    showToastWithGravityAndOffset(msg);
+    setDocumentLoader(false);
   };
-
-  // const handleUploadPhoto = () => {
-  //   fetch(`${apiUri}/api/user/profile-pic-change`, {
-  //     method: 'POST',
-  //     body: createFormData(photo, { id: id }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((response) => {
-  //       console.log('response', response);
-  //     })
-  //     .catch((error) => {
-  //       console.log('error', error);
-  //     });
-  // };
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       {photo && (
         <>
-          <Image source={{uri: photo.uri}} style={{width: 300, height: 300}} />
-          <Button title="Upload Photo" onPress={handleUploadPhoto} />
+          {documentLoader ? (
+            <CustomIndicator />
+          ) : (
+            <>
+              <Image
+                source={{uri: photo.uri}}
+                style={{width: 300, height: 300}}
+              />
+              <Button title="Upload Photo" onPress={handleUploadPhoto} />
+            </>
+          )}
         </>
       )}
-      <Button title="Choose Photo" onPress={handleChoosePhoto} />
+      {!documentLoader && (
+        <Button title="Choose Photo" onPress={handleChoosePhoto} />
+      )}
     </View>
   );
 };

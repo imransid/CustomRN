@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, {useCallback} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,13 +8,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import TapButton from '../../components/tapButton/TapButton';
-import { useDispatch, useSelector } from 'react-redux';
-import { CheckIn, CheckOut } from '../../actions/Attendance';
+import {useDispatch, useSelector} from 'react-redux';
+import {CheckIn, CheckOut} from '../../actions/Attendance';
 
 const ControlCenter = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.userAllData)
-
+  const user = useSelector(state => state.user.userAllData);
+  const apiUri = useSelector(state => state.api.domainName);
+  const URL_IMG = `${apiUri.slice(0, -10)}/${user.profile_photo}`;
 
   const lat = useSelector(state => state.user.Latitude);
   const long = useSelector(state => state.user.Longitude);
@@ -22,22 +23,18 @@ const ControlCenter = () => {
   const checkInLoader = useSelector(state => state.user.checkInLoader);
   // console.log("user datas", firstname)
 
-
-
   const OnPress = useCallback(() => {
     dispatch(checkInStatus ? CheckOut() : CheckIn());
   }, [dispatch, checkInStatus]);
 
   return (
-
     <View style={styles.header}>
       <View style={styles.headerContent}>
-        <Image
-          style={styles.avatar}
-          source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar1.png' }}
-        />
+        <Image style={styles.avatar} source={{uri: URL_IMG}} />
 
-        <Text style={styles.name}>{user.first_name} {user.last_name} </Text>
+        <Text style={styles.name}>
+          {user.first_name} {user.last_name}{' '}
+        </Text>
         <Text style={styles.designation}>{user.designation_id}</Text>
         <Text style={styles.officeShift}>
           Office Shift: 9:00 AM To 6:00 PM(Night Shift)
@@ -57,7 +54,6 @@ const ControlCenter = () => {
         </TouchableOpacity>
       </View>
     </View>
-
   );
 };
 

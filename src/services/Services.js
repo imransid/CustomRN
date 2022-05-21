@@ -102,6 +102,8 @@ export const _postApiADD = async data => {
       },
     };
 
+    console.log('requestOptions', requestOptions);
+
     let response = await fetch(data.domainName + data.uri, requestOptions)
       .then(response => {
         return response.json();
@@ -112,6 +114,8 @@ export const _postApiADD = async data => {
           data: result.data,
           msg: result.message,
         };
+
+        console.log('done', res);
         return res;
       })
       .catch(error => {
@@ -120,6 +124,7 @@ export const _postApiADD = async data => {
           data: [],
           msg: 'post error',
         };
+        console.log('fail', error);
         return res;
       });
 

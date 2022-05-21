@@ -244,8 +244,6 @@ const Document = () => {
 
     result.status ? setDocumentData(result.data) : null;
 
-    console.log('result', result);
-
     setUpdate(true);
 
     if (result.status) {
