@@ -135,18 +135,19 @@ export const _postApiADD = async data => {
 };
 
 export const _fetchPostImage = async data => {
+  console.log('data', data);
   let imageName = data.name;
   let dirs = RNFetchBlob.fs.dirs;
   let path =
     Platform.OS === 'ios'
-      ? dirs['MainBundleDir'] + imageName
-      : dirs.PictureDir + imageName;
+      ? dirs['MainBundleDir'] + '/' + imageName
+      : dirs.PictureDir + '/' + imageName;
 
   await RNFetchBlob.config({
     fileCache: true,
-    appendExt: 'pdf',
-    indicator: true,
-    IOSBackgroundTask: true,
+    // appendExt: 'pdf',
+    // indicator: true,
+    // IOSBackgroundTask: true,
     path: path,
     addAndroidDownloads: {
       useDownloadManager: true,
@@ -157,6 +158,8 @@ export const _fetchPostImage = async data => {
   })
     .fetch('GET', data.uri)
     .then(res => {
+      console.log('res >>>', res);
+
       ToastAndroid.showWithGravityAndOffset(
         'Downloading...',
         ToastAndroid.LONG,
@@ -166,6 +169,7 @@ export const _fetchPostImage = async data => {
       );
     })
     .catch(err => {
+      console.log('err >>>', err);
       ToastAndroid.showWithGravityAndOffset(
         'Something is wrong! Please try again later.',
         ToastAndroid.LONG,

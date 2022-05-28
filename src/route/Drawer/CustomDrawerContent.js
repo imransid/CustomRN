@@ -45,7 +45,9 @@ function CustomDrawerContent(props) {
   const downloadItem = name => {
     let filename = name + '.pdf';
 
-    let appUrl = 'https://hrmspvm.predictionla.com/api/user/';
+    console.log('filename', apiUri);
+
+    let appUrl = apiUri; //'https://hrmspvm.predictionla.com/api/user/';
 
     let fileUri =
       name === 'DownloadLatestIDCard'
