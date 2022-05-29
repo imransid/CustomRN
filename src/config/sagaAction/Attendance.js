@@ -8,6 +8,8 @@ import {
 } from '../../constant/Constants';
 import NetInfo from '@react-native-community/netinfo';
 
+import {View, StyleSheet, ToastAndroid, Button, StatusBar} from 'react-native';
+
 export const _Attendance = function* (action) {
   try {
     const State = yield select();
@@ -75,6 +77,14 @@ export const _CheckInOutUpdate = function* (action) {
     const checkInStatus = yield call(_ApiCall, data);
 
     if (checkInStatus) {
+      ToastAndroid.showWithGravityAndOffset(
+        'Successfully !',
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50,
+      );
+
       action.status === 'check out'
         ? yield put({
             type: CHECK_OUT_SUCCESSFULLY,
