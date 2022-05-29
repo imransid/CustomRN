@@ -7,8 +7,8 @@ import {
   Pressable,
   KeyboardAvoidingView
 } from 'react-native';
-import {Box, FormControl, Input, Stack} from 'native-base';
-import React, {useEffect, useState} from 'react';
+import { Box, FormControl, Input, Stack } from 'native-base';
+import React, { useEffect, useState } from 'react';
 import DocumentPicker from 'react-native-document-picker';
 var ImagePicker = require('react-native-image-picker');
 import DropDown from '../DorpDown';
@@ -177,7 +177,7 @@ const CustomModal = ({
     return filterItem[0][1];
   };
 
-  const FormControlItem = ({data}) => {
+  const FormControlItem = ({ data }) => {
     const checkAttachment = data => {
       return data.includes('ATTACHMENTS') ||
         (data.includes('FILE') && !data.includes('PROFILE'))
@@ -207,73 +207,73 @@ const CustomModal = ({
             </TouchableOpacity>
           )
         ) : // check Document && Type
-        getDropDownRender(data)[0] ? (
-          <DropDown
-            data={getDropDownRender(data)[1]}
-            selectValue={val => setDropDownValue(data, val)}
-            pickerValue={getDropDownValue(data)}
-          />
-        ) : // check DATE
+          getDropDownRender(data)[0] ? (
+            <DropDown
+              data={getDropDownRender(data)[1]}
+              selectValue={val => setDropDownValue(data, val)}
+              pickerValue={getDropDownValue(data)}
+            />
+          ) : // check DATE
 
-        _getDateShowStatus(data[2]) ? (
-          <Calendars
-            valueDate={data[1]}
-            keyDate={data[0]}
-            updateDateValue={(key, val) => _updateDateValue(key, val)}
-          />
-        ) : (
-          <InputBox
-            data={data}
-            val={_getInputValue(data[0])}
-            OnFocus={(name, val) => OnTextChange(name, val)}
-          />
-        )}
+            _getDateShowStatus(data[2]) ? (
+              <Calendars
+                valueDate={data[1]}
+                keyDate={data[0]}
+                updateDateValue={(key, val) => _updateDateValue(key, val)}
+              />
+            ) : (
+              <InputBox
+                data={data}
+                val={_getInputValue(data[0])}
+                OnFocus={(name, val) => OnTextChange(name, val)}
+              />
+            )}
       </>
     );
   };
 
   return (
- 
-      
+
+
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-                  <Text style={styles.modalText}>{modalName}</Text>
-                  <Box alignItems="center">
-              <Box w="100%" maxWidth="300px">
-                <FormControl isRequired>
-                  <Stack mx="3">
-                    <ScrollView
-                      style={{
-                        height: 290,
-                      }}>
-                      {value?.map((e, i) => (
-                        <FormControlItem key={i} data={e} />
-                      ))}
-                    </ScrollView>
-                  </Stack>
-                </FormControl>
-              </Box>
-            </Box>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    <Pressable
-                      style={[styles.button, styles.buttonConnect]}
-                      onPress={() => Onsubmit()}>
-                      <Text style={styles.textStyle}>{type === 'add' ? 'Add' : 'Update'}</Text>
-                    </Pressable>
-                    <Pressable
-                      style={[styles.button, styles.buttonCancel]}
-                      onPress={onPress}>
-                      <Text style={styles.textStyle}>Cancel</Text>
-                    </Pressable>
-                  </View>
-                </View>
-                </View>
+        <Text style={styles.modalText}>{modalName}</Text>
+        <Box alignItems="center">
+          <Box w="100%" maxWidth="300px">
+            <FormControl isRequired>
+              <Stack mx="3">
+                <ScrollView
+                  style={{
+                    height: 290,
+                  }}>
+                  {value?.map((e, i) => (
+                    <FormControlItem key={i} data={e} />
+                  ))}
+                </ScrollView>
+              </Stack>
+            </FormControl>
+          </Box>
+        </Box>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <Pressable
+            style={[styles.button, styles.buttonConnect]}
+            onPress={() => Onsubmit()}>
+            <Text style={styles.textStyle}>{type === 'add' ? 'Add' : 'Update'}</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.button, styles.buttonCancel]}
+            onPress={onPress}>
+            <Text style={styles.textStyle}>Cancel</Text>
+          </Pressable>
+        </View>
+      </View>
+    </View>
 
-               
+
 
   );
 };
@@ -371,23 +371,23 @@ const styles = StyleSheet.create({
     flex: 1,
 
 
-},
-buttonStyle: {
+  },
+  buttonStyle: {
     width: 150,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     margin: 10,
-},
-textInputStyle: {
+  },
+  textInputStyle: {
     width: 150,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     margin: 10,
     borderColor: '#000',
-},
-modalView: {
+  },
+  modalView: {
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -395,8 +395,8 @@ modalView: {
     // alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
-        width: 0,
-        height: 2
+      width: 0,
+      height: 2
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
@@ -404,35 +404,35 @@ modalView: {
     width: "90%",
     // height: "30%",
 
-},
-button: {
+  },
+  button: {
     borderRadius: 20,
     padding: 10,
     elevation: 2,
     width: "30%",
-},
-buttonCancel: {
+  },
+  buttonCancel: {
     backgroundColor: "#FF0099",
 
 
-},
-buttonConnect: {
+  },
+  buttonConnect: {
     backgroundColor: "#2196F3",
 
-},
-textStyle: {
+  },
+  textStyle: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center"
-},
-modalText: {
+  },
+  modalText: {
     marginBottom: 15,
     textAlign: "center",
     fontSize: 20,
     fontWeight: "bold",
     color: "#2196F3"
-},
-centeredView: {
+  },
+  centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -440,8 +440,8 @@ centeredView: {
     // height: 200,
     alignSelf: "center",
     backgroundColor: "rgba(0,0,0,0.5)",
-},
-input: {
+  },
+  input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
@@ -450,8 +450,8 @@ input: {
     borderRadius: 10,
     paddingLeft: 10,
     paddingRight: 10,
-    color:"black"
-},
+    color: "black"
+  },
 
 
 });

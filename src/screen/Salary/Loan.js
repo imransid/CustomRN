@@ -95,9 +95,9 @@ const Loan = () => {
                                 key={i}
                                 sl={data.id}
                                 datas={[
-                                    { title: 'Company ID', value: data.loans_com_id },
+                                    // { title: 'Company ID', value: data.loans_com_id },
 
-                                    { title: 'Employee ID', value: data.loans_employee_id },
+                                    // { title: 'Employee ID', value: data.loans_employee_id },
                                     { title: 'Loan Month & Year', value: data.loans_month_year.toString() },
                                     {
                                         title: 'Loan Start Date',
@@ -119,7 +119,7 @@ const Loan = () => {
                                 variant="Immigration"
                                 onEdit={() => setEditModal(true)}
                                 onDelete={() => setDeleteModal(true)}
-                                buttonVisible={true}
+                                buttonVisible={false}
                             />
                         ))}
 

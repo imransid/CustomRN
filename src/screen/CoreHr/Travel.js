@@ -200,7 +200,8 @@ const Travel = () => {
 
     let parm = {
       bodyData: info,
-      uri: 'qualification-add',
+      uri: 'travel-request-sending',
+      domainName: apiUri,
     };
 
     const result = await _postApiADD(parm);
@@ -223,34 +224,35 @@ const Travel = () => {
     showToastWithGravityAndOffset(msg);
   };
 
-  const _onDelete = async info => {
-    setModalVisible(false);
-    setDocumentLoader(true);
+  // const _onDelete = async info => {
+  //   setModalVisible(false);
+  //   setDocumentLoader(true);
 
-    let parm = {
-      bodyData: info,
-      uri: 'qualification-delete',
-    };
+  //   let parm = {
+  //     bodyData: info,
+  //     uri: 'qualification-delete',
+  //   };
 
-    const result = await _postApiADD(parm);
+  //   const result = await _postApiADD(parm);
 
-    result.status ? setDocumentData(result.data) : null;
+  //   result.status ? setDocumentData(result.data) : null;
 
-    if (result.status) {
-      setDocumentData(result.data);
-      setDocumentLoader(false);
-    } else {
-      setDocumentLoader(false);
-    }
+  //   if (result.status) {
+  //     setDocumentData(result.data);
+  //     setDocumentLoader(false);
+  //   } else {
+  //     setDocumentLoader(false);
+  //   }
 
-    result.status ? setDocumentData(result.data) : null;
+  //   result.status ? setDocumentData(result.data) : null;
 
-    let msg = result.status
-      ? 'Deleted Successfully. !'
-      : 'Failed Please Check Again.!';
+  //   let msg = result.status
+  //     ? 'Deleted Successfully. !'
+  //     : 'Failed Please Check Again.!';
 
-    showToastWithGravityAndOffset(msg);
-  };
+  //   showToastWithGravityAndOffset(msg);
+  // };
+  console.log("infoValue", infoValue)
 
   return (
     <>
@@ -264,12 +266,17 @@ const Travel = () => {
               setModalVisible(false);
             }}>
             <CustomModal
-              modalName={'Qualification'}
+              modalName={'Trav'}
               type={type}
               onValue={infoValue}
               dropDownValue={[
-                { label: 'Other', value: 'Other' },
-                { label: 'Certificate', value: 'Certificate' },
+                { label: 'BY BUS', value: 'BY BUS' },
+                { label: 'BY TRAIN', value: 'BY TRAIN' },
+                { label: 'BY PLAIN', value: 'BY PLAIN' },
+                { label: 'BY TAXI', value: 'BY TAXI' },
+                { label: 'BY RENTAL CAR', value: 'BY RENTAL CAR' },
+                { label: 'BY OTHER', value: 'BY OTHER' },
+
               ]}
               onPress={(e, type) => {
                 if (type) {
