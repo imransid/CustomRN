@@ -108,7 +108,7 @@ const BasicInfo = () => {
   // button pressed
   const OnPress = async () => {
     let objectData = [
-      ['id', id.toString()],
+      ['id', id],
       [
         'first_name',
         inputValue.first_name === '' ? documentData.first_name : inputValue,

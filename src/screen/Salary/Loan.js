@@ -98,7 +98,7 @@ const Loan = () => {
                                     { title: 'Company ID', value: data.loans_com_id },
 
                                     { title: 'Employee ID', value: data.loans_employee_id },
-                                    { title: 'Loan Month & Year', data: data.loans_month_year },
+                                    { title: 'Loan Month & Year', value: data.loans_month_year.toString() },
                                     {
                                         title: 'Loan Start Date',
                                         value: data.loans_start_date,

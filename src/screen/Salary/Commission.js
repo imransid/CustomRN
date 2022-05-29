@@ -85,10 +85,7 @@ const Commission = () => {
                                 key={i}
                                 sl={data.id}
                                 datas={[
-                                    // {title: 'Commission Name', data: data.id},
-                                    // { title: 'Company ID', value: data.commission_com_id },
 
-                                    // { title: 'Employee ID', value: data.commission_employee_id },
                                     {
                                         title: 'Commission Type',
                                         value: data.commission_type,

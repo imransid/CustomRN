@@ -43,7 +43,7 @@ const Travel = () => {
 
   // type
   const [type, setType] = useState('');
-const navigation= useNavigation()
+  const navigation = useNavigation()
   // useEffect(() => {
   //   try {
   //     data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
@@ -296,8 +296,8 @@ const navigation= useNavigation()
             <CustomIndicator />
           ) : (
             documentData?.map((data, i) => (
-              <TouchableOpacity key={i}onPress={() => navigation.navigate('DetailsNew', {
-                data:[
+              <TouchableOpacity key={i} onPress={() => navigation.navigate('DetailsNew', {
+                data: [
                   {
                     title: 'Employee',
                     value: data.travel_employee_full_name,
@@ -323,43 +323,44 @@ const navigation= useNavigation()
                 ],
                 prevRoute: 'Travel',
               })}>
-              <TableCard
-                key={i}
-                sl={i + 1}
-                onEdit={() => onPressEdit(data)}
-                onDelete={() => {
-                  let val = [['id', data.id.toString(), 'ID']];
-                  _onDelete(val);
-                  setShowAlert(false);
-                }}
-                datas={[
-                  {
-                    title: 'Employee',
-                    value: data.travel_employee_full_name,
-                  },
-                  {
-                    title: 'Department',
-                    value: data.travel_employee_department_name,
-                  },
-                  {
-                    title: 'Visit Purpose',
-                    value: data.travel_purpose,
-                  },
-                  { title: 'Place name', value: data.travel_place },
-                  { title: 'Description', value: data.travel_desc },
-                  { title: 'Start Date', value: data.travel_start_date },
-                  { title: 'End Date', value: data.travel_end_date },
-                  {
-                    title: 'Expected Budget',
-                    value: data.travel_expected_budget,
-                  },
-                  { title: 'Actual Budget', value: data.travel_actual_budget },
-                  { title: 'Travel Mode', value: data.travel_mode },
-                ]}
-                deleteButton={true}
-                buttonVisible={false}
-                variant="Immigration"
-              />
+                <TableCard
+                  key={i}
+                  sl={i + 1}
+                  onEdit={() => onPressEdit(data)}
+                  onDelete={() => {
+                    let val = [['id', data.id.toString(), 'ID']];
+                    _onDelete(val);
+                    setShowAlert(false);
+                  }}
+                  datas={[
+                    {
+                      title: 'Employee',
+                      value: data.travel_employee_full_name,
+                    },
+                    {
+                      title: 'Department',
+                      value: data.travel_employee_department_name,
+                    },
+                    {
+                      title: 'Visit Purpose',
+                      value: data.travel_purpose,
+                    },
+                    { title: 'Place name', value: data.travel_place },
+                    { title: 'Description', value: data.travel_desc },
+                    { title: 'Start Date', value: data.travel_start_date },
+                    { title: 'End Date', value: data.travel_end_date },
+                    {
+                      title: 'Expected Budget',
+                      value: data.travel_expected_budget,
+                    },
+                    { title: 'Actual Budget', value: data.travel_actual_budget },
+                    { title: 'Travel Mode', value: data.travel_mode },
+                    { title: 'Status', value: data.travel_status },
+                  ]}
+                  deleteButton={true}
+                  buttonVisible={false}
+                  variant="Immigration"
+                />
               </TouchableOpacity>
             ))
           )}

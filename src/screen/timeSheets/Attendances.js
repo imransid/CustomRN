@@ -243,7 +243,7 @@ const Attendances = () => {
 
     showToastWithGravityAndOffset(msg);
   };
-
+  console.log("attendance", data)
   return (
     <>
       <ScrollView>
@@ -299,16 +299,20 @@ const Attendances = () => {
                 }}
                 datas={[
                   {
-                    title: 'EMPLOYEE',
+                    title: 'Empolyee Name',
                     value: data.employee_name,
                   },
-                  { title: 'DATE', value: data.attendance_date },
-                  { title: 'STATUS', value: data.attendance_status },
-                  { title: 'CLOCK IN', value: data.clock_in },
-                  { title: 'CLOCK OUT', value: data.check_in_out },
-                  { title: 'LATE', value: data.time_late },
-                  { title: 'EVERY LEAVING', value: data.early_leaving },
-                  { title: 'TOTAL WORK', value: data.total_work },
+                  { title: 'Date', value: data.attendance_date },
+                  { title: 'Status', value: data.attendance_status },
+                  { title: 'Clock In', value: data.clock_in },
+                  { title: 'Clock Out', value: data.clock_out },
+                  { title: 'Check In Out', value: data.check_in_out },
+                  { title: 'Late', value: data.time_late },
+                  { title: 'Early Leaving', value: data.early_leaving },
+                  { title: 'Overtime', value: data.overtime },
+                  { title: 'Total Work', value: data.total_work },
+                  { title: 'Total Rest', value: data.total_rest },
+                  { title: 'Attendance Status', value: data.attendance_status },
                 ]}
                 deleteButton={true}
                 buttonVisible={false}

@@ -24,8 +24,8 @@ const Tasks = () => {
         setSearchText(text);
     }
     let data = useFetchData(
-        [['project_employee_id', id], ['project_com_id', com_id]],
-        'project',
+        [['task_employee_id', id], ['task_com_id', com_id]],
+        'task',
         'post',
         apiUri
     );
@@ -41,7 +41,7 @@ const Tasks = () => {
     //         console.log('Error in useEffect ', err);
     //     }
     // }, [data, documentLoader, documentData]);
-
+    console.log("task data", data)
     useEffect(() => {
         const controller = new AbortController();
         try {
@@ -94,10 +94,10 @@ const Tasks = () => {
                                 datas={[
                                     { title: 'Assign To', value: data.task_assigned_to },
                                     { title: 'Title', value: data.task_title },
-                                    { title: 'Start Date', value: data.project_start_date },
-                                    { title: 'End Date', value: data.project_end_date },
+                                    { title: 'Start Date', value: data.task_start_date },
+                                    { title: 'End Date', value: data.task_end_date },
                                     { title: 'Assigned By', value: data.task_assigned_by },
-                                    { title: 'Progress', value: data.progress_progress },
+                                    { title: 'Progress', value: data.task_progress },
 
                                 ]}
                                 variant="Leaves"
