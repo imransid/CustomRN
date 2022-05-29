@@ -15,7 +15,11 @@ const ControlCenter = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.userAllData);
   const apiUri = useSelector(state => state.api.domainName);
-  const URL_IMG = `${apiUri.slice(0, -10)}/${user.profile_photo}`;
+  const profilePic = useSelector(state => state.user.profilePic);
+
+  const URL_IMG = `${apiUri.slice(0, -10)}/${
+    profilePic !== '' ? profilePic : user.profile_photo
+  }`;
 
   const lat = useSelector(state => state.user.Latitude);
   const long = useSelector(state => state.user.Longitude);

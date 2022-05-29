@@ -22,7 +22,11 @@ function CustomDrawerContent(props) {
 
   const user = useSelector(state => state.user.userAllData);
   const apiUri = useSelector(state => state.api.domainName);
-  const URL_IMG = `${apiUri.slice(0, -10)}/${user.profile_photo}`;
+  const profilePic = useSelector(state => state.user.profilePic);
+
+  const URL_IMG = `${apiUri.slice(0, -10)}/${
+    profilePic !== '' ? profilePic : user.profile_photo
+  }`;
 
   const userData = useSelector(state => state.user.userAllData);
 
@@ -44,8 +48,6 @@ function CustomDrawerContent(props) {
 
   const downloadItem = name => {
     let filename = name + '.pdf';
-
-    console.log('filename', apiUri);
 
     let appUrl = apiUri; //'https://hrmspvm.predictionla.com/api/user/';
 

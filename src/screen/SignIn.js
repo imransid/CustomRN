@@ -89,7 +89,7 @@ const SignIn = () => {
           <Box>
             <FormControl mb="5" isInvalid={userInvalid}>
               <Input
-                placeholder="User Name"
+                placeholder="phone number or email."
                 onChangeText={e => setUserName(e)}
               />
 

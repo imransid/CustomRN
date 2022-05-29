@@ -9,6 +9,7 @@ import {
   CHECK_IN_ERROR,
   CHECK_OUT_SUCCESSFULLY,
   CHECK_OUT,
+  UPDATE_PROFILE,
 } from '../constant/Constants';
 
 const INITIAL_STATE = {
@@ -23,6 +24,7 @@ const INITIAL_STATE = {
   Latitude: '',
   checkInStatus: false,
   checkInLoader: false,
+  profilePic: '',
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -44,6 +46,11 @@ export default (state = INITIAL_STATE, action) => {
         islogged: false,
         Longitude: '',
         Latitude: '',
+      };
+    case UPDATE_PROFILE:
+      return {
+        ...state,
+        profilePic: action.uri,
       };
 
     case SIGH_IN_SUCCESSFULLY:

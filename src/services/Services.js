@@ -102,7 +102,7 @@ export const _postApiADD = async data => {
       },
     };
 
-    console.log('requestOptions', requestOptions);
+    // console.log('requestOptions', requestOptions);
 
     let response = await fetch(data.domainName + data.uri, requestOptions)
       .then(response => {

@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, Image, Button, Platform, ToastAndroid} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {_postApiADD} from '../../services/Services';
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
+import {updateProfile} from '../../actions/SignIn';
 
 const createFormData = (photo, body = {}) => {
   const data = new FormData();
@@ -22,6 +23,7 @@ const createFormData = (photo, body = {}) => {
 };
 
 const ProfilePicture = () => {
+  const dispatch = useDispatch();
   const [photo, setPhoto] = React.useState(null);
   const [documentLoader, setDocumentLoader] = React.useState(false);
 
@@ -29,7 +31,6 @@ const ProfilePicture = () => {
   const apiUri = useSelector(state => state.api.domainName);
   const handleChoosePhoto = () => {
     launchImageLibrary({noData: true}, response => {
-      console.log(response);
       if (response) {
         setPhoto(response);
       }
@@ -61,6 +62,10 @@ const ProfilePicture = () => {
 
     const result = await _postApiADD(parm);
 
+    if (result.status) {
+      dispatch(updateProfile(result.data.profile_photo));
+    }
+
     let msg = result.status
       ? 'Save Successfully'
       : 'Failed Please Check Again.!';
@@ -87,7 +92,10 @@ const ProfilePicture = () => {
         </>
       )}
       {!documentLoader && (
-        <Button title="Choose Photo" onPress={handleChoosePhoto} />
+        <>
+          <View style={{height: 20}}></View>
+          <Button title="Choose Photo" onPress={handleChoosePhoto} />
+        </>
       )}
     </View>
   );

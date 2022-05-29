@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, PermissionsAndroid } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, View, PermissionsAndroid} from 'react-native';
 import Dashmenu from '../../components/Dashmenu/Dashmenu';
 import Controlbar from '../../components/ControlBar/ControlBar';
 // import Orientation from 'react-native-orientation'; ///need to remove this pac
 import Geolocation from '@react-native-community/geolocation';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { setLocation } from '../../actions/Attendance';
+import {useDispatch, useSelector} from 'react-redux';
+import {setLocation} from '../../actions/Attendance';
 
 import Loader from '../../components/Loader';
 
-import { getApiFetch, _postApiFetch } from '../../services/Services';
+import {getApiFetch, _postApiFetch} from '../../services/Services';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const Dashboard = () => {
       const fetchData = await getApiFetch(parm);
     })();
 
-    return () => { };
+    return () => {};
   }, []);
 
   useEffect(() => {
