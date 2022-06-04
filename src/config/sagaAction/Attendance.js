@@ -52,13 +52,13 @@ export const _CheckInOutUpdate = function* (action) {
 
     const uri =
       action.status === 'check out'
-        ? 'https://hrmspvm.predictionla.com/api/user/attendance-check-out'
-        : 'https://hrmspvm.predictionla.com/api/user/attendance-check-in';
+        ? `${State.api.domainName}attendance-check-out`
+        : `${State.api.domainName}attendance-check-in`;
 
     const NetStatus = yield NetInfo.fetch().then(state => state.isConnected);
 
     let IP;
-    NetStatus ? (IP = yield call(_GetIp)) : (IP = '000.000.000.000');
+    NetStatus ? (IP = yield call(_GetIp)) : (IP = '127.0.0.1');
 
     let data = {
       com_id: State.user.userAllData.com_id.toString(), //action.data.username,
@@ -72,19 +72,14 @@ export const _CheckInOutUpdate = function* (action) {
         State.user.userAllData.user_over_time_rate.toString(),
       ip_address: IP,
       uri: uri,
+      token: State.user.token,
     };
 
     const checkInStatus = yield call(_ApiCall, data);
 
-    if (checkInStatus) {
-      ToastAndroid.showWithGravityAndOffset(
-        'Successfully !',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50,
-      );
+    console.log('checkInStatus', checkInStatus);
 
+    if (checkInStatus) {
       action.status === 'check out'
         ? yield put({
             type: CHECK_OUT_SUCCESSFULLY,
@@ -104,7 +99,11 @@ export const _CheckInOutUpdate = function* (action) {
 
 const _ApiCall = function* (action) {
   try {
+    var myHeaders = new Headers();
+    myHeaders.append('Cookie', 'XSRF-TOKEN=' + action.token);
+
     var formdata = new FormData();
+
     formdata.append('com_id', action.com_id);
     formdata.append('employee_id', action.employee_id);
     formdata.append('lat', action.lat);
@@ -117,14 +116,60 @@ const _ApiCall = function* (action) {
 
     var requestOptions = {
       method: 'POST',
+      headers: myHeaders,
       body: formdata,
       redirect: 'follow',
     };
 
     return yield fetch(action.uri, requestOptions)
-      .then(response => response.text())
-      .then(result => true)
-      .catch(error => false);
+      .then(response => response.json())
+      .then(result => {
+        if (result.message !== undefined) {
+          ToastAndroid.showWithGravityAndOffset(
+            result.message,
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        }
+        return true;
+      })
+      .catch(error => {
+        return false;
+      });
+
+    //   var formdata = new FormData();
+
+    //   formdata.append(
+    //     'Cookie',
+    //     'XSRF-TOKEN=eyJpdiI6IlhTSHhLZEV5aTlVcnFEUUZaWEYwY2c9PSIsInZhbHVlIjoiSkQrVFROWnQwWGZ4Nm04b0plbm1nUDhyZ0ozb3RycVQ2SHVUck9OQmVzdmdxT09Fd3Q2MWZiSDZPQytqVnJLY2gxYWprd3pqVjVTcGVjYWZFZC9HMFdzSVRFYmIrUkQ3WHNLMW54UXVzNW9BeVZuNDJhK0FCdU5ZZ1A5enVKNnEiLCJtYWMiOiI1MTE4ZjYwZTc2MjAxNmJjYWUxZTk2MTQ2MGYyMTVkMGU5ZGU2YTU4Y2ViMjRjMGJhNDhkNzNjNGViZjdkZDFjIiwidGFnIjoiIn0%3D; predictionit_session=eyJpdiI6InBlT2RWOFJhNlpOZGVWanhZbnlsU0E9PSIsInZhbHVlIjoiNUZRUlFLZ0xPaHZ6V1lWbFBCNnduSHhYcVI3R0I0WlZ5Y0ZDdnllbWtGZDYwbWQ1di8yOVUvTnp3WGhOa1hlRkViQVNiNmIydC9WZ0pnNmdyRVVRemZQZmR0UVoyTjdQRTlNSkc5VGVDSjNwVUdUTEFnRHpBV2p1WmFhSXRkMG8iLCJtYWMiOiJmMjJiYWYxMTI3MTU1MTAwNDNiYWU0NWI2MjVhM2IyOWYwMmY4ODY2YWNkMTQ1ZTk2OTYxNzcwMzU4NmEyY2VmIiwidGFnIjoiIn0%3D',
+    //   );
+    //   formdata.append('com_id', action.com_id);
+    //   formdata.append('employee_id', action.employee_id);
+    //   formdata.append('lat', action.lat);
+    //   formdata.append('longt', action.longt);
+    //   formdata.append('office_shift_id', action.office_shift_id);
+    //   formdata.append('user_over_time_type', action.user_over_time_type);
+    //   formdata.append('over_time_payable', action.over_time_payable);
+    //   formdata.append('user_over_time_rate', action.user_over_time_rate);
+    //   formdata.append('ip_address', action.ip_address);
+
+    //   console.log('formdata', formdata, action);
+
+    //   var requestOptions = {
+    //     method: 'POST',
+    //     body: formdata,
+    //     redirect: 'follow',
+    //   };
+
+    //   return yield fetch(action.uri, requestOptions)
+    //     .then(response => response.text())
+    //     .then(result => {
+    //       console.log('rs', result);
+    //       return true;
+    //     })
+    //     .catch(error => false);
   } catch (err) {
     console.log('Error in  _authApiCall ', err);
   }
