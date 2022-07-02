@@ -14,8 +14,6 @@ const TableCard = props => {
       : false;
   };
 
-  console.log('errror here');
-
   return (
     <View style={styles.listitem}>
       <View style={styles.sl}>

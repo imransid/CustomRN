@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -11,14 +11,14 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import { _postApiFetch, _postApiADD, _searchData } from '../../services/Services';
+import {_postApiFetch, _postApiADD, _searchData} from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import styles from './Styles';
-import { TextInput } from 'react-native-paper';
+import {TextInput} from 'react-native-paper';
 
 const Immigration = () => {
   const apiUri = useSelector(state => state.api.domainName);
@@ -35,7 +35,6 @@ const Immigration = () => {
     'post',
     apiUri,
   );
-console.log("imigration",data)
   const [documentData, setDocumentData] = useState([]);
   const [documentType, setDocumentType] = useState('');
   const [documentLoader, setDocumentLoader] = useState(false);
@@ -111,7 +110,7 @@ console.log("imigration",data)
     let parm = {
       bodyData: parmZ,
       uri: 'immigration-update',
-      domainName:apiUri
+      domainName: apiUri,
     };
 
     const result = await _postApiFetch(parm);
@@ -196,7 +195,7 @@ console.log("imigration",data)
     let parm = {
       bodyData: info,
       uri: 'immigration-add',
-      domainName:apiUri
+      domainName: apiUri,
     };
 
     const result = await _postApiADD(parm);
@@ -226,7 +225,7 @@ console.log("imigration",data)
     let parm = {
       bodyData: info,
       uri: 'immigration-delete',
-      domainName:apiUri
+      domainName: apiUri,
     };
 
     const result = await _postApiADD(parm);
@@ -249,8 +248,6 @@ console.log("imigration",data)
     showToastWithGravityAndOffset(msg);
   };
 
-  console.log("documentData", documentData);
-
   return (
     <>
       <ScrollView>
@@ -267,8 +264,8 @@ console.log("imigration",data)
               type={type}
               onValue={infoValue}
               dropDownValue={[
-                { label: 'VIP', value: 'VIP' },
-                { label: 'VVIP', value: 'VVIP' },
+                {label: 'VIP', value: 'VIP'},
+                {label: 'VVIP', value: 'VVIP'},
               ]}
               onPress={(e, type) => {
                 if (type) {
@@ -305,17 +302,17 @@ console.log("imigration",data)
                   setShowAlert(false);
                 }}
                 datas={[
-                  { title: 'Document Type', value: data.immigrant_document_type },
+                  {title: 'Document Type', value: data.immigrant_document_type},
 
-                  { title: 'Issue Date', value: data.immigrant_issue_date },
+                  {title: 'Issue Date', value: data.immigrant_issue_date},
                   {
                     title: 'Review Date',
                     value: data.immigrant_eligible_review_date,
                   },
-                  { title: 'Expired Dtae', value: data.immigrant_expired_date },
+                  {title: 'Expired Dtae', value: data.immigrant_expired_date},
 
-                  { title: 'Document File', value: data.immigrant_document_file },
-                  { title: 'Country', value: data.immigrant_country },
+                  {title: 'Document File', value: data.immigrant_document_file},
+                  {title: 'Country', value: data.immigrant_country},
                 ]}
                 deleteButton={true}
                 buttonVisible={true}

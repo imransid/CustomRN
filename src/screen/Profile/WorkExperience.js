@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -11,14 +11,14 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import { _postApiFetch, _postApiADD, _searchData } from '../../services/Services';
+import {_postApiFetch, _postApiADD, _searchData} from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import styles from './Styles';
-import { TextInput } from 'react-native-paper';
+import {TextInput} from 'react-native-paper';
 const WorkExperience = () => {
   const apiUri = useSelector(state => state.api.domainName);
   const [modalVisible, setModalVisible] = useState(false);
@@ -44,40 +44,34 @@ const WorkExperience = () => {
   // type
   const [type, setType] = useState('');
 
-  // useEffect(() => {
-  //   try {
-  //     data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-  //     documentData.length === 0 ? setDocumentData(data[0]) : null;
-  //   } catch (err) {
-  //     console.log('Error in useEffect ', err);
-  //   }
-  // }, [data, documentLoader, documentData]);
+  const [updateAva, setUpdate] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
     try {
-      console.log('searchText', searchText.length);
-      let lngth = searchText.length
-      if (lngth > 0) {
-        var newData = _searchData(documentData, searchText);
-        // setDocumentData(newData);
-        documentData.length !== newData.length ? setDocumentData(newData) : null;
-      } else {
-        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-        data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
-
+      if (!updateAva) {
+        let lngth = searchText.length;
+        if (lngth > 0) {
+          var newData = _searchData(documentData, searchText);
+          // setDocumentData(newData);
+          documentData.length !== newData.length
+            ? setDocumentData(newData)
+            : null;
+        } else {
+          data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+          data[0].length !== documentData.length
+            ? setDocumentData(data[0])
+            : null;
+        }
       }
     } catch (err) {
       console.log('Error in useEffect2 ', err);
     }
 
-
     return () => {
       controller.abort();
-    }
-
-  }, [data, searchText, documentData, documentLoader]);
-
+    };
+  }, [data, searchText, documentData, documentLoader, updateAva]);
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
@@ -116,15 +110,19 @@ const WorkExperience = () => {
     let parm = {
       bodyData: parmZ,
       uri: 'work-experience-update',
-      domainName:apiUri
+      domainName: apiUri,
     };
 
     const result = await _postApiFetch(parm);
 
+    result.status ? setUpdate(true) : null;
+
     result.status ? setDocumentData(result.data) : null;
 
     let msg = result.status
-      ? type === 'edit'
+      ? result.msg
+        ? result.msg
+        : type === 'edit'
         ? 'Update Successfully'
         : 'Save Successfully'
       : 'Failed Please Check Again.!';
@@ -199,9 +197,12 @@ const WorkExperience = () => {
     let parm = {
       bodyData: info,
       uri: 'work-experience-add',
+      domainName: apiUri,
     };
 
     const result = await _postApiADD(parm);
+
+    result.status ? setUpdate(true) : null;
 
     result.status ? setDocumentData(result.data) : null;
 
@@ -213,7 +214,9 @@ const WorkExperience = () => {
     }
 
     let msg = result.status
-      ? type === 'edit'
+      ? result.msg
+        ? result.msg
+        : type === 'edit'
         ? 'Update Successfully'
         : 'Save Successfully'
       : 'Failed Please Check Again.!';
@@ -228,7 +231,7 @@ const WorkExperience = () => {
     let parm = {
       bodyData: info,
       uri: 'work-experience-delete',
-      domainName:apiUri
+      domainName: apiUri,
     };
 
     const result = await _postApiADD(parm);
@@ -267,8 +270,8 @@ const WorkExperience = () => {
               type={type}
               onValue={infoValue}
               dropDownValue={[
-                { label: 'Other', value: 'Other' },
-                { label: 'Certificate', value: 'Certificate' },
+                {label: 'Other', value: 'Other'},
+                {label: 'Certificate', value: 'Certificate'},
               ]}
               onPress={(e, type) => {
                 if (type) {
@@ -309,10 +312,10 @@ const WorkExperience = () => {
                     title: 'Company Name',
                     value: data.work_experience_company_name,
                   },
-                  { title: 'Form', value: data.work_experience_from_date },
-                  { title: 'To', value: data.work_experience_to_date },
-                  { title: 'Position', value: data.work_experience_post },
-                  { title: 'Description', value: data.work_experience_desc },
+                  {title: 'Form', value: data.work_experience_from_date},
+                  {title: 'To', value: data.work_experience_to_date},
+                  {title: 'Position', value: data.work_experience_post},
+                  {title: 'Description', value: data.work_experience_desc},
                 ]}
                 deleteButton={true}
                 buttonVisible={true}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -6,34 +6,44 @@ import {
   View,
   ToastAndroid,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 
 import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
-import { ScaledSheet } from 'react-native-size-matters';
+import {ScaledSheet} from 'react-native-size-matters';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import { _postApiFetch, _postApiADD, _searchData } from '../../services/Services';
+import {
+  _postApiFetch,
+  _postApiADD,
+  _searchData,
+  _postApiNormalADD,
+} from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import TableCardAttachment from '../../components/TableCardAttachment/TableCardAttachment';
 import RnPdf from '../../components/GenaratePdf';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 const Travel = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
   const [searchText, setSearchText] = useState('');
-  const onChangeSearchText = (text) => {
+  const onChangeSearchText = text => {
     setSearchText(text);
-  }
+  };
   const apiUri = useSelector(state => state.api.domainName);
 
-  let data = useFetchData([['travel_employee_id', id]], 'travel', 'post', apiUri);
+  let data = useFetchData(
+    [['travel_employee_id', id]],
+    'travel',
+    'post',
+    apiUri,
+  );
 
   const [documentData, setDocumentData] = useState([]);
   const [documentType, setDocumentType] = useState('');
@@ -43,43 +53,32 @@ const Travel = () => {
 
   // type
   const [type, setType] = useState('');
-  const navigation = useNavigation()
-  // useEffect(() => {
-  //   try {
-  //     data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-  //     documentData.length === 0 ? setDocumentData(data[0]) : null;
-  //   } catch (err) {
-  //     console.log('Error in useEffect ', err);
-  //   }
-  // }, [data, documentLoader, documentData]);
+  const navigation = useNavigation();
+
+  const [updateAva, setUpdate] = useState(false);
 
   useEffect(() => {
     // const controller = new AbortController();
     try {
-      console.log('searchText', searchText.length);
-      let lngth = searchText.length
-      if (lngth > 0) {
-        var newData = _searchData(documentData, searchText);
-        // setDocumentData(newData);
-        documentData.length !== newData.length ? setDocumentData(newData) : null;
-      } else {
-        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-        data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
-
+      if (!updateAva) {
+        let lngth = searchText.length;
+        if (lngth > 0) {
+          var newData = _searchData(documentData, searchText);
+          // setDocumentData(newData);
+          documentData.length !== newData.length
+            ? setDocumentData(newData)
+            : null;
+        } else {
+          data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+          data[0].length !== documentData.length
+            ? setDocumentData(data[0])
+            : null;
+        }
       }
     } catch (err) {
       console.log('Error in useEffect2 ', err);
     }
-
-
-    // return () => {
-    //   controller.abort();
-    // }
-
-  }, [data, searchText, documentData, documentLoader]);
-
-
-
+  }, [data, searchText, documentData, documentLoader, updateAva]);
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
@@ -169,7 +168,7 @@ const Travel = () => {
     let objectData = [
       ['com_id', com_id.toString(), 'com_id'],
       ['travel_employee_id', id.toString(), 'travel_employee_id'],
-      ['travel_department_id', '', 'travel_department_id'],
+      ['travel_department_id', '2', 'travel_department_id'],
       ['travel_arrangement_type', '', 'travel_arrangement_type'],
       ['travel_purpose', '', 'travel_purpose'],
       ['travel_place', '', 'travel_place'],
@@ -178,7 +177,6 @@ const Travel = () => {
       ['travel_end_date', 'Select Date', 'travel_end_date'],
       ['travel_expected_budget', '', 'travel_expected_budget'],
       ['travel_mode', '', 'travel_mode'],
-
     ];
 
     let finalData = objectData.filter(e => {
@@ -204,9 +202,9 @@ const Travel = () => {
       domainName: apiUri,
     };
 
-    const result = await _postApiADD(parm);
+    const result = await _postApiNormalADD(parm);
 
-    result.status ? setDocumentData(result.data) : null;
+    result.status ? setUpdate(true) : null;
 
     if (result.status) {
       setDocumentData(result.data);
@@ -216,7 +214,9 @@ const Travel = () => {
     }
 
     let msg = result.status
-      ? type === 'edit'
+      ? result.msg
+        ? result.msg
+        : type === 'edit'
         ? 'Update Successfully'
         : 'Save Successfully'
       : 'Failed Please Check Again.!';
@@ -252,7 +252,7 @@ const Travel = () => {
 
   //   showToastWithGravityAndOffset(msg);
   // };
-  console.log("infoValue", infoValue)
+  console.log('infoValue >>>>', infoValue);
 
   return (
     <>
@@ -266,18 +266,23 @@ const Travel = () => {
               setModalVisible(false);
             }}>
             <CustomModal
-              modalName={'Trav'}
+              modalName={'Travel'}
               type={type}
               onValue={infoValue}
-              dropDownValue={[
-                { label: 'BY BUS', value: 'BY BUS' },
-                { label: 'BY TRAIN', value: 'BY TRAIN' },
-                { label: 'BY PLAIN', value: 'BY PLAIN' },
-                { label: 'BY TAXI', value: 'BY TAXI' },
-                { label: 'BY RENTAL CAR', value: 'BY RENTAL CAR' },
-                { label: 'BY OTHER', value: 'BY OTHER' },
-
-              ]}
+              dropDownValue={{
+                travel_arrangement_type: [
+                  {label: 'Traveling', value: 'Traveling'},
+                  {label: 'Picnic', value: 'Picnic'},
+                ],
+                mode: [
+                  {label: 'BY BUS', value: 'BY BUS'},
+                  {label: 'BY TRAIN', value: 'BY TRAIN'},
+                  {label: 'BY PLAIN', value: 'BY PLAIN'},
+                  {label: 'BY TAXI', value: 'BY TAXI'},
+                  {label: 'BY RENTAL CAR', value: 'BY RENTAL CAR'},
+                  {label: 'BY OTHERS', value: 'BY OTHERS'},
+                ],
+              }}
               onPress={(e, type) => {
                 if (type) {
                   type === 'edit' ? OnEdit(e, type) : OnAddPress(e, type);
@@ -290,7 +295,7 @@ const Travel = () => {
           </Modal>
           <View style={styles.search}>
             <TextInput
-              label='Search'
+              label="Search"
               value={searchText}
               onChangeText={text => onChangeSearchText(text)}
               mode="outlined"
@@ -303,33 +308,40 @@ const Travel = () => {
             <CustomIndicator />
           ) : (
             documentData?.map((data, i) => (
-              <TouchableOpacity key={i} onPress={() => navigation.navigate('DetailsNew', {
-                data: [
-                  {
-                    title: 'Employee',
-                    value: data.travel_employee_full_name,
-                  },
-                  {
-                    title: 'Department',
-                    value: data.travel_employee_department_name,
-                  },
-                  {
-                    title: 'Visit Purpose',
-                    value: data.travel_purpose,
-                  },
-                  { title: 'Place name', value: data.travel_place },
-                  { title: 'Description', value: data.travel_desc },
-                  { title: 'Start Date', value: data.travel_start_date },
-                  { title: 'End Date', value: data.travel_end_date },
-                  {
-                    title: 'Expected Budget',
-                    value: data.travel_expected_budget,
-                  },
-                  { title: 'Actual Budget', value: data.travel_actual_budget },
-                  { title: 'Travel Mode', value: data.travel_mode },
-                ],
-                prevRoute: 'Travel',
-              })}>
+              <TouchableOpacity
+                key={i}
+                onPress={() =>
+                  navigation.navigate('DetailsNew', {
+                    data: [
+                      {
+                        title: 'Employee',
+                        value: data.travel_employee_full_name,
+                      },
+                      {
+                        title: 'Department',
+                        value: data.travel_employee_department_name,
+                      },
+                      {
+                        title: 'Visit Purpose',
+                        value: data.travel_purpose,
+                      },
+                      {title: 'Place name', value: data.travel_place},
+                      {title: 'Description', value: data.travel_desc},
+                      {title: 'Start Date', value: data.travel_start_date},
+                      {title: 'End Date', value: data.travel_end_date},
+                      {
+                        title: 'Expected Budget',
+                        value: data.travel_expected_budget,
+                      },
+                      {
+                        title: 'Actual Budget',
+                        value: data.travel_actual_budget,
+                      },
+                      {title: 'Travel Mode', value: data.travel_mode},
+                    ],
+                    prevRoute: 'Travel',
+                  })
+                }>
                 <TableCard
                   key={i}
                   sl={i + 1}
@@ -352,17 +364,17 @@ const Travel = () => {
                       title: 'Visit Purpose',
                       value: data.travel_purpose,
                     },
-                    { title: 'Place name', value: data.travel_place },
-                    { title: 'Description', value: data.travel_desc },
-                    { title: 'Start Date', value: data.travel_start_date },
-                    { title: 'End Date', value: data.travel_end_date },
+                    {title: 'Place name', value: data.travel_place},
+                    {title: 'Description', value: data.travel_desc},
+                    {title: 'Start Date', value: data.travel_start_date},
+                    {title: 'End Date', value: data.travel_end_date},
                     {
                       title: 'Expected Budget',
                       value: data.travel_expected_budget,
                     },
-                    { title: 'Actual Budget', value: data.travel_actual_budget },
-                    { title: 'Travel Mode', value: data.travel_mode },
-                    { title: 'Status', value: data.travel_status },
+                    {title: 'Actual Budget', value: data.travel_actual_budget},
+                    {title: 'Travel Mode', value: data.travel_mode},
+                    {title: 'Status', value: data.travel_status},
                   ]}
                   deleteButton={true}
                   buttonVisible={false}
@@ -505,6 +517,6 @@ const styles = ScaledSheet.create({
     width: '100%',
     alignItems: 'flex-end',
   },
-  activityIndicator: { alignSelf: 'center', paddingVertical: '50%' },
+  activityIndicator: {alignSelf: 'center', paddingVertical: '50%'},
 });
 export default Travel;

@@ -63,7 +63,7 @@ const ProfilePicture = () => {
     const result = await _postApiADD(parm);
 
     if (result.status) {
-      dispatch(updateProfile(result.data.profile_photo));
+      dispatch(updateProfile(result.data?.[0].profile_photo));
     }
 
     let msg = result.status

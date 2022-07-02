@@ -37,7 +37,7 @@ export const _postApiFetch = async data => {
         let res = {
           status: true,
           data: result.data,
-          msg: result.message,
+          msg: result.msg,
         };
         return res;
       })
@@ -85,24 +85,20 @@ const _ImageValueGenerate = (name, val) => {
   }
 };
 
-export const _postApiADD = async data => {
+export const _postApiNormalADD = async data => {
   try {
+    var myHeaders = new Headers();
+
     var formdata = new FormData();
-    data.bodyData.length > 0
-      ? data.bodyData.map(e =>
-          formdata.append(e[0], _ImageValueGenerate(e[0], e[1])),
-        )
-      : null;
+
+    data.bodyData.map(e => formdata.append(e[0], e[1]));
+
     var requestOptions = {
       method: 'POST',
+      headers: myHeaders,
       body: formdata,
       redirect: 'follow',
-      headers: {
-        'Content-Type': 'multipart/form-data; ',
-      },
     };
-
-    // console.log('requestOptions', requestOptions);
 
     let response = await fetch(data.domainName + data.uri, requestOptions)
       .then(response => {
@@ -114,11 +110,62 @@ export const _postApiADD = async data => {
           data: result.data,
           msg: result.message,
         };
+        return res;
+      })
+      .catch(error => {
+        let res = {
+          status: false,
+          data: [],
+          msg: 'post error',
+        };
+        console.log('fail', error);
+        return res;
+      });
+    return response;
+  } catch (Err) {
+    console.log('Error in _postApiNormalADD ', err);
+  }
+};
+
+export const _postApiADD = async data => {
+  try {
+    var formdata = new FormData();
+    data.bodyData.length > 0
+      ? data.bodyData.map(e =>
+          formdata.append(e[0], _ImageValueGenerate(e[0], e[1])),
+        )
+      : null;
+
+    console.log('formdata >> is', formdata);
+
+    var requestOptions = {
+      method: 'POST',
+      body: formdata,
+      redirect: 'follow',
+      headers: {
+        'Content-Type': 'multipart/form-data; ',
+      },
+    };
+
+    console.log('requestOptions', requestOptions, data);
+
+    let response = await fetch(data.domainName + data.uri, requestOptions)
+      .then(response => {
+        return response.json();
+      })
+      .then(result => {
+        console.log('result', result);
+        let res = {
+          status: true,
+          data: result.data,
+          msg: result.message,
+        };
 
         console.log('done', res);
         return res;
       })
       .catch(error => {
+        console.log('error', error);
         let res = {
           status: false,
           data: [],

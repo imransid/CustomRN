@@ -6,7 +6,7 @@ import {
   View,
   ToastAndroid,
   Platform,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -53,15 +53,6 @@ const Document = () => {
 
   // type
   const [type, setType] = useState('');
-
-  // useEffect(() => {
-  //   try {
-  //     data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-  //     documentData.length === 0 ? setDocumentData(data[0]) : null;
-  //   } catch (err) {
-  //     console.log('Error in useEffect ', err);
-  //   }
-  // }, [data, documentLoader, documentData]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -205,7 +196,7 @@ const Document = () => {
     let parm = {
       bodyData: info,
       uri: 'document-add',
-      domainName:apiUri
+      domainName: apiUri,
     };
 
     const result = await _postApiADD(parm);
@@ -242,6 +233,8 @@ const Document = () => {
 
     const result = await _postApiADD(parm);
 
+    result.status ? setUpdate(true) : null;
+
     result.status ? setDocumentData(result.data) : null;
 
     setUpdate(true);
@@ -273,27 +266,27 @@ const Document = () => {
             onRequestClose={() => {
               setModalVisible(false);
             }}>
-              <KeyboardAvoidingView 
-              style={{flex:1,backgroundColor:'#fff'}}
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
+            <KeyboardAvoidingView
+              style={{flex: 1, backgroundColor: '#fff'}}
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
               enabled>
-            <CustomModal
-              modalName={'Document'}
-              type={type}
-              onValue={infoValue}
-              dropDownValue={[
-                {label: 'Other', value: 'Other'},
-                {label: 'Certificate', value: 'Certificate'},
-              ]}
-              onPress={(e, type) => {
-                if (type) {
-                  type === 'edit' ? OnEdit(e, type) : OnAddPress(e, type);
-                } else {
-                  setModalVisible(false);
-                }
-              }}
-              children
-            />
+              <CustomModal
+                modalName={'Document'}
+                type={type}
+                onValue={infoValue}
+                dropDownValue={[
+                  {label: 'Other', value: 'Other'},
+                  {label: 'Certificate', value: 'Certificate'},
+                ]}
+                onPress={(e, type) => {
+                  if (type) {
+                    type === 'edit' ? OnEdit(e, type) : OnAddPress(e, type);
+                  } else {
+                    setModalVisible(false);
+                  }
+                }}
+                children
+              />
             </KeyboardAvoidingView>
           </Modal>
           <View style={styles.search}>
@@ -363,9 +356,8 @@ const Document = () => {
           {/* </TouchableOpacity> */}
         </SafeAreaView>
       </ScrollView>
-  
-      <PlusButton OnPress={() => OnAddNow()} />
 
+      <PlusButton OnPress={() => OnAddNow()} />
     </>
   );
 };

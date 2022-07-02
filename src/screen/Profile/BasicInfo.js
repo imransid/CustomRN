@@ -1,29 +1,33 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { FormControl, Input, Stack, Box, WarningOutlineIcon } from 'native-base';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import React, {useState, useMemo, useEffect} from 'react';
+import {FormControl, Input, Stack, Box, WarningOutlineIcon} from 'native-base';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import TapButton from '../../components/tapButton/TapButton';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
   ToastAndroid,
 } from 'react-native';
-import { Card, Headline, Subheading } from 'react-native-paper';
-import { Calendar } from 'react-native-calendars';
+import {Card, Headline, Subheading} from 'react-native-paper';
+import {Calendar} from 'react-native-calendars';
 import moment from 'moment';
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import useFetchData from '../../components/HOC/withGetData';
-
-import { _postApiADD } from '../../services/Services';
+import DropDown from 'react-native-paper-dropdown';
+import {_postApiADD} from '../../services/Services';
 
 const BasicInfo = () => {
+  console.log('basci infoooo');
   const dispatch = useDispatch();
   const apiUri = useSelector(state => state.api.domainName);
 
   const id = useSelector(state => state.user.userAllData.id);
   let data = useFetchData([['id', id]], 'basic-information', 'post', apiUri);
 
+  const [showDropDown, setShowDropDown] = useState(false);
+
+  const [gender, setGender] = useState('');
   // global asset
   const loader = useSelector(state => state.user.loader);
   const errorMsg = useSelector(state => state.user.errorMsg);
@@ -44,6 +48,21 @@ const BasicInfo = () => {
     phone: '',
     gender: '',
   });
+
+  const genderList = [
+    {
+      label: 'Male',
+      value: 'male',
+    },
+    {
+      label: 'Female',
+      value: 'female',
+    },
+    {
+      label: 'Others',
+      value: 'others',
+    },
+  ];
 
   const [markedDates, setMarkedDates] = useState({
     '2022-04-05': {
@@ -151,7 +170,7 @@ const BasicInfo = () => {
     });
   };
 
-  const RenderBox = ({ label, value, itemPath }) => {
+  const RenderBox = ({label, value, itemPath}) => {
     return (
       <Box>
         <FormControl mb="5" isInvalid={userInvalid}>
@@ -169,7 +188,7 @@ const BasicInfo = () => {
     );
   };
 
-  const RenderDate = ({ label, value }) => {
+  const RenderDate = ({label, value}) => {
     return showCalender ? (
       <Calendar
         markedDates={markedDates}
@@ -198,11 +217,11 @@ const BasicInfo = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{flex: 1}}>
       {appLoaded && <CustomIndicator />}
 
       {!appLoaded ? (
-        <ScrollView style={{ marginBottom: 10 }}>
+        <ScrollView style={{marginBottom: 10}}>
           <KeyboardAwareScrollView
             style={{
               width: '100%',
@@ -221,7 +240,7 @@ const BasicInfo = () => {
                 <Headline>Details of User</Headline>
               </Box>
 
-              <Card style={{ padding: 5 }}>
+              <Card style={{padding: 5}}>
                 <RenderBox
                   label={'First Name *'}
                   value={documentData?.first_name}
@@ -237,11 +256,25 @@ const BasicInfo = () => {
                   value={documentData?.email}
                   itemPath={'email'}
                 />
-                <RenderBox
+                {/* <RenderBox
                   label={'Gender *'}
                   value={documentData?.gender}
                   itemPath={'gender'}
+                /> */}
+
+                {console.log('okokokokokokoko')}
+
+                <DropDown
+                  label={'Gender'}
+                  mode={'outlined'}
+                  visible={showDropDown}
+                  showDropDown={() => setShowDropDown(true)}
+                  onDismiss={() => setShowDropDown(false)}
+                  value={gender}
+                  setValue={setGender}
+                  list={genderList}
                 />
+
                 <RenderBox
                   label={'Phone *'}
                   value={documentData?.phone}
