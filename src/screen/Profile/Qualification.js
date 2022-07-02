@@ -314,7 +314,14 @@ const Qualification = () => {
                 sl={i + 1}
                 onEdit={() => onPressEdit(data)}
                 onDelete={() => {
-                  let val = [['id', data.id.toString(), 'ID']];
+                  let val = [
+                    [
+                      'qualification_employee_id',
+                      id.toString(),
+                      'qualification_employee_id',
+                    ],
+                    ['id', data.id.toString(), 'id'],
+                  ];
                   _onDelete(val);
                   setShowAlert(false);
                 }}

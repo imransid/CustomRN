@@ -29,11 +29,12 @@ export const _postApiFetch = async data => {
       redirect: 'follow',
     };
 
-    console.log('data', data);
+    console.log('requestOptions', requestOptions, data);
 
     let response = fetch(data.domainName + data.uri, requestOptions)
       .then(response => response.json())
       .then(result => {
+        console.log('result data ', result);
         let res = {
           status: true,
           data: result.data,

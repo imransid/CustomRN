@@ -314,7 +314,7 @@ const CustomModal = ({
                   style={{
                     height: 290,
                   }}>
-                  {console.log('value', value)}
+                  {console.log('value >>', value)}
                   {value?.map((e, i) => (
                     <FormControlItem key={i} data={e} />
                   ))}

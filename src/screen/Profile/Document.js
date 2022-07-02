@@ -309,7 +309,13 @@ const Document = () => {
                 sl={i + 1}
                 onEdit={() => onPressEdit(data)}
                 onDelete={() => {
-                  let val = [['id', data.id.toString(), 'ID']];
+                  let val = [
+                    [
+                      'document_employee_id',
+                      document_employee_id.id.toString(),
+                      'document_employee_id',
+                    ],
+                  ];
                   _onDelete(val);
                   setShowAlert(false);
                 }}

@@ -297,7 +297,14 @@ const Immigration = () => {
                 sl={i + 1}
                 onEdit={() => onPressEdit(data)}
                 onDelete={() => {
-                  let val = [['id', data.id.toString(), 'ID']];
+                  let val = [
+                    [
+                      'immigrant_employee_id',
+                      id.toString(),
+                      'immigrant_employee_id',
+                    ],
+                    ['id', data.id.toString(), 'id'],
+                  ];
                   _onDelete(val);
                   setShowAlert(false);
                 }}

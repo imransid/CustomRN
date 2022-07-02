@@ -262,9 +262,15 @@ export const drawerItemsSubMain = [
     icon: 'ticket-alt',
   },
   {
-    key: 'Leaves',
-    title: 'Leaves',
-    routes: [{nav: 'MainDrawer', routeName: 'Leaves', title: 'Leaves'}],
+    key: 'ApproveLeaveDetails',
+    title: 'Approve Leave Details',
+    routes: [
+      {
+        nav: 'MainDrawer',
+        routeName: 'ApproveLeaveDetails',
+        title: 'Approve Leave Details',
+      },
+    ],
     icon: 'calendar-minus',
   },
   {

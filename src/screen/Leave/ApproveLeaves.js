@@ -25,9 +25,7 @@ import {TextInput} from 'react-native-paper';
 import RnPdf from '../../components/GenaratePdf';
 
 import PlusButton from '../../components/plusButton';
-const Leave = ({navigation, route}) => {
-  console.log('navigation, route', navigation, route);
-
+const Leave = () => {
   const apiUri = useSelector(state => state.api.domainName);
   const [modalVisible, setModalVisible] = useState(false);
   const [updateAva, setUpdate] = useState(false);
@@ -39,12 +37,14 @@ const Leave = ({navigation, route}) => {
     setSearchText(text);
   };
 
-  let data = useFetchData(
-    [['leaves_employee_id', id]],
-    'leave',
-    'post',
-    apiUri,
-  );
+  let endPoint = 'approve-leave-details';
+  let endPointValue = [
+    ['leaves_employee_id', id],
+    ['leaves_company_id', com_id],
+  ];
+  let data = useFetchData(endPointValue, endPoint, 'post', apiUri);
+
+  console.log('navigation, Areoval', data);
 
   const [documentData, setDocumentData] = useState([]);
   const [documentLoader, setDocumentLoader] = useState(false);
@@ -54,20 +54,18 @@ const Leave = ({navigation, route}) => {
   useEffect(() => {
     const controller = new AbortController();
     try {
-      if (!updateAva) {
-        let lngth = searchText.length;
-        if (lngth > 0) {
-          var newData = _searchData(documentData, searchText);
-          // setDocumentData(newData);
-          documentData.length !== newData.length
-            ? setDocumentData(newData)
-            : null;
-        } else {
-          data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-          data[0].length !== documentData.length
-            ? setDocumentData(data[0])
-            : null;
-        }
+      let lngth = searchText.length;
+      if (lngth > 0) {
+        var newData = _searchData(documentData, searchText);
+        // setDocumentData(newData);
+        documentData.length !== newData.length
+          ? setDocumentData(newData)
+          : null;
+      } else {
+        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+        data[0].length !== documentData.length
+          ? setDocumentData(data[0])
+          : null;
       }
     } catch (err) {
       console.log('Error in useEffect2 ', err);
@@ -76,7 +74,7 @@ const Leave = ({navigation, route}) => {
     return () => {
       controller.abort();
     };
-  }, [data, searchText, documentData, documentLoader, updateAva]);
+  }, [data, searchText, documentData, documentLoader]);
 
   const OnAddNow = () => {
     setType('add');
@@ -129,8 +127,6 @@ const Leave = ({navigation, route}) => {
 
     const result = await _postApiNormalADD(parm);
 
-    console.log('result', result);
-
     if (result.status) {
       result.data ? setDocumentData(result.data) : null;
       setDocumentLoader(false);
@@ -148,6 +144,54 @@ const Leave = ({navigation, route}) => {
         : result.msg;
 
     showToastWithGravityAndOffset(msg);
+  };
+
+  const onPressEdit = data => {
+    setModalVisible(true);
+
+    setType('edit');
+
+    let objectData = Object.entries(data);
+
+    let finalData = objectData.filter(e => {
+      if (e[0] === 'created_at' || e[0] === 'updated_at') {
+      } else if (e[0] === 'leaves__type') {
+        e[0] = 'leaves_type';
+        e[2] = e[0].toUpperCase().replaceAll('__', ' ');
+        return e;
+      } else {
+        e[2] = e[0].toUpperCase().replaceAll('_', ' ');
+        return e;
+      }
+    });
+
+    setInfoValue(finalData);
+  };
+
+  const OnEdit = async (info, type) => {
+    setModalVisible(false);
+
+    let parm = {
+      bodyData: parmZ,
+      uri: 'document-update',
+      domainName: apiUri,
+    };
+
+    console.log('info, type', info, type);
+
+    // const result = await _postApiFetch(parm);
+
+    // result.status ? setDocumentData(result.data) : null;
+
+    // setUpdate(true);
+
+    // let msg = result.status
+    //   ? type === 'edit'
+    //     ? 'Update Successfully'
+    //     : 'Save Successfully'
+    //   : 'Failed Please Check Again.!';
+
+    // showToastWithGravityAndOffset(msg);
   };
 
   return (
@@ -201,9 +245,10 @@ const Leave = ({navigation, route}) => {
               <TableCard
                 key={i}
                 sl={data.id}
+                onEdit={() => onPressEdit(data)}
                 datas={[
                   // {title: 'Commission Name', data: data.id},
-                  {title: 'Leave Type', value: data.leaves_leave_type_name},
+                  {title: 'Leave Type', value: data.leaves__type},
                   {title: 'Department', value: data.leaves_department_name},
                   {title: 'Designation', value: data.leaves_designation_name},
                   {title: 'Employee Name', value: data.leaves_employee_name},
@@ -225,7 +270,7 @@ const Leave = ({navigation, route}) => {
             ))}
         </SafeAreaView>
       </ScrollView>
-      <PlusButton OnPress={() => OnAddNow()} />
+      {/* <PlusButton OnPress={() => OnAddNow()} /> */}
     </>
   );
 };

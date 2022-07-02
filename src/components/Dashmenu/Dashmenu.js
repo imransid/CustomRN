@@ -93,13 +93,17 @@ const Dashboard = () => {
             <View>
               <TouchableOpacity
                 style={[styles.card, {backgroundColor: item.color}]}
-                onPress={() => navigation.navigate(item.route)}>
+                onPress={() =>
+                  navigation.navigate(item.route, {
+                    Dashboard: true,
+                  })
+                }>
                 <Image style={styles.cardImage} source={{uri: item.image}} />
               </TouchableOpacity>
               <View style={styles.cardHeader}>
                 <View style={{alignItems: 'center', justifyContent: 'center'}}>
                   <Text style={[styles.title, {color: item.color}]}>
-                    {item.title}
+                    MM {item.title}
                   </Text>
                 </View>
               </View>

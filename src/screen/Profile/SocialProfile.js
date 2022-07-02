@@ -291,7 +291,13 @@ const SocialProfile = () => {
                 sl={i + 1}
                 onEdit={() => onPressEdit(data)}
                 onDelete={() => {
-                  let val = [['id', data.id.toString(), 'ID']];
+                  let val = [
+                    [
+                      'social_profile_employee_id',
+                      data.social_profile_employee_id.toString(),
+                      'social_profile_employee_id',
+                    ],
+                  ];
                   _onDelete(val);
                   setShowAlert(false);
                 }}

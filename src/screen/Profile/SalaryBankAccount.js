@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -11,14 +11,14 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import { _postApiFetch, _postApiADD, _searchData } from '../../services/Services';
+import {_postApiFetch, _postApiADD, _searchData} from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import styles from './Styles';
-import { TextInput } from 'react-native-paper';
+import {TextInput} from 'react-native-paper';
 const SalaryBankAccount = () => {
   const apiUri = useSelector(state => state.api.domainName);
   const [modalVisible, setModalVisible] = useState(false);
@@ -58,27 +58,27 @@ const SalaryBankAccount = () => {
     const controller = new AbortController();
     try {
       console.log('searchText', searchText.length);
-      let lngth = searchText.length
+      let lngth = searchText.length;
       if (lngth > 0) {
         var newData = _searchData(documentData, searchText);
         // setDocumentData(newData);
-        documentData.length !== newData.length ? setDocumentData(newData) : null;
+        documentData.length !== newData.length
+          ? setDocumentData(newData)
+          : null;
       } else {
         data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-        data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
-
+        data[0].length !== documentData.length
+          ? setDocumentData(data[0])
+          : null;
       }
     } catch (err) {
       console.log('Error in useEffect2 ', err);
     }
 
-
     return () => {
       controller.abort();
-    }
-
+    };
   }, [data, searchText, documentData, documentLoader]);
-
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
@@ -116,7 +116,7 @@ const SalaryBankAccount = () => {
     let parm = {
       bodyData: parmZ,
       uri: 'salary-bank-account-update',
-      domainName:apiUri
+      domainName: apiUri,
     };
 
     const result = await _postApiFetch(parm);
@@ -199,7 +199,7 @@ const SalaryBankAccount = () => {
     let parm = {
       bodyData: info,
       uri: 'salary-bank-account-add',
-      domainName:apiUri
+      domainName: apiUri,
     };
 
     const result = await _postApiADD(parm);
@@ -216,6 +216,8 @@ const SalaryBankAccount = () => {
     let msg = result.status
       ? type === 'edit'
         ? 'Update Successfully'
+        : result.msg
+        ? result.msg
         : 'Save Successfully'
       : 'Failed Please Check Again.!';
 
@@ -224,12 +226,13 @@ const SalaryBankAccount = () => {
 
   const _onDelete = async () => {
     setModalVisible(false);
+    setShowAlert(false);
     setDocumentLoader(true);
 
     let parm = {
       bodyData: deleteValue,
       uri: 'work-experience-delete',
-      domainName:apiUri
+      domainName: apiUri,
     };
 
     const result = await _postApiADD(parm);
@@ -246,7 +249,9 @@ const SalaryBankAccount = () => {
     result.status ? setDocumentData(result.data) : null;
 
     let msg = result.status
-      ? 'Deleted Successfully. !'
+      ? result.msg
+        ? result.msg
+        : 'Deleted Successfully. !'
       : 'Failed Please Check Again.!';
 
     showToastWithGravityAndOffset(msg);
@@ -268,8 +273,8 @@ const SalaryBankAccount = () => {
               type={type}
               onValue={infoValue}
               dropDownValue={[
-                { label: 'Mobile Banking', value: 'Mobile Banking' },
-                { label: 'Core Banking', value: 'Core Banking' },
+                {label: 'Mobile Banking', value: 'Mobile Banking'},
+                {label: 'Core Banking', value: 'Core Banking'},
               ]}
               onPress={(e, type) => {
                 if (type) {
@@ -301,25 +306,32 @@ const SalaryBankAccount = () => {
                 sl={i + 1}
                 onEdit={() => onPressEdit(data)}
                 onDelete={() => {
-                  let val = [['id', data.id.toString(), 'ID']];
+                  let val = [
+                    [
+                      'bank_account_employee_id',
+                      data.bank_account_employee_id.toString(),
+                      'bank_account_employee_id',
+                    ],
+                    ['id', data.id.toString(), 'id'],
+                  ];
 
                   setDeleteValue(val);
                   // _onDelete(val);
                   setShowAlert(true);
                 }}
                 datas={[
-                  { title: 'Account Type', value: data.bank_account_type },
-                  { title: 'Account Title', value: data.bank_account_title },
-                  { title: 'Stuff ID', value: data.stuff_id },
-                  { title: 'Bank Name', value: data.bank_name },
-                  { title: 'A/C Name', value: data.bank_account_number },
-                  { title: 'Bank Code', value: data.bank_code },
+                  {title: 'Account Type', value: data.bank_account_type},
+                  {title: 'Account Title', value: data.bank_account_title},
+                  {title: 'Stuff ID', value: data.stuff_id},
+                  {title: 'Bank Name', value: data.bank_name},
+                  {title: 'A/C Name', value: data.bank_account_number},
+                  {title: 'Bank Code', value: data.bank_code},
                   {
                     title: 'Routing Number',
                     value: data.bank_account_routing_number,
                   },
-                  { title: 'Card Number', value: data.bank_account_card_number },
-                  { title: 'Branch', value: data.bank_branch },
+                  {title: 'Card Number', value: data.bank_account_card_number},
+                  {title: 'Branch', value: data.bank_branch},
                 ]}
                 deleteButton={true}
                 buttonVisible={true}
@@ -328,27 +340,28 @@ const SalaryBankAccount = () => {
             ))
           )}
 
-          <AwesomeAlert
-            show={showAlert}
-            showProgress={false}
-            title=""
-            message="Are You Sure Want To Delete it?"
-            closeOnTouchOutside={true}
-            closeOnHardwareBackPress={false}
-            showCancelButton={true}
-            showConfirmButton={true}
-            cancelText="No, cancel"
-            confirmText="Yes, delete it"
-            confirmButtonColor="#DD6B55"
-            onCancelPressed={() => {
-              // this.hideAlert();
-              setShowAlert(false);
-            }}
-            onConfirmPressed={() => {
-              _onDelete();
-              setShowAlert(false);
-            }}
-          />
+          {showAlert ? (
+            <AwesomeAlert
+              show={showAlert}
+              showProgress={false}
+              title=""
+              message="Are You Sure Want To Delete it?"
+              closeOnTouchOutside={true}
+              closeOnHardwareBackPress={false}
+              showCancelButton={true}
+              showConfirmButton={true}
+              cancelText="No, cancel"
+              confirmText="Yes, delete it"
+              confirmButtonColor="#DD6B55"
+              onCancelPressed={() => {
+                // this.hideAlert();
+                setShowAlert(false);
+              }}
+              onConfirmPressed={() => {
+                _onDelete();
+              }}
+            />
+          ) : null}
 
           {/* ))} */}
           {/* </TouchableOpacity> */}

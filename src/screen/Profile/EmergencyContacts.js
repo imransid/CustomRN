@@ -209,6 +209,8 @@ const EmergencyContacts = () => {
     setModalVisible(false);
     setDocumentLoader(true);
 
+    console.log('info', info);
+
     let parm = {
       bodyData: info,
       uri: 'emergency-contact-delete',
@@ -288,7 +290,14 @@ const EmergencyContacts = () => {
                 sl={i + 1}
                 onEdit={() => onPressEdit(data)}
                 onDelete={() => {
-                  let val = [['id', data.id.toString(), 'ID']];
+                  let val = [
+                    [
+                      'emergency_contact_employee_id',
+                      id.toString(),
+                      'emergency_contact_employee_id',
+                    ],
+                    ['id', data.id.toString(), 'id'],
+                  ];
                   _onDelete(val);
                   setShowAlert(false);
                 }}

@@ -54,6 +54,8 @@ import Basic from '../screen/Profile/basic';
 import Details from '../screen/detailsScreen/Details';
 import {useSelector} from 'react-redux';
 
+import ApproveLeave from '../screen/Leave/ApproveLeaves';
+
 const Drawer = createDrawerNavigator();
 
 const getHeaderTitle = (options, name) => {
@@ -162,6 +164,8 @@ function MainDrawerNavigation() {
         name="SupportTicketOrganization"
         component={SupportTicketOrganization}
       />
+
+      <Drawer.Screen name="ApproveLeaveDetails" component={ApproveLeave} />
     </Drawer.Navigator>
   );
 }
