@@ -38,7 +38,7 @@ export const _postApiFetch = async data => {
         let res = {
           status: true,
           data: result.data,
-          msg: result.msg,
+          msg: result.message ? result.message : result.msg,
         };
         return res;
       })

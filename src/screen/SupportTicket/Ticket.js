@@ -25,8 +25,6 @@ import useFetchData from '../../components/HOC/withGetData';
 import {TextInput} from 'react-native-paper';
 import RnPdf from '../../components/GenaratePdf';
 const SupportTicket = () => {
-  console.log('SupportTicket');
-
   const [updateAva, setUpdate] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const apiUri = useSelector(state => state.api.domainName);
@@ -38,11 +36,8 @@ const SupportTicket = () => {
     setSearchText(text);
   };
   let data = useFetchData(
-    [
-      ['support_ticket_com_id', com_id],
-      ['support_ticket_opener_id', id],
-    ],
-    'working-on-support-ticket',
+    [['support_ticket_employee_id', id]],
+    'support-ticket-own-details',
     'post',
     apiUri,
   );
@@ -101,19 +96,13 @@ const SupportTicket = () => {
       domainName: apiUri,
     };
 
-    const result = await _postApiFetch(parm);
+    console.log('parm', parm, info);
 
-    if (result.status) {
-      setUpdate(true);
-      result.data ? setDocumentData(result.data) : null;
-      setDocumentLoader(false);
-    }
+    const result = await _postApiFetch(parm);
 
     let msg = result.status
       ? type === 'edit'
-        ? result.msg
-          ? result.msg
-          : 'Update Successfully'
+        ? 'Update Successfully'
         : 'Save Successfully'
       : 'Failed Please Check Again.!';
 
@@ -312,7 +301,7 @@ const SupportTicket = () => {
                   },
                 ]}
                 variant="Immigration"
-                buttonVisible={true}
+                buttonVisible={false}
                 deleteButton={false}
               />
             ))
@@ -322,7 +311,7 @@ const SupportTicket = () => {
           {/* </TouchableOpacity> */}
         </SafeAreaView>
       </ScrollView>
-      {/* <PlusButton OnPress={() => OnAddNow()} /> */}
+      <PlusButton OnPress={() => OnAddNow()} />
     </>
   );
 };

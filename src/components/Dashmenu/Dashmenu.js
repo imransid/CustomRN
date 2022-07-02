@@ -32,7 +32,7 @@ const items = [
     id: 3,
     title: 'Tickets',
     color: '#4682B4',
-    route: 'SupportTicket',
+    route: 'Ticket',
     image: 'https://img.icons8.com/color/48/000000/pnr-code.png',
   },
   {
@@ -103,7 +103,7 @@ const Dashboard = () => {
               <View style={styles.cardHeader}>
                 <View style={{alignItems: 'center', justifyContent: 'center'}}>
                   <Text style={[styles.title, {color: item.color}]}>
-                    MM {item.title}
+                    {item.title}
                   </Text>
                 </View>
               </View>

@@ -237,8 +237,6 @@ const Document = () => {
 
     result.status ? setDocumentData(result.data) : null;
 
-    setUpdate(true);
-
     if (result.status) {
       setDocumentData(result.data);
       setDocumentLoader(false);
@@ -312,9 +310,10 @@ const Document = () => {
                   let val = [
                     [
                       'document_employee_id',
-                      document_employee_id.id.toString(),
+                      id.toString(),
                       'document_employee_id',
                     ],
+                    ['id', data.id.toString(), 'id'],
                   ];
                   _onDelete(val);
                   setShowAlert(false);
