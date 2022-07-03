@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, Modal, View } from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  Modal,
+  View,
+  ToastAndroid,
+  TouchableOpacity
+} from 'react-native';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 import TableCard from '../../components/TableCard/TableCard';
 import { ScaledSheet } from 'react-native-size-matters';
+import CustomModal from '../../components/CustomModal/CustomModal';
 
 import SearchBox from '../../components/searchBox/SearchBox';
-import { _postApiFetch, _searchData } from '../../services/Services';
+import { _postApiFetch, _postApiADD, _searchData } from '../../services/Services';
+
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
+import PlusButton from '../../components/plusButton';
 
 import { useSelector } from 'react-redux';
 
@@ -16,8 +27,11 @@ import RnPdf from '../../components/GenaratePdf';
 
 const Leave = () => {
     const apiUri = useSelector(state => state.api.domainName);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const id = useSelector(state => state.user.userAllData.id);
+    const com_id = useSelector(state => state.user.userAllData.com_id);
+
     const [searchText, setSearchText] = useState('');
     const onChangeSearchText = (text) => {
         setSearchText(text);
@@ -31,7 +45,10 @@ const Leave = () => {
 
     const [documentData, setDocumentData] = useState([]);
     const [documentLoader, setDocumentLoader] = useState(false);
-
+    const [documentType, setDocumentType] = useState('');
+    const [infoValue, setInfoValue] = useState([]);
+    const [showAlert, setShowAlert] = useState(false);
+    const [type, setType] = useState('');
     // useEffect(() => {
     //     try {
     //         data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
@@ -65,11 +82,112 @@ const Leave = () => {
 
     }, [data, searchText, documentData, documentLoader]);
 
+  
+    
+      const showToastWithGravityAndOffset = msg => {
+        ToastAndroid.showWithGravityAndOffset(
+          msg,
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      };
+    
+
+    
+      const OnAddNow = () => {
+        setType('add');
+    
+        let objectData = [
+          ['com_id', com_id.toString(), 'com_id'],
+          ['employee_id', id.toString(), 'employee_id'],
+          ['leave_type', '', 'leave_type'],
+          ['leave_reason', '', 'leave_reason'],
+          ['start_date', 'Select Date', 'start_date'],
+          ['end_date', 'Select Date', 'end_date'],
+          ['is_half', '', 'is_half'],
+        ];
+    
+        let finalData = objectData.filter(e => {
+          if (e[0] === 'created_at' || e[0] === 'updated_at') {
+          } else {
+            e[2] = e[0].toUpperCase().replaceAll('_', ' ');
+            return e;
+          }
+        });
+    
+        setInfoValue(finalData);
+    
+        setModalVisible(true);
+      };
+    
+      const OnAddPress = async (info, type) => {
+        // setModalVisible(false);
+        setDocumentLoader(true);
+    
+        let parm = {
+          bodyData: info,
+          uri: 'leave-request-sending',
+          domainName:apiUri
+        };
+    
+        const result = await _postApiADD(parm);
+    
+        result.status ? setDocumentData(result.data) : null;
+    
+        if (result.status) {
+          setDocumentData(result.data);
+          setDocumentLoader(false);
+        } else {
+          setDocumentLoader(false);
+        }
+    
+        let msg = result.status
+          ? type === 'edit'
+            ? 'Update Successfully'
+            : 'Save Successfully'
+          : 'Failed Please Check Again.!';
+    
+        showToastWithGravityAndOffset(msg);
+        setDocumentData(
+            ...documentData,
+            documentData.push(info)
+        )
+      };
+    
+   
+
+
     return (
         <>
             <ScrollView>
                 <SafeAreaView style={styles.container}>
-
+                <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(false);
+            }}>
+            <CustomModal
+              modalName={'Leave Request'}
+              type={type}
+              onValue={infoValue}
+              dropDownValue={[
+                { label: 'Other', value: 'Other' },
+                { label: 'Certificate', value: 'Certificate' },
+              ]}
+              onPress={(e, type) => {
+                if (type) {
+                  type === 'edit' ? OnEdit(e, type) : OnAddPress(e, type);
+                } else {
+                  setModalVisible(false);
+                }
+              }}
+              children
+            />
+          </Modal>
                     <View style={styles.search}>
                         <TextInput
                             label='Search'
@@ -118,7 +236,7 @@ const Leave = () => {
 
                 </SafeAreaView>
             </ScrollView>
-            {/* <PlusButton OnPress={() => setModalVisible(true)} /> */}
+            <PlusButton OnPress={() => OnAddNow()} />
         </>
     );
 };

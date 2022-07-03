@@ -238,7 +238,7 @@ const SupportTicket = () => {
           {/* </TouchableOpacity> */}
         </SafeAreaView>
       </ScrollView>
-      {/* <PlusButton OnPress={() => OnAddNow()} /> */}
+      <PlusButton OnPress={() => OnAddNow()} />
     </>
   );
 };

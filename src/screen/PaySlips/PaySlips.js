@@ -32,7 +32,7 @@ const PaySlips = () => {
 
     const [documentData, setDocumentData] = useState([]);
     const [documentLoader, setDocumentLoader] = useState(false);
-
+    console.log("Payslip Data",data)
     // useEffect(() => {
     //     try {
     //         data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
@@ -93,6 +93,9 @@ const PaySlips = () => {
                                 datas={[
                                     { title: 'Net Salary', value: data.pay_slip_net_salary },
                                     { title: 'Status', value: data.pay_slip_status },
+                                    { title: 'Payment Date', value: data.pay_slip_payment_date },
+                                    { title: 'Month Year', value: data.pay_slip_month_year },
+                                   
                                 ]}
                                 variant="Leaves"
 

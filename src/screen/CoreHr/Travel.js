@@ -266,7 +266,7 @@ const Travel = () => {
               setModalVisible(false);
             }}>
             <CustomModal
-              modalName={'Trav'}
+              modalName={'Travel Request'}
               type={type}
               onValue={infoValue}
               dropDownValue={[
