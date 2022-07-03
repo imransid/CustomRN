@@ -28,6 +28,8 @@ function useFetchData(bodyItem, url, type, domainName) {
         ? _postApiFetch(parm)
         : getApiFetch(parm));
 
+      console.log('fetchData.data', fetchData.data);
+
       fetchData.data.length > 0
         ? setFetchDataSet(fetchData.data)
         : fetchData.data

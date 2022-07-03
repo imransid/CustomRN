@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -8,32 +8,43 @@ import {
 } from 'react-native';
 
 import TableCard from '../../components/TableCard/TableCard';
-import { ScaledSheet } from 'react-native-size-matters';
+import {ScaledSheet} from 'react-native-size-matters';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import { _postApiFetch, _postApiADD, _searchData } from '../../services/Services';
+import {
+  _postApiFetch,
+  _postApiADD,
+  _searchData,
+  _postApiNormalADD,
+} from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
-import { TextInput } from 'react-native-paper';
+import {TextInput} from 'react-native-paper';
 import RnPdf from '../../components/GenaratePdf';
 const SupportTicket = () => {
+  console.log('SupportTicket dash');
+
+  const [updateAva, setUpdate] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const apiUri = useSelector(state => state.api.domainName);
 
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
   const [searchText, setSearchText] = useState('');
-  const onChangeSearchText = (text) => {
+  const onChangeSearchText = text => {
     setSearchText(text);
-  }
+  };
   let data = useFetchData(
-    [['support_ticket_employee_id', id]],
-    'support-ticket-own-details',
+    [
+      ['support_ticket_com_id', com_id],
+      ['support_ticket_opener_id', id],
+    ],
+    'working-on-support-ticket',
     'post',
-    apiUri
+    apiUri,
   );
 
   const [documentData, setDocumentData] = useState([]);
@@ -55,28 +66,29 @@ const SupportTicket = () => {
   useEffect(() => {
     const controller = new AbortController();
     try {
-      console.log('searchText', searchText.length);
-      let lngth = searchText.length
-      if (lngth > 0) {
-        var newData = _searchData(documentData, searchText);
-        // setDocumentData(newData);
-        documentData.length !== newData.length ? setDocumentData(newData) : null;
-      } else {
-        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-        data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
-
+      if (!updateAva) {
+        let lngth = searchText.length;
+        if (lngth > 0) {
+          var newData = _searchData(documentData, searchText);
+          // setDocumentData(newData);
+          documentData.length !== newData.length
+            ? setDocumentData(newData)
+            : null;
+        } else {
+          data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+          data[0].length !== documentData.length
+            ? setDocumentData(data[0])
+            : null;
+        }
       }
     } catch (err) {
       console.log('Error in useEffect2 ', err);
     }
 
-
     return () => {
       controller.abort();
-    }
-
-  }, [data, searchText, documentData, documentLoader]);
-
+    };
+  }, [data, searchText, documentData, documentLoader, updateAva]);
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
@@ -86,16 +98,22 @@ const SupportTicket = () => {
     let parm = {
       bodyData: info,
       uri: 'support-ticket-update',
-      domainName:apiUri
+      domainName: apiUri,
     };
-
-    console.log('parm', parm, info);
 
     const result = await _postApiFetch(parm);
 
+    if (result.status) {
+      setUpdate(true);
+      result.data ? setDocumentData(result.data) : null;
+      setDocumentLoader(false);
+    }
+
     let msg = result.status
       ? type === 'edit'
-        ? 'Update Successfully'
+        ? result.msg
+          ? result.msg
+          : 'Update Successfully'
         : 'Save Successfully'
       : 'Failed Please Check Again.!';
 
@@ -140,6 +158,72 @@ const SupportTicket = () => {
     setInfoValue(finalData);
   };
 
+  const OnAddNow = () => {
+    setType('add');
+
+    let objectData = [
+      ['com_id', com_id.toString(), 'com_id'],
+      ['support_ticket_department_id', '1', 'support_ticket_department_id'],
+      [
+        'support_ticket_employee_id',
+        id.toString(),
+        'support_ticket_employee_id',
+      ],
+      ['support_ticket_priority', '', 'support_ticket_priority'],
+      ['support_ticket_subject', '', 'support_ticket_subject'],
+      ['support_ticket_note', '', 'support_ticket_note'],
+      ['support_ticket_date', 'select date', 'support_ticket_date'],
+      ['support_ticket_desc', '', 'support_ticket_desc'],
+    ];
+
+    let finalData = objectData.filter(e => {
+      if (e[0] === 'created_at' || e[0] === 'updated_at') {
+      } else {
+        e[2] = e[0].toUpperCase().replaceAll('_', ' ');
+        return e;
+      }
+    });
+
+    setInfoValue(finalData);
+
+    setModalVisible(true);
+  };
+
+  const OnAddPress = async (info, type) => {
+    setModalVisible(false);
+    setDocumentLoader(true);
+
+    let parm = {
+      bodyData: info,
+      uri: 'support-ticket-request-sending',
+      domainName: apiUri,
+    };
+
+    setUpdate(true);
+
+    const result = await _postApiNormalADD(parm);
+
+    console.log('result', result);
+
+    if (result.status) {
+      result.data ? setDocumentData(result.data) : null;
+      setDocumentLoader(false);
+    } else {
+      setDocumentLoader(false);
+    }
+
+    let msg =
+      result.msg === '' || undefined
+        ? result.status
+          ? type === 'edit'
+            ? 'Update Successfully'
+            : 'Save Successfully'
+          : 'Failed Please Check Again.!'
+        : result.msg;
+
+    showToastWithGravityAndOffset(msg);
+  };
+
   return (
     <>
       <ScrollView>
@@ -157,26 +241,26 @@ const SupportTicket = () => {
               onValue={infoValue}
               dropDownValue={{
                 priority: [
-                  { label: 'Critical', value: 'Critical' },
-                  { label: 'High', value: 'High' },
-                  { label: 'Medium', value: 'Medium' },
-                  { label: 'Low', value: 'Low' },
+                  {label: 'Critical', value: 'Critical'},
+                  {label: 'High', value: 'High'},
+                  {label: 'Medium', value: 'Medium'},
+                  {label: 'Low', value: 'Low'},
                 ],
                 status: [
-                  { label: 'Pending', value: 'Pending' },
-                  { label: 'Opened', value: 'Opened' },
-                  { label: 'Closed', value: 'Closed' },
+                  {label: 'Pending', value: 'Pending'},
+                  {label: 'Opened', value: 'Opened'},
+                  {label: 'Closed', value: 'Closed'},
                 ],
               }}
               onPress={(e, type) => {
-                type === 'edit' ? OnEdit(e, type) : setModalVisible(false);
+                type === 'edit' ? OnEdit(e, type) : OnAddPress(e, type);
               }}
               children
             />
           </Modal>
           <View style={styles.search}>
             <TextInput
-              label='Search'
+              label="Search"
               value={searchText}
               onChangeText={text => onChangeSearchText(text)}
               mode="outlined"
@@ -339,7 +423,7 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-around',
     padding: 10,
   },
-  activityIndicator: { alignSelf: 'center', paddingVertical: '50%' },
+  activityIndicator: {alignSelf: 'center', paddingVertical: '50%'},
   pdfBox: {
     paddingTop: 10,
     paddingRight: 20,

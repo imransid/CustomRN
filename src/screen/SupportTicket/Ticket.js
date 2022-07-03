@@ -6,51 +6,57 @@ import {
   View,
   ToastAndroid,
 } from 'react-native';
-import CustomModal from '../../components/CustomModal/CustomModal';
+
 import TableCard from '../../components/TableCard/TableCard';
 import {ScaledSheet} from 'react-native-size-matters';
-
+import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
 import {
   _postApiFetch,
+  _postApiADD,
   _searchData,
   _postApiNormalADD,
 } from '../../services/Services';
+
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-
 import {useSelector} from 'react-redux';
-
 import useFetchData from '../../components/HOC/withGetData';
 import {TextInput} from 'react-native-paper';
 import RnPdf from '../../components/GenaratePdf';
-
-import PlusButton from '../../components/plusButton';
-const Leave = ({navigation, route}) => {
-  console.log('navigation, route', navigation, route);
-
-  const apiUri = useSelector(state => state.api.domainName);
-  const [modalVisible, setModalVisible] = useState(false);
+const SupportTicket = () => {
   const [updateAva, setUpdate] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const apiUri = useSelector(state => state.api.domainName);
+
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
-
   const [searchText, setSearchText] = useState('');
   const onChangeSearchText = text => {
     setSearchText(text);
   };
-
   let data = useFetchData(
-    [['leaves_employee_id', id]],
-    'leave',
+    [['support_ticket_employee_id', id]],
+    'support-ticket-own-details',
     'post',
     apiUri,
   );
 
   const [documentData, setDocumentData] = useState([]);
   const [documentLoader, setDocumentLoader] = useState(false);
-  const [type, setType] = useState('');
   const [infoValue, setInfoValue] = useState([]);
+
+  // type
+  const [type, setType] = useState('');
+
+  // useEffect(() => {
+  //   try {
+  //     data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+  //     documentData.length === 0 ? setDocumentData(data[0]) : null;
+  //   } catch (err) {
+  //     console.log('Error in useEffect ', err);
+  //   }
+  // }, [data, documentLoader, documentData]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -79,17 +85,84 @@ const Leave = ({navigation, route}) => {
     };
   }, [data, searchText, documentData, documentLoader, updateAva]);
 
+  const OnEdit = async (info, type) => {
+    setModalVisible(false);
+
+    info[2] = ['support_ticket_opener_id', id, 'SUPPORT TICKET OPENER ID'];
+
+    let parm = {
+      bodyData: info,
+      uri: 'support-ticket-update',
+      domainName: apiUri,
+    };
+
+    console.log('parm', parm, info);
+
+    const result = await _postApiFetch(parm);
+
+    let msg = result.status
+      ? type === 'edit'
+        ? 'Update Successfully'
+        : 'Save Successfully'
+      : 'Failed Please Check Again.!';
+
+    showToastWithGravityAndOffset(msg);
+  };
+
+  const showToastWithGravityAndOffset = msg => {
+    ToastAndroid.showWithGravityAndOffset(
+      msg,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+
+  const onPressEdit = data => {
+    setModalVisible(true);
+
+    setType('edit');
+
+    let objectData = Object.entries(data);
+
+    let finalData = objectData.filter(e => {
+      if (
+        e[0] === 'created_at' ||
+        e[0] === 'updated_at' ||
+        e[0] === 'support_ticket_department_name' ||
+        e[0] === 'support_ticket_employee_name' ||
+        e[0] === 'support_ticket_desc' ||
+        e[0] === 'support_ticket_note' ||
+        e[0] === 'support_ticket_attachment' ||
+        e[0] === 'support_ticket_priority' ||
+        e[0] === 'support_ticket_subject'
+      ) {
+      } else {
+        e[2] = e[0].toUpperCase().replaceAll('_', ' ');
+        return e;
+      }
+    });
+
+    setInfoValue(finalData);
+  };
+
   const OnAddNow = () => {
     setType('add');
 
     let objectData = [
       ['com_id', com_id.toString(), 'com_id'],
-      ['employee_id', id.toString(), 'employee_id'],
-      ['leave_type', '', 'leave_type'],
-      ['leave_reason', '', 'leave_reason'],
-      ['start_date', 'Select Date', 'start_date'],
-      ['end_date', 'Select Date', 'end_date'],
-      ['is_half', '', 'is_half'],
+      ['support_ticket_department_id', '1', 'support_ticket_department_id'],
+      [
+        'support_ticket_employee_id',
+        id.toString(),
+        'support_ticket_employee_id',
+      ],
+      ['support_ticket_priority', '', 'support_ticket_priority'],
+      ['support_ticket_subject', '', 'support_ticket_subject'],
+      ['support_ticket_note', '', 'support_ticket_note'],
+      ['support_ticket_date', 'select date', 'support_ticket_date'],
+      ['support_ticket_desc', '', 'support_ticket_desc'],
     ];
 
     let finalData = objectData.filter(e => {
@@ -105,24 +178,13 @@ const Leave = ({navigation, route}) => {
     setModalVisible(true);
   };
 
-  const showToastWithGravityAndOffset = msg => {
-    let data = msg === '' || undefined ? ' . ' : msg;
-    ToastAndroid.showWithGravityAndOffset(
-      data,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
-  };
-
   const OnAddPress = async (info, type) => {
     setModalVisible(false);
     setDocumentLoader(true);
 
     let parm = {
       bodyData: info,
-      uri: 'leave-request-sending',
+      uri: 'support-ticket-request-sending',
       domainName: apiUri,
     };
 
@@ -163,27 +225,28 @@ const Leave = ({navigation, route}) => {
               setModalVisible(false);
             }}>
             <CustomModal
-              modalName={'Leave'}
+              modalName={'Support Ticket'}
               type={type}
               onValue={infoValue}
               dropDownValue={{
-                leave_type: [
-                  {label: 'Sick leave', value: '3'},
-                  {label: 'Casual Leave', value: '1'},
+                priority: [
+                  {label: 'Critical', value: 'Critical'},
+                  {label: 'High', value: 'High'},
+                  {label: 'Medium', value: 'Medium'},
+                  {label: 'Low', value: 'Low'},
                 ],
-                mode: [],
+                status: [
+                  {label: 'Pending', value: 'Pending'},
+                  {label: 'Opened', value: 'Opened'},
+                  {label: 'Closed', value: 'Closed'},
+                ],
               }}
               onPress={(e, type) => {
-                if (type) {
-                  type === 'edit' ? OnEdit(e, type) : OnAddPress(e, type);
-                } else {
-                  setModalVisible(false);
-                }
+                type === 'edit' ? OnEdit(e, type) : OnAddPress(e, type);
               }}
               children
             />
           </Modal>
-
           <View style={styles.search}>
             <TextInput
               label="Search"
@@ -193,44 +256,65 @@ const Leave = ({navigation, route}) => {
             />
           </View>
           <View style={styles.pdfBox}>
-            <RnPdf Filename={'Leave'} value={data[0]} />
+            <RnPdf Filename={'SupportTicket'} value={data[0]} />
           </View>
-          {documentLoader && <CustomIndicator />}
-
-          {!documentLoader &&
+          {documentLoader ? (
+            <CustomIndicator />
+          ) : (
             documentData?.map((data, i) => (
               <TableCard
                 key={i}
-                sl={data.id}
+                sl={i + 1}
+                onEdit={() => onPressEdit(data)}
                 datas={[
-                  // {title: 'Commission Name', data: data.id},
-                  {title: 'Leave Type', value: data.leaves_leave_type_name},
-                  {title: 'Department', value: data.leaves_department_name},
-                  {title: 'Designation', value: data.leaves_designation_name},
-                  {title: 'Employee Name', value: data.leaves_employee_name},
-                  {title: 'Leave Start Date', value: data.leaves_start_date},
-                  {title: 'Leave End Date', value: data.leaves_end_date},
-                  {title: 'Total Days', value: data.total_days},
-                  {title: 'Reason', value: data.leave_reason},
-                  {title: 'Status', value: data.leaves_status},
-                  {title: 'Region', value: data.leaves_region_name},
-                  {title: 'Area', value: data.leaves_area_name},
-                  {title: 'Territory', value: data.leaves_territory_name},
-                  {title: 'Town', value: data.leaves_town_name},
-                  {title: 'House', value: data.leaves_db_house_name},
-                  {title: 'Is Half', value: data.is_half},
+                  {
+                    title: 'Employee',
+                    value: data.support_ticket_employee_name,
+                  },
+                  {
+                    title: 'Department',
+                    value: data.support_ticket_department_name,
+                  },
+                  {
+                    title: 'Priority',
+                    value: data.support_ticket_priority,
+                  },
+                  {
+                    title: 'Subject',
+                    value: data.support_ticket_subject,
+                  },
+                  {
+                    title: 'Ticket notes',
+                    value: data.support_ticket_note,
+                  },
+                  {
+                    title: 'Ticket Attachments',
+                    value: data.support_ticket_attachment,
+                  },
+                  {
+                    title: 'Description',
+                    value: data.support_ticket_desc,
+                  },
+                  {
+                    title: 'Status',
+                    value: data.support_ticket_status,
+                  },
                 ]}
-                variant="Leaves"
+                variant="Immigration"
                 buttonVisible={false}
+                deleteButton={false}
               />
-            ))}
+            ))
+          )}
+
+          {/* ))} */}
+          {/* </TouchableOpacity> */}
         </SafeAreaView>
       </ScrollView>
       <PlusButton OnPress={() => OnAddNow()} />
     </>
   );
 };
-export default Leave;
 
 const styles = ScaledSheet.create({
   container: {
@@ -329,12 +413,6 @@ const styles = ScaledSheet.create({
     padding: 10,
   },
   activityIndicator: {alignSelf: 'center', paddingVertical: '50%'},
-  addbutton: {
-    backgroundColor: '#0099FF',
-    padding: 10,
-    marginTop: 10,
-    borderRadius: 10,
-  },
   pdfBox: {
     paddingTop: 10,
     paddingRight: 20,
@@ -342,3 +420,4 @@ const styles = ScaledSheet.create({
     alignItems: 'flex-end',
   },
 });
+export default SupportTicket;

@@ -7,6 +7,7 @@ import {
   ToastAndroid,
   TextInput,
   TouchableOpacity,
+  Text,
 } from 'react-native';
 
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -28,7 +29,7 @@ import useFetchData from '../../components/HOC/withGetData';
 import TableCardAttachment from '../../components/TableCardAttachment/TableCardAttachment';
 import RnPdf from '../../components/GenaratePdf';
 import {useNavigation} from '@react-navigation/native';
-const Travel = () => {
+const Holidays = () => {
   console.log('come form dsah board');
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,12 +41,16 @@ const Travel = () => {
   };
   const apiUri = useSelector(state => state.api.domainName);
 
-  let data = useFetchData(
-    [['travel_employee_id', id]],
-    'travel',
-    'post',
-    apiUri,
-  );
+  let data =
+    //useFetchData(
+    //     [['travel_employee_id', id]],
+    //     'travel',
+    //     'post',
+    //     apiUri,
+    //   );
+    [[], false];
+
+  console.log('data', data);
 
   const [documentData, setDocumentData] = useState([]);
   const [documentType, setDocumentType] = useState('');
@@ -254,7 +259,6 @@ const Travel = () => {
 
   //   showToastWithGravityAndOffset(msg);
   // };
-  console.log('infoValue >>>>', infoValue);
 
   return (
     <>
@@ -268,7 +272,7 @@ const Travel = () => {
               setModalVisible(false);
             }}>
             <CustomModal
-              modalName={'Travel Request'}
+              modalName={'Upcoming Holidays'}
               type={type}
               onValue={infoValue}
               dropDownValue={{
@@ -306,6 +310,16 @@ const Travel = () => {
           <View style={styles.pdfBox}>
             <RnPdf Filename={'Travel'} value={data[0]} />
           </View>
+          {documentData.length == 0 && (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text>No Data Found</Text>
+            </View>
+          )}
           {documentLoader ? (
             <CustomIndicator />
           ) : (
@@ -355,28 +369,21 @@ const Travel = () => {
                   }}
                   datas={[
                     {
-                      title: 'Employee',
+                      title: 'Holiday Type',
                       value: data.travel_employee_full_name,
                     },
                     {
-                      title: 'Department',
+                      title: 'Holiday Name',
                       value: data.travel_employee_department_name,
                     },
                     {
-                      title: 'Visit Purpose',
+                      title: 'Start Date',
                       value: data.travel_purpose,
                     },
-                    {title: 'Place name', value: data.travel_place},
-                    {title: 'Description', value: data.travel_desc},
-                    {title: 'Start Date', value: data.travel_start_date},
-                    {title: 'End Date', value: data.travel_end_date},
                     {
-                      title: 'Expected Budget',
-                      value: data.travel_expected_budget,
+                      title: 'End Date',
+                      value: data.travel_purpose,
                     },
-                    {title: 'Actual Budget', value: data.travel_actual_budget},
-                    {title: 'Travel Mode', value: data.travel_mode},
-                    {title: 'Status', value: data.travel_status},
                   ]}
                   deleteButton={true}
                   buttonVisible={false}
@@ -412,7 +419,7 @@ const Travel = () => {
           {/* </TouchableOpacity> */}
         </SafeAreaView>
       </ScrollView>
-      <PlusButton OnPress={() => OnAddNow()} />
+      {/* <PlusButton OnPress={() => OnAddNow()} /> */}
     </>
   );
 };
@@ -521,4 +528,4 @@ const styles = ScaledSheet.create({
   },
   activityIndicator: {alignSelf: 'center', paddingVertical: '50%'},
 });
-export default Travel;
+export default Holidays;

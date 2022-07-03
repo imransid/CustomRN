@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -11,14 +11,14 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import TableCard from '../../components/TableCard/TableCard';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import SearchBox from '../../components/searchBox/SearchBox';
-import { _postApiFetch, _postApiADD, _searchData } from '../../services/Services';
+import {_postApiFetch, _postApiADD, _searchData} from '../../services/Services';
 
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
 import PlusButton from '../../components/plusButton';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import useFetchData from '../../components/HOC/withGetData';
 import styles from './Styles';
-import { TextInput } from 'react-native-paper';
+import {TextInput} from 'react-native-paper';
 
 const EmergencyContacts = () => {
   const apiUri = useSelector(state => state.api.domainName);
@@ -45,40 +45,34 @@ const EmergencyContacts = () => {
   // type
   const [type, setType] = useState('');
 
-  // useEffect(() => {
-  //   try {
-  //     data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-  //     documentData.length === 0 ? setDocumentData(data[0]) : null;
-  //   } catch (err) {
-  //     console.log('Error in useEffect ', err);
-  //   }
-  // }, [data, documentLoader, documentData]);
+  const [updateAva, setUpdate] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
     try {
-      console.log('searchText', searchText.length);
-      let lngth = searchText.length
-      if (lngth > 0) {
-        var newData = _searchData(documentData, searchText);
-        // setDocumentData(newData);
-        documentData.length !== newData.length ? setDocumentData(newData) : null;
-      } else {
-        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-        data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
-
+      if (!updateAva) {
+        let lngth = searchText.length;
+        if (lngth > 0) {
+          var newData = _searchData(documentData, searchText);
+          // setDocumentData(newData);
+          documentData.length !== newData.length
+            ? setDocumentData(newData)
+            : null;
+        } else {
+          data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+          data[0].length !== documentData.length
+            ? setDocumentData(data[0])
+            : null;
+        }
       }
     } catch (err) {
       console.log('Error in useEffect2 ', err);
     }
 
-
     return () => {
       controller.abort();
-    }
-
-  }, [data, searchText, documentData, documentLoader]);
-
+    };
+  }, [data, searchText, documentData, documentLoader, updateAva]);
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
@@ -95,14 +89,19 @@ const EmergencyContacts = () => {
     let parm = {
       bodyData: filterInfo,
       uri: 'emergency-contact-update',
+      domainName: apiUri,
     };
 
     const result = await _postApiFetch(parm);
 
+    result.status ? setUpdate(true) : null;
+
     result.status ? setDocumentData(result.data) : null;
 
     let msg = result.status
-      ? type === 'edit'
+      ? result.msg
+        ? result.msg
+        : type === 'edit'
         ? 'Update Successfully'
         : 'Save Successfully'
       : 'Failed Please Check Again.!';
@@ -181,11 +180,12 @@ const EmergencyContacts = () => {
     let parm = {
       bodyData: info,
       uri: 'emergency-contact-add',
+      domainName: apiUri,
     };
 
     const result = await _postApiADD(parm);
 
-    result.status ? setDocumentData(result.data) : null;
+    result.status ? setUpdate(true) : null;
 
     if (result.status) {
       setDocumentData(result.data);
@@ -195,7 +195,9 @@ const EmergencyContacts = () => {
     }
 
     let msg = result.status
-      ? type === 'edit'
+      ? result.msg
+        ? result.msg
+        : type === 'edit'
         ? 'Update Successfully'
         : 'Save Successfully'
       : 'Failed Please Check Again.!';
@@ -207,12 +209,17 @@ const EmergencyContacts = () => {
     setModalVisible(false);
     setDocumentLoader(true);
 
+    console.log('info', info);
+
     let parm = {
       bodyData: info,
       uri: 'emergency-contact-delete',
+      domainName: apiUri,
     };
 
     const result = await _postApiADD(parm);
+
+    result.status ? setUpdate(true) : null;
 
     result.status ? setDocumentData(result.data) : null;
 
@@ -226,7 +233,9 @@ const EmergencyContacts = () => {
     result.status ? setDocumentData(result.data) : null;
 
     let msg = result.status
-      ? 'Deleted Successfully. !'
+      ? result.msg
+        ? result.msg
+        : 'net issue!'
       : 'Failed Please Check Again.!';
 
     showToastWithGravityAndOffset(msg);
@@ -248,8 +257,8 @@ const EmergencyContacts = () => {
               type={type}
               onValue={infoValue}
               dropDownValue={[
-                { label: 'VIP', value: 'VIP' },
-                { label: 'VVIP', value: 'VVIP' },
+                {label: 'VIP', value: 'VIP'},
+                {label: 'VVIP', value: 'VVIP'},
               ]}
               onPress={(e, type) => {
                 if (type) {
@@ -281,7 +290,14 @@ const EmergencyContacts = () => {
                 sl={i + 1}
                 onEdit={() => onPressEdit(data)}
                 onDelete={() => {
-                  let val = [['id', data.id.toString(), 'ID']];
+                  let val = [
+                    [
+                      'emergency_contact_employee_id',
+                      id.toString(),
+                      'emergency_contact_employee_id',
+                    ],
+                    ['id', data.id.toString(), 'id'],
+                  ];
                   _onDelete(val);
                   setShowAlert(false);
                 }}
@@ -290,10 +306,10 @@ const EmergencyContacts = () => {
                     title: 'Name',
                     value: data.emergency_contact_name,
                   },
-                  { title: 'Relation', value: data.emergency_contact_relation },
-                  { title: 'Email', value: data.emergency_contact_email },
-                  { title: 'Phone', value: data.emergency_contact_phone },
-                  { title: 'Address', value: data.emergency_contact_address },
+                  {title: 'Relation', value: data.emergency_contact_relation},
+                  {title: 'Email', value: data.emergency_contact_email},
+                  {title: 'Phone', value: data.emergency_contact_phone},
+                  {title: 'Address', value: data.emergency_contact_address},
                 ]}
                 deleteButton={true}
                 buttonVisible={true}

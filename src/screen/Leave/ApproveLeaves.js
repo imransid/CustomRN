@@ -17,7 +17,6 @@ import {
   _postApiNormalADD,
 } from '../../services/Services';
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
-import PlusButton from '../../components/plusButton';
 
 import {useSelector} from 'react-redux';
 
@@ -26,9 +25,7 @@ import {TextInput} from 'react-native-paper';
 import RnPdf from '../../components/GenaratePdf';
 
 import PlusButton from '../../components/plusButton';
-const Leave = ({navigation, route}) => {
-  console.log('navigation, route', navigation, route);
-
+const Leave = () => {
   const apiUri = useSelector(state => state.api.domainName);
   const [modalVisible, setModalVisible] = useState(false);
   const [updateAva, setUpdate] = useState(false);
@@ -40,12 +37,12 @@ const Leave = ({navigation, route}) => {
     setSearchText(text);
   };
 
-  let data = useFetchData(
-    [['leaves_employee_id', id]],
-    'leave',
-    'post',
-    apiUri,
-  );
+  let endPoint = 'approve-leave-details';
+  let endPointValue = [
+    ['leaves_employee_id', id],
+    ['leaves_company_id', com_id],
+  ];
+  let data = useFetchData(endPointValue, endPoint, 'post', apiUri);
 
   const [documentData, setDocumentData] = useState([]);
   const [documentLoader, setDocumentLoader] = useState(false);
@@ -93,10 +90,11 @@ const Leave = ({navigation, route}) => {
     ];
 
     let finalData = objectData.filter(e => {
+      if (e[0] === 'id') {
+        return e;
+      }
       if (e[0] === 'created_at' || e[0] === 'updated_at') {
       } else {
-        e[2] = e[0].toUpperCase().replaceAll('_', ' ');
-        return e;
       }
     });
 
@@ -130,8 +128,6 @@ const Leave = ({navigation, route}) => {
 
     const result = await _postApiNormalADD(parm);
 
-    console.log('result', result);
-
     if (result.status) {
       result.data ? setDocumentData(result.data) : null;
       setDocumentLoader(false);
@@ -147,6 +143,54 @@ const Leave = ({navigation, route}) => {
             : 'Save Successfully'
           : 'Failed Please Check Again.!'
         : result.msg;
+
+    showToastWithGravityAndOffset(msg);
+  };
+
+  const onPressEdit = data => {
+    setDocumentLoader(true);
+    setType('edit');
+
+    let objectData = Object.entries(data);
+
+    let finalData = objectData.filter(e => {
+      if (e[0] === 'created_at' || e[0] === 'updated_at') {
+      } else if (e[0] === 'id') {
+        return e;
+      } else {
+      }
+    });
+
+    finalData.push(['leave_approver_id', id]);
+    finalData.push(['leave_approver_com_id', com_id]);
+
+    OnEdit(finalData, 'edit');
+  };
+
+  const OnEdit = async (info, type) => {
+    setModalVisible(false);
+
+    let parm = {
+      bodyData: info,
+      uri: 'approving-leave',
+      domainName: apiUri,
+    };
+
+    const result = await _postApiFetch(parm);
+
+    if (result.status) {
+      setUpdate(true);
+      setDocumentData(result.data);
+      setDocumentLoader(false);
+    }
+
+    let msg = result.status
+      ? type === 'edit'
+        ? result.msg
+          ? result.msg
+          : 'Update Successfully'
+        : 'Save Successfully'
+      : 'Failed Please Check Again.!';
 
     showToastWithGravityAndOffset(msg);
   };
@@ -202,9 +246,10 @@ const Leave = ({navigation, route}) => {
               <TableCard
                 key={i}
                 sl={data.id}
+                onEdit={() => onPressEdit(data)}
                 datas={[
                   // {title: 'Commission Name', data: data.id},
-                  {title: 'Leave Type', value: data.leaves_leave_type_name},
+                  {title: 'Leave Type', value: data.leaves__type},
                   {title: 'Department', value: data.leaves_department_name},
                   {title: 'Designation', value: data.leaves_designation_name},
                   {title: 'Employee Name', value: data.leaves_employee_name},
@@ -220,13 +265,13 @@ const Leave = ({navigation, route}) => {
                   {title: 'House', value: data.leaves_db_house_name},
                   {title: 'Is Half', value: data.is_half},
                 ]}
-                variant="Leaves"
-                buttonVisible={false}
+                variant="AppLeaves"
+                buttonVisible={true}
               />
             ))}
         </SafeAreaView>
       </ScrollView>
-      <PlusButton OnPress={() => OnAddNow()} />
+      {/* <PlusButton OnPress={() => OnAddNow()} /> */}
     </>
   );
 };

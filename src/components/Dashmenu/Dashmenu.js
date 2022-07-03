@@ -32,7 +32,7 @@ const items = [
     id: 3,
     title: 'Tickets',
     color: '#4682B4',
-    route: 'SupportTicket',
+    route: 'Ticket',
     image: 'https://img.icons8.com/color/48/000000/pnr-code.png',
   },
   {
@@ -62,7 +62,7 @@ const items = [
     id: 7,
     title: 'Upcomping Holiday',
     color: '#008E89',
-    route: '',
+    route: 'UpcomingHolidays',
     image:
       'https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-holiday-comfort-flaticons-lineal-color-flat-icons-2.png',
   },
@@ -93,7 +93,11 @@ const Dashboard = () => {
             <View>
               <TouchableOpacity
                 style={[styles.card, {backgroundColor: item.color}]}
-                onPress={() => navigation.navigate(item.route)}>
+                onPress={() =>
+                  navigation.navigate(item.route, {
+                    Dashboard: true,
+                  })
+                }>
                 <Image style={styles.cardImage} source={{uri: item.image}} />
               </TouchableOpacity>
               <View style={styles.cardHeader}>

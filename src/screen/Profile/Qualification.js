@@ -125,12 +125,14 @@ const Qualification = () => {
 
     const result = await _postApiFetch(parm);
 
-    setUpdate(true);
+    result.status ? setUpdate(true) : null;
 
     result.status ? setDocumentData(result.data) : null;
 
     let msg = result.status
-      ? type === 'edit'
+      ? result.msg
+        ? result.msg
+        : type === 'edit'
         ? 'Update Successfully'
         : 'Save Successfully'
       : 'Failed Please Check Again.!';
@@ -209,9 +211,7 @@ const Qualification = () => {
 
     const result = await _postApiADD(parm);
 
-    setUpdate(true);
-
-    result.status ? setDocumentData(result.data) : null;
+    result.status ? setUpdate(true) : null;
 
     if (result.status) {
       setDocumentData(result.data);
@@ -221,7 +221,9 @@ const Qualification = () => {
     }
 
     let msg = result.status
-      ? type === 'edit'
+      ? result.msg
+        ? result.msg
+        : type === 'edit'
         ? 'Update Successfully'
         : 'Save Successfully'
       : 'Failed Please Check Again.!';
@@ -312,7 +314,14 @@ const Qualification = () => {
                 sl={i + 1}
                 onEdit={() => onPressEdit(data)}
                 onDelete={() => {
-                  let val = [['id', data.id.toString(), 'ID']];
+                  let val = [
+                    [
+                      'qualification_employee_id',
+                      id.toString(),
+                      'qualification_employee_id',
+                    ],
+                    ['id', data.id.toString(), 'id'],
+                  ];
                   _onDelete(val);
                   setShowAlert(false);
                 }}

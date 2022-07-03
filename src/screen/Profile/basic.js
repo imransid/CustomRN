@@ -6,6 +6,7 @@ import {
   Button,
   TouchableOpacity,
   ToastAndroid,
+  SafeAreaView,
 } from 'react-native';
 
 import {Formik} from 'formik';
@@ -16,7 +17,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import TapButton from '../../components/tapButton/TapButton';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {Card, Headline, Subheading} from 'react-native-paper';
+import {Card, Headline, Surface} from 'react-native-paper';
 import {Calendar} from 'react-native-calendars';
 import moment from 'moment';
 import CustomIndicator from '../../components/CustomIndicator/CustomIndicator';
@@ -24,12 +25,17 @@ import useFetchData from '../../components/HOC/withGetData';
 
 import {_postApiADD} from '../../services/Services';
 import CalendarPicker from 'react-native-calendar-picker';
+import DropDown from '../../components/DorpDown';
 
 const Basic = () => {
   const apiUri = useSelector(state => state.api.domainName);
 
   const id = useSelector(state => state.user.userAllData.id);
   let data = useFetchData([['id', id]], 'basic-information', 'post', apiUri);
+
+  const [showDropDown, setShowDropDown] = useState(false);
+
+  const [gender, setGender] = useState('');
 
   // global asset
   const loader = useSelector(state => state.user.loader);
@@ -44,6 +50,20 @@ const Basic = () => {
     phone: '',
     gender: '',
   });
+  const genderList = [
+    {
+      label: 'Male',
+      value: 'male',
+    },
+    {
+      label: 'Female',
+      value: 'female',
+    },
+    {
+      label: 'Others',
+      value: 'others',
+    },
+  ];
   const [appLoaded, setAppLoaded] = useState(false);
 
   useEffect(() => {
@@ -91,9 +111,14 @@ const Basic = () => {
       ['first_name', value.first_name.toString()],
       ['last_name', value.last_name.toString()],
       ['email', value.email.toString()],
-      ['gender', value.gender.toString()],
+      ['gender', gender.toString() ? gender.toString() : data[0][0].gender],
       ['phone', value.phone.toString()],
-      ['date_of_birth', value.date_of_birth.toString()],
+      [
+        'date_of_birth',
+        selectedStartDate !== null
+          ? selectedStartDate.toString()
+          : value.date_of_birth.toString(),
+      ],
     ];
 
     let parm = {
@@ -105,8 +130,8 @@ const Basic = () => {
     const result = await _postApiADD(parm);
     console.log(result);
     let msg = result.status
-      ? type === 'edit'
-        ? 'Update Successfully'
+      ? result.msg
+        ? result.msg
         : 'Save Successfully'
       : 'Failed Please Check Again.!';
 
@@ -134,16 +159,17 @@ const Basic = () => {
         </Text>
       </View>
       {appLoaded && <CustomIndicator />}
+
       {!appLoaded && (
         <Formik
           enableReinitialize={true}
           initialValues={{
-            first_name: documentData.first_name,
-            last_name: documentData.last_name,
-            email: documentData.email,
-            gender: documentData.gender,
-            phone: documentData.phone,
-            date_of_birth: selectedStartDate,
+            first_name: documentData[0]?.first_name,
+            last_name: documentData[0]?.last_name,
+            email: documentData[0]?.email,
+            gender: documentData[0]?.gender,
+            phone: documentData[0]?.phone,
+            date_of_birth: documentData[0]?.date_of_birth,
           }}
           onSubmit={values => OnPress(values)}>
           {({handleChange, handleBlur, handleSubmit, values}) => (
@@ -170,12 +196,26 @@ const Basic = () => {
                 value={values.email}
               />
               <Text style={styles.itemTitle}>Gender</Text>
-              <Input
+              {/* <Input
                 placeholder="gender"
                 onChangeText={handleChange('gender')}
                 onBlur={handleBlur('gender')}
                 value={values.gender}
-              />
+              /> */}
+
+              <Surface style={styles.containerStyle}>
+                <SafeAreaView style={styles.safeContainerStyle}>
+                  <DropDown
+                    data={genderList}
+                    selectValue={val => {
+                      setGender(val);
+                      handleChange('gender');
+                    }}
+                    pickerValue={values.gender?.toLowerCase()}
+                  />
+                </SafeAreaView>
+              </Surface>
+
               <Text style={styles.itemTitle}>Phone</Text>
               <Input
                 placeholder="phone"
@@ -195,7 +235,7 @@ const Basic = () => {
                   marginBottom: 10,
                 }}>
                 <Text style={styles.itemTitle}>
-                  Date Of Birth : {documentData.date_of_birth}
+                  Date Of Birth : {documentData[0]?.date_of_birth}
                 </Text>
               </TouchableOpacity>
               {show && <CalendarPicker onDateChange={onDateChange} />}
@@ -228,5 +268,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     marginLeft: 10,
+  },
+  safeContainerStyle: {
+    //height: 300,
+    marginBottom: 10,
   },
 });

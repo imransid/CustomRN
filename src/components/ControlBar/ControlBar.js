@@ -17,9 +17,12 @@ const ControlCenter = () => {
   const apiUri = useSelector(state => state.api.domainName);
   const profilePic = useSelector(state => state.user.profilePic);
 
+  console.log('profilePic', profilePic);
   const URL_IMG = `${apiUri.slice(0, -10)}/${
     profilePic !== '' ? profilePic : user.profile_photo
   }`;
+
+  console.log('URL_IMG', URL_IMG);
 
   const lat = useSelector(state => state.user.Latitude);
   const long = useSelector(state => state.user.Longitude);

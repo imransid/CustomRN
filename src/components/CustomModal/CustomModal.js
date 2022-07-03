@@ -5,16 +5,18 @@ import {
   TouchableOpacity,
   ScrollView,
   Pressable,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from 'react-native';
-import { Box, FormControl, Input, Stack } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import {Box, FormControl, Input, Stack} from 'native-base';
+import React, {useEffect, useState} from 'react';
 import DocumentPicker from 'react-native-document-picker';
 var ImagePicker = require('react-native-image-picker');
 import DropDown from '../DorpDown';
 import Calendars from '../Calender/Calender';
 import InputBox from '../InputBox';
-import { TextInput } from 'react-native';
+import {TextInput} from 'react-native';
+
+import {Checkbox} from 'react-native-paper';
 
 const CustomModal = ({
   children,
@@ -24,6 +26,7 @@ const CustomModal = ({
   modalName,
   dropDownValue,
 }) => {
+  const [checked, setChecked] = React.useState(false);
   const [value, setValue] = useState(onValue);
   const [singleFile, setSingleFile] = useState(null);
 
@@ -33,6 +36,7 @@ const CustomModal = ({
 
   const OnTextChange = (name, val) => {
     let filterItem = value.filter(e => {
+      console.log('e[0] === name', e[0], name);
       if (e[0] === name) {
         e[1] = val;
       }
@@ -91,11 +95,18 @@ const CustomModal = ({
     if (pickerValue) {
       let filterItem = value.filter(e => {
         if (e[2].includes('TYPE')) {
-          e[1] = pickerValue.TYPE;
+          e[1] =
+            e[2] === 'TRAVEL ARRANGEMENT TYPE'
+              ? pickerValue.travel_arrangement_type
+              : e[2] === 'LEAVE TYPE'
+              ? pickerValue.leave_type
+              : pickerValue.TYPE;
         } else if (e[2].includes('PRIORITY')) {
           e[1] = pickerValue.PRIORITY;
         } else if (e[2].includes('STATUS')) {
           e[1] = pickerValue.STATUS;
+        } else if (e[2] === 'TRAVEL MODE') {
+          e[1] = pickerValue.mood;
         }
         return e;
       });
@@ -108,13 +119,28 @@ const CustomModal = ({
     let result = [];
     if (data[2].includes('TYPE')) {
       result[0] = true;
-      result[1] = dropDownValue;
+      result[1] =
+        data[2] === 'TRAVEL ARRANGEMENT TYPE'
+          ? dropDownValue.travel_arrangement_type
+          : data[2] === 'LEAVE TYPE'
+          ? dropDownValue.leave_type
+          : dropDownValue;
     } else if (data[2].includes('PRIORITY')) {
       result[0] = true;
       result[1] = dropDownValue.priority;
     } else if (data[2].includes('STATUS')) {
       result[0] = true;
       result[1] = dropDownValue.status;
+    } else if (data[2] === 'TRAVEL MODE') {
+      result[0] = true;
+      result[1] = [
+        {label: 'BY BUS', value: 'BY BUS'},
+        {label: 'BY TRAIN', value: 'BY TRAIN'},
+        {label: 'BY PLAIN', value: 'BY PLAIN'},
+        {label: 'BY TAXI', value: 'BY TAXI'},
+        {label: 'BY RENTAL CAR', value: 'BY RENTAL CAR'},
+        {label: 'BY OTHERS', value: 'BY OTHERS'},
+      ];
     } else {
       result[0] = false;
       result[1] = [];
@@ -126,11 +152,18 @@ const CustomModal = ({
     let value = '';
 
     if (data[2].includes('TYPE')) {
-      value = pickerValue.TYPE;
+      value =
+        data[2] === 'TRAVEL ARRANGEMENT TYPE'
+          ? pickerValue.travel_arrangement_type
+          : data[2] === 'LEAVE TYPE'
+          ? pickerValue.leave_type
+          : pickerValue.TYPE;
     } else if (data[2].includes('PRIORITY')) {
       value = pickerValue.PRIORITY;
     } else if (data[2].includes('STATUS')) {
       value = pickerValue.STATUS;
+    } else if (data[2] === 'TRAVEL MODE') {
+      value = pickerValue.mood;
     }
     return value;
   };
@@ -138,7 +171,11 @@ const CustomModal = ({
   const setDropDownValue = (data, info) => {
     let result = pickerValue;
     if (data[2].includes('TYPE')) {
-      result.TYPE = info;
+      data[2] === 'TRAVEL ARRANGEMENT TYPE'
+        ? (result.travel_arrangement_type = info)
+        : data[2] === 'LEAVE TYPE'
+        ? (result.leave_type = info)
+        : (result.TYPE = info);
 
       setPickerValue(result);
     } else if (data[2].includes('PRIORITY')) {
@@ -146,6 +183,9 @@ const CustomModal = ({
       setPickerValue(result);
     } else if (data[2].includes('STATUS')) {
       result.STATUS = info;
+      setPickerValue(result);
+    } else if (data[2] === 'TRAVEL MODE') {
+      result.mood = info;
       setPickerValue(result);
     }
 
@@ -177,7 +217,30 @@ const CustomModal = ({
     return filterItem[0][1];
   };
 
-  const FormControlItem = ({ data }) => {
+  const _isCheckBox = name => {
+    return (
+      <View style={{height: 50}}>
+        <Checkbox
+          status={checked ? 'checked' : 'unchecked'}
+          onPress={() => {
+            let filterItem = value.filter(e => {
+              console.log('e[0] === name', e[0]);
+              if (e[0] === 'is_half') {
+                e[1] = !checked ? '1' : '';
+              }
+              return e;
+            });
+
+            setValue(filterItem);
+
+            setChecked(!checked);
+          }}
+        />
+      </View>
+    );
+  };
+
+  const FormControlItem = ({data}) => {
     const checkAttachment = data => {
       return data.includes('ATTACHMENTS') ||
         (data.includes('FILE') && !data.includes('PROFILE'))
@@ -187,15 +250,17 @@ const CustomModal = ({
 
     data[1] === null ? (data[1] = '') : null;
 
-    return (
+    return !data[2].includes('ID') ? (
       <>
         <FormControl.Label>{data[2]}</FormControl.Label>
 
         {checkAttachment(data[2]) ? (
-          singleFile != null ? (
-            <Text style={styles.textStyle}>
-              File Name: {singleFile.fileName ? singleFile.fileName : ''}
-            </Text>
+          singleFile?.fileName ? (
+            <View>
+              <Text style={styles.textStyle}>
+                File Name: {singleFile.fileName ? singleFile.fileName : ''}
+              </Text>
+            </View>
           ) : (
             <TouchableOpacity
               style={styles.buttonStyle}
@@ -207,34 +272,37 @@ const CustomModal = ({
             </TouchableOpacity>
           )
         ) : // check Document && Type
-          getDropDownRender(data)[0] ? (
-            <DropDown
-              data={getDropDownRender(data)[1]}
-              selectValue={val => setDropDownValue(data, val)}
-              pickerValue={getDropDownValue(data)}
-            />
-          ) : // check DATE
+        getDropDownRender(data)[0] ? (
+          <DropDown
+            data={getDropDownRender(data)[1]}
+            selectValue={val => setDropDownValue(data, val)}
+            pickerValue={getDropDownValue(data)}
+          />
+        ) : // check DATE
 
-            _getDateShowStatus(data[2]) ? (
-              <Calendars
-                valueDate={data[1]}
-                keyDate={data[0]}
-                updateDateValue={(key, val) => _updateDateValue(key, val)}
-              />
-            ) : (
-              <InputBox
-                data={data}
-                val={_getInputValue(data[0])}
-                OnFocus={(name, val) => OnTextChange(name, val)}
-              />
-            )}
+        _getDateShowStatus(data[2]) ? (
+          <Calendars
+            valueDate={data[1]}
+            keyDate={data[0]}
+            updateDateValue={(key, val) => _updateDateValue(key, val)}
+          />
+        ) : // is checkBox
+        data[2] === 'IS HALF' ? (
+          _isCheckBox()
+        ) : (
+          <InputBox
+            data={data}
+            val={_getInputValue(data[0])}
+            OnFocus={(name, val) => OnTextChange(name, val)}
+          />
+        )}
       </>
+    ) : (
+      <></>
     );
   };
 
   return (
-
-
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
         <Text style={styles.modalText}>{modalName}</Text>
@@ -246,6 +314,7 @@ const CustomModal = ({
                   style={{
                     height: 290,
                   }}>
+                  {console.log('value >>', value)}
                   {value?.map((e, i) => (
                     <FormControlItem key={i} data={e} />
                   ))}
@@ -262,7 +331,9 @@ const CustomModal = ({
           <Pressable
             style={[styles.button, styles.buttonConnect]}
             onPress={() => Onsubmit()}>
-            <Text style={styles.textStyle}>{type === 'add' ? 'Add' : 'Update'}</Text>
+            <Text style={styles.textStyle}>
+              {type === 'add' ? 'Add' : 'Update'}
+            </Text>
           </Pressable>
           <Pressable
             style={[styles.button, styles.buttonCancel]}
@@ -272,9 +343,6 @@ const CustomModal = ({
         </View>
       </View>
     </View>
-
-
-
   );
 };
 
@@ -369,8 +437,6 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-
-
   },
   buttonStyle: {
     width: 150,
@@ -389,57 +455,53 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
     // alignItems: "center",
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width: "90%",
+    width: '90%',
     // height: "30%",
-
   },
   button: {
     borderRadius: 20,
     padding: 10,
     elevation: 2,
-    width: "30%",
+    width: '30%',
   },
   buttonCancel: {
-    backgroundColor: "#FF0099",
-
-
+    backgroundColor: '#FF0099',
   },
   buttonConnect: {
-    backgroundColor: "#2196F3",
-
+    backgroundColor: '#2196F3',
   },
   textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
+    color: '#c3c3c3',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 20,
-    fontWeight: "bold",
-    color: "#2196F3"
+    fontWeight: 'bold',
+    color: '#2196F3',
   },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
     // height: 200,
-    alignSelf: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
+    alignSelf: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   input: {
     height: 40,
@@ -450,8 +512,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     paddingRight: 10,
-    color: "black"
+    color: 'black',
   },
-
-
 });
