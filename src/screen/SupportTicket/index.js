@@ -25,7 +25,7 @@ import useFetchData from '../../components/HOC/withGetData';
 import {TextInput} from 'react-native-paper';
 import RnPdf from '../../components/GenaratePdf';
 const SupportTicket = () => {
-  console.log('SupportTicket');
+  console.log('SupportTicket dash');
 
   const [updateAva, setUpdate] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);

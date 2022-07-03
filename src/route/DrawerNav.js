@@ -56,6 +56,7 @@ import {useSelector} from 'react-redux';
 
 import ApproveLeave from '../screen/Leave/ApproveLeaves';
 import DashboardTicket from '../screen/SupportTicket/Ticket';
+import UpcomingHolidays from '../screen/UpcomingHolidays';
 
 const Drawer = createDrawerNavigator();
 
@@ -166,6 +167,7 @@ function MainDrawerNavigation() {
         component={SupportTicketOrganization}
       />
 
+      <Drawer.Screen name="UpcomingHolidays" component={UpcomingHolidays} />
       <Drawer.Screen name="ApproveLeaveDetails" component={ApproveLeave} />
       <Drawer.Screen name="Ticket" component={DashboardTicket} />
     </Drawer.Navigator>

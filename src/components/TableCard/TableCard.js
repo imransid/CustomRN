@@ -75,7 +75,7 @@ const TableCard = props => {
         {props.buttonVisible && (
           <View style={styles.action}>
             <TouchableOpacity style={styles.edit} onPress={props.onEdit}>
-              <Text style={styles.editText}>Edit</Text>
+              <Text style={styles.editText}>Update</Text>
             </TouchableOpacity>
             {props.deleteButton && (
               <TouchableOpacity style={styles.delete} onPress={props.onDelete}>

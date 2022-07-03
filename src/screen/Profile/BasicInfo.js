@@ -147,6 +147,8 @@ const BasicInfo = () => {
       ],
     ];
 
+    console.log('objectData', objectData);
+
     let parm = {
       bodyData: objectData,
       uri: 'basic-information-update',

@@ -333,7 +333,7 @@ const SalaryBankAccount = () => {
                   {title: 'Card Number', value: data.bank_account_card_number},
                   {title: 'Branch', value: data.bank_branch},
                 ]}
-                deleteButton={true}
+                deleteButton={false}
                 buttonVisible={true}
                 variant="Immigration"
               />

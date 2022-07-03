@@ -62,7 +62,7 @@ const items = [
     id: 7,
     title: 'Upcomping Holiday',
     color: '#008E89',
-    route: '',
+    route: 'UpcomingHolidays',
     image:
       'https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-holiday-comfort-flaticons-lineal-color-flat-icons-2.png',
   },

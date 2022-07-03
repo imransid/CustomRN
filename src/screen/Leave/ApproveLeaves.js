@@ -44,8 +44,6 @@ const Leave = () => {
   ];
   let data = useFetchData(endPointValue, endPoint, 'post', apiUri);
 
-  console.log('navigation, Areoval', data);
-
   const [documentData, setDocumentData] = useState([]);
   const [documentLoader, setDocumentLoader] = useState(false);
   const [type, setType] = useState('');
@@ -54,18 +52,20 @@ const Leave = () => {
   useEffect(() => {
     const controller = new AbortController();
     try {
-      let lngth = searchText.length;
-      if (lngth > 0) {
-        var newData = _searchData(documentData, searchText);
-        // setDocumentData(newData);
-        documentData.length !== newData.length
-          ? setDocumentData(newData)
-          : null;
-      } else {
-        data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-        data[0].length !== documentData.length
-          ? setDocumentData(data[0])
-          : null;
+      if (!updateAva) {
+        let lngth = searchText.length;
+        if (lngth > 0) {
+          var newData = _searchData(documentData, searchText);
+          // setDocumentData(newData);
+          documentData.length !== newData.length
+            ? setDocumentData(newData)
+            : null;
+        } else {
+          data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+          data[0].length !== documentData.length
+            ? setDocumentData(data[0])
+            : null;
+        }
       }
     } catch (err) {
       console.log('Error in useEffect2 ', err);
@@ -74,7 +74,7 @@ const Leave = () => {
     return () => {
       controller.abort();
     };
-  }, [data, searchText, documentData, documentLoader]);
+  }, [data, searchText, documentData, documentLoader, updateAva]);
 
   const OnAddNow = () => {
     setType('add');
@@ -90,10 +90,11 @@ const Leave = () => {
     ];
 
     let finalData = objectData.filter(e => {
+      if (e[0] === 'id') {
+        return e;
+      }
       if (e[0] === 'created_at' || e[0] === 'updated_at') {
       } else {
-        e[2] = e[0].toUpperCase().replaceAll('_', ' ');
-        return e;
       }
     });
 
@@ -147,51 +148,51 @@ const Leave = () => {
   };
 
   const onPressEdit = data => {
-    setModalVisible(true);
-
+    setDocumentLoader(true);
     setType('edit');
 
     let objectData = Object.entries(data);
 
     let finalData = objectData.filter(e => {
       if (e[0] === 'created_at' || e[0] === 'updated_at') {
-      } else if (e[0] === 'leaves__type') {
-        e[0] = 'leaves_type';
-        e[2] = e[0].toUpperCase().replaceAll('__', ' ');
+      } else if (e[0] === 'id') {
         return e;
       } else {
-        e[2] = e[0].toUpperCase().replaceAll('_', ' ');
-        return e;
       }
     });
 
-    setInfoValue(finalData);
+    finalData.push(['leave_approver_id', id]);
+    finalData.push(['leave_approver_com_id', com_id]);
+
+    OnEdit(finalData, 'edit');
   };
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
 
     let parm = {
-      bodyData: parmZ,
-      uri: 'document-update',
+      bodyData: info,
+      uri: 'approving-leave',
       domainName: apiUri,
     };
 
-    console.log('info, type', info, type);
+    const result = await _postApiFetch(parm);
 
-    // const result = await _postApiFetch(parm);
+    if (result.status) {
+      setUpdate(true);
+      setDocumentData(result.data);
+      setDocumentLoader(false);
+    }
 
-    // result.status ? setDocumentData(result.data) : null;
+    let msg = result.status
+      ? type === 'edit'
+        ? result.msg
+          ? result.msg
+          : 'Update Successfully'
+        : 'Save Successfully'
+      : 'Failed Please Check Again.!';
 
-    // setUpdate(true);
-
-    // let msg = result.status
-    //   ? type === 'edit'
-    //     ? 'Update Successfully'
-    //     : 'Save Successfully'
-    //   : 'Failed Please Check Again.!';
-
-    // showToastWithGravityAndOffset(msg);
+    showToastWithGravityAndOffset(msg);
   };
 
   return (
@@ -264,8 +265,8 @@ const Leave = () => {
                   {title: 'House', value: data.leaves_db_house_name},
                   {title: 'Is Half', value: data.is_half},
                 ]}
-                variant="Leaves"
-                buttonVisible={false}
+                variant="AppLeaves"
+                buttonVisible={true}
               />
             ))}
         </SafeAreaView>

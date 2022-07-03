@@ -111,9 +111,14 @@ const Basic = () => {
       ['first_name', value.first_name.toString()],
       ['last_name', value.last_name.toString()],
       ['email', value.email.toString()],
-      ['gender', gender.toString()],
+      ['gender', gender.toString() ? gender.toString() : data[0][0].gender],
       ['phone', value.phone.toString()],
-      ['date_of_birth', value.date_of_birth.toString()],
+      [
+        'date_of_birth',
+        selectedStartDate !== null
+          ? selectedStartDate.toString()
+          : value.date_of_birth.toString(),
+      ],
     ];
 
     let parm = {
@@ -125,7 +130,9 @@ const Basic = () => {
     const result = await _postApiADD(parm);
     console.log(result);
     let msg = result.status
-      ? 'Save Successfully'
+      ? result.msg
+        ? result.msg
+        : 'Save Successfully'
       : 'Failed Please Check Again.!';
 
     showToastWithGravityAndOffset(msg);
@@ -228,7 +235,7 @@ const Basic = () => {
                   marginBottom: 10,
                 }}>
                 <Text style={styles.itemTitle}>
-                  Date Of Birth : {documentData.date_of_birth}
+                  Date Of Birth : {documentData[0]?.date_of_birth}
                 </Text>
               </TouchableOpacity>
               {show && <CalendarPicker onDateChange={onDateChange} />}
