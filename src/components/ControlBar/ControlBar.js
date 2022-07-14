@@ -17,12 +17,11 @@ const ControlCenter = () => {
   const apiUri = useSelector(state => state.api.domainName);
   const profilePic = useSelector(state => state.user.profilePic);
 
-  console.log('profilePic', profilePic);
   const URL_IMG = `${apiUri.slice(0, -10)}/${
     profilePic !== '' ? profilePic : user.profile_photo
   }`;
 
-  console.log('URL_IMG', URL_IMG);
+  const userX = useSelector(state => console.log('state', state));
 
   const lat = useSelector(state => state.user.Latitude);
   const long = useSelector(state => state.user.Longitude);
@@ -42,9 +41,9 @@ const ControlCenter = () => {
         <Text style={styles.name}>
           {user.first_name} {user.last_name}{' '}
         </Text>
-        <Text style={styles.designation}>{user.designation_id}</Text>
+        {/* <Text style={styles.designation}>{user.designation_id}</Text> */}
         <Text style={styles.officeShift}>
-          Office Shift: 9:00 AM To 6:00 PM(Night Shift)
+          {/* Office Shift: 9:00 AM To 6:00 PM(Night Shift) */}
         </Text>
         <Text style={styles.Location}>
           Long: {parseFloat(long).toFixed(2) || 0.0}, Lat:{' '}
