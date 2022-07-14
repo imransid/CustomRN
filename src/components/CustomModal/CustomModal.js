@@ -250,7 +250,14 @@ const CustomModal = ({
 
     data[1] === null ? (data[1] = '') : null;
 
-    return !data[2].includes('ID') ? (
+    let checkResult =
+      !data[2].includes('ID') ||
+      data[0] === 'travel_company_id' ||
+      data[0] === 'travel_approver_id'
+        ? true
+        : false;
+
+    return checkResult ? (
       <>
         <FormControl.Label>{data[2]}</FormControl.Label>
 
@@ -314,7 +321,6 @@ const CustomModal = ({
                   style={{
                     height: 290,
                   }}>
-                  {console.log('value >>', value)}
                   {value?.map((e, i) => (
                     <FormControlItem key={i} data={e} />
                   ))}

@@ -34,6 +34,10 @@ const Travel = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
+
+  useSelector(state =>
+    console.log('state.user.userAllData', state.user.userAllData),
+  );
   const [searchText, setSearchText] = useState('');
   const onChangeSearchText = text => {
     setSearchText(text);
@@ -41,8 +45,11 @@ const Travel = () => {
   const apiUri = useSelector(state => state.api.domainName);
 
   let data = useFetchData(
-    [['travel_employee_id', id]],
-    'travel',
+    [
+      ['travel_employee_id', id],
+      ['travel_company_id', com_id],
+    ],
+    'approve-travel-details',
     'post',
     apiUri,
   );
@@ -118,16 +125,23 @@ const Travel = () => {
 
     let parm = {
       bodyData: parmZ,
-      uri: 'qualification-update',
+      uri: 'approving-travel',
+      domainName: apiUri,
     };
+
+    console.log('parm', parm);
 
     const result = await _postApiFetch(parm);
 
     result.status ? setDocumentData(result.data) : null;
 
+    console.log('resultresultresultresult', result);
+
     let msg = result.status
       ? type === 'edit'
-        ? 'Update Successfully'
+        ? result.msg
+          ? result.msg
+          : 'Update Successfully'
         : 'Save Successfully'
       : 'Failed Please Check Again.!';
 
@@ -155,9 +169,23 @@ const Travel = () => {
 
     let finalData = objectData.filter(e => {
       if (e[0] === 'created_at' || e[0] === 'updated_at') {
-      } else {
-        e[2] = e[0].toUpperCase().replaceAll('_', ' ');
-        return e;
+      } else if (
+        e[0] === 'id' ||
+        e[0] === 'travel_com_id' ||
+        e[0] === 'travel_employee_id'
+      ) {
+        if (e[0] === 'travel_employee_id') {
+          e[0] = 'travel_approver_id';
+          e[2] = e[0].toUpperCase().replaceAll('_', ' ');
+          return e;
+        } else if (e[0] === 'travel_com_id') {
+          e[0] = 'travel_company_id';
+          e[2] = e[0].toUpperCase().replaceAll('_', ' ');
+          return e;
+        } else {
+          e[2] = e[0].toUpperCase().replaceAll('_', ' ');
+          return e;
+        }
       }
     });
 
@@ -169,16 +197,9 @@ const Travel = () => {
 
     let objectData = [
       ['com_id', com_id.toString(), 'com_id'],
-      ['travel_employee_id', id.toString(), 'travel_employee_id'],
+      ['travel_company_id', id.toString(), 'travel_company_id'],
       ['travel_department_id', '2', 'travel_department_id'],
-      ['travel_arrangement_type', '', 'travel_arrangement_type'],
-      ['travel_purpose', '', 'travel_purpose'],
-      ['travel_place', '', 'travel_place'],
-      ['travel_desc', '', 'travel_desc'],
-      ['travel_start_date', 'Select Date', 'travel_start_date'],
-      ['travel_end_date', 'Select Date', 'travel_end_date'],
-      ['travel_expected_budget', '', 'travel_expected_budget'],
-      ['travel_mode', '', 'travel_mode'],
+      ['travel_approver_id', '', 'travel_approver_id'],
     ];
 
     let finalData = objectData.filter(e => {
@@ -356,11 +377,11 @@ const Travel = () => {
                   datas={[
                     {
                       title: 'Employee',
-                      value: data.travel_employee_full_name,
+                      value: data.employee_name,
                     },
                     {
                       title: 'Department',
-                      value: data.travel_employee_department_name,
+                      value: data.travel_department_name,
                     },
                     {
                       title: 'Visit Purpose',
@@ -378,8 +399,8 @@ const Travel = () => {
                     {title: 'Travel Mode', value: data.travel_mode},
                     {title: 'Status', value: data.travel_status},
                   ]}
-                  deleteButton={true}
-                  buttonVisible={false}
+                  deleteButton={false}
+                  buttonVisible={true}
                   variant="Immigration"
                 />
               </TouchableOpacity>
@@ -412,7 +433,7 @@ const Travel = () => {
           {/* </TouchableOpacity> */}
         </SafeAreaView>
       </ScrollView>
-      <PlusButton OnPress={() => OnAddNow()} />
+      {/* <PlusButton OnPress={() => OnAddNow()} /> */}
     </>
   );
 };
