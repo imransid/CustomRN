@@ -197,16 +197,9 @@ const Travel = () => {
 
     let objectData = [
       ['com_id', com_id.toString(), 'com_id'],
+      ['travel_company_id', id.toString(), 'travel_company_id'],
       ['travel_department_id', '2', 'travel_department_id'],
-      ['travel_employee_id', id.toString(), 'travel_employee_id'],
-      ['travel_arrangement_type', '', 'travel_arrangement_type'],
-      ['travel_purpose', '', 'travel_purpose'],
-      ['travel_place', '', 'travel_place'],
-      ['travel_desc', '', 'travel_desc'],
-      ['travel_start_date', 'Select Date', 'travel_start_date'],
-      ['travel_end_date', 'Select Date', 'travel_end_date'],
-      ['travel_expected_budget', '', 'travel_expected_budget'],
-      ['travel_mode', '', 'travel_mode'],
+      ['travel_approver_id', '', 'travel_approver_id'],
     ];
 
     let finalData = objectData.filter(e => {
@@ -235,8 +228,6 @@ const Travel = () => {
     const result = await _postApiNormalADD(parm);
 
     result.status ? setUpdate(true) : null;
-
-    console.log('result', result);
 
     if (result.status) {
       setDocumentData(result.data);
@@ -347,15 +338,11 @@ const Travel = () => {
                     data: [
                       {
                         title: 'Employee',
-                        value: data.travel_employee_full_name
-                          ? data.travel_employee_full_name
-                          : data.employee_name,
+                        value: data.travel_employee_full_name,
                       },
                       {
                         title: 'Department',
-                        value: data.travel_employee_department_name
-                          ? data.travel_employee_department_name
-                          : data.travel_department_name,
+                        value: data.travel_employee_department_name,
                       },
                       {
                         title: 'Visit Purpose',
@@ -390,15 +377,11 @@ const Travel = () => {
                   datas={[
                     {
                       title: 'Employee',
-                      value: data.employee_name
-                        ? data.employee_name
-                        : data.travel_employee_full_name,
+                      value: data.employee_name,
                     },
                     {
                       title: 'Department',
-                      value: data.travel_department_name
-                        ? data.travel_department_name
-                        : data.travel_employee_department_name,
+                      value: data.travel_department_name,
                     },
                     {
                       title: 'Visit Purpose',
@@ -417,8 +400,8 @@ const Travel = () => {
                     {title: 'Status', value: data.travel_status},
                   ]}
                   deleteButton={false}
-                  buttonVisible={false}
-                  variant="Immigration"
+                  buttonVisible={true}
+                  variant="Approve"
                 />
               </TouchableOpacity>
             ))
@@ -450,7 +433,7 @@ const Travel = () => {
           {/* </TouchableOpacity> */}
         </SafeAreaView>
       </ScrollView>
-      <PlusButton OnPress={() => OnAddNow()} />
+      {/* <PlusButton OnPress={() => OnAddNow()} /> */}
     </>
   );
 };
