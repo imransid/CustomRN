@@ -30,8 +30,6 @@ import TableCardAttachment from '../../components/TableCardAttachment/TableCardA
 import RnPdf from '../../components/GenaratePdf';
 import {useNavigation} from '@react-navigation/native';
 const Holidays = () => {
-  console.log('come form dsah board');
-
   const [modalVisible, setModalVisible] = useState(false);
   const id = useSelector(state => state.user.userAllData.id);
   const com_id = useSelector(state => state.user.userAllData.com_id);
@@ -41,16 +39,12 @@ const Holidays = () => {
   };
   const apiUri = useSelector(state => state.api.domainName);
 
-  let data =
-    //useFetchData(
-    //     [['travel_employee_id', id]],
-    //     'travel',
-    //     'post',
-    //     apiUri,
-    //   );
-    [[], false];
-
-  console.log('data', data);
+  let data = useFetchData(
+    [['com_id', com_id]],
+    'upcoming-holiday-details',
+    'post',
+    apiUri,
+  );
 
   const [documentData, setDocumentData] = useState([]);
   const [documentType, setDocumentType] = useState('');
@@ -231,34 +225,7 @@ const Holidays = () => {
     showToastWithGravityAndOffset(msg);
   };
 
-  // const _onDelete = async info => {
-  //   setModalVisible(false);
-  //   setDocumentLoader(true);
-
-  //   let parm = {
-  //     bodyData: info,
-  //     uri: 'qualification-delete',
-  //   };
-
-  //   const result = await _postApiADD(parm);
-
-  //   result.status ? setDocumentData(result.data) : null;
-
-  //   if (result.status) {
-  //     setDocumentData(result.data);
-  //     setDocumentLoader(false);
-  //   } else {
-  //     setDocumentLoader(false);
-  //   }
-
-  //   result.status ? setDocumentData(result.data) : null;
-
-  //   let msg = result.status
-  //     ? 'Deleted Successfully. !'
-  //     : 'Failed Please Check Again.!';
-
-  //   showToastWithGravityAndOffset(msg);
-  // };
+  console.log('documentData', documentData);
 
   return (
     <>
@@ -370,19 +337,19 @@ const Holidays = () => {
                   datas={[
                     {
                       title: 'Holiday Type',
-                      value: data.travel_employee_full_name,
+                      value: data.holiday_type,
                     },
                     {
                       title: 'Holiday Name',
-                      value: data.travel_employee_department_name,
+                      value: data.holiday_name,
                     },
                     {
                       title: 'Start Date',
-                      value: data.travel_purpose,
+                      value: data.start_date,
                     },
                     {
                       title: 'End Date',
-                      value: data.travel_purpose,
+                      value: data.end_date,
                     },
                   ]}
                   deleteButton={true}

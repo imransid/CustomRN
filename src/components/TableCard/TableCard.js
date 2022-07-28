@@ -14,6 +14,8 @@ const TableCard = props => {
       : false;
   };
 
+  console.log('props is', props);
+
   return (
     <View style={styles.listitem}>
       <View style={styles.sl}>
@@ -75,7 +77,10 @@ const TableCard = props => {
         {props.buttonVisible && (
           <View style={styles.action}>
             <TouchableOpacity style={styles.edit} onPress={props.onEdit}>
-              <Text style={styles.editText}>Update</Text>
+              <Text style={styles.editText}>
+                {' '}
+                {props.variant === 'Approve' ? props.variant : 'Update'}
+              </Text>
             </TouchableOpacity>
             {props.deleteButton && (
               <TouchableOpacity style={styles.delete} onPress={props.onDelete}>

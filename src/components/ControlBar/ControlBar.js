@@ -10,6 +10,7 @@ import {
 import TapButton from '../../components/tapButton/TapButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {CheckIn, CheckOut} from '../../actions/Attendance';
+import useFetchData from '../../components/HOC/withGetData';
 
 const ControlCenter = () => {
   const dispatch = useDispatch();
@@ -21,13 +22,43 @@ const ControlCenter = () => {
     profilePic !== '' ? profilePic : user.profile_photo
   }`;
 
-  const userX = useSelector(state => console.log('state', state));
-
   const lat = useSelector(state => state.user.Latitude);
   const long = useSelector(state => state.user.Longitude);
   const checkInStatus = useSelector(state => state.user.checkInStatus);
   const checkInLoader = useSelector(state => state.user.checkInLoader);
   // console.log("user datas", firstname)
+
+  let designation = useFetchData(
+    [
+      ['company_id', user.com_id],
+      ['designation_id', user.designation_id],
+    ],
+    'designation',
+    'post',
+    apiUri,
+  );
+
+  let shiftStatus = useFetchData(
+    [
+      ['company_id', user.com_id],
+      ['office_shift_id', user.office_shift_id],
+    ],
+    'office-shift',
+    'post',
+    apiUri,
+  );
+
+  let checkStatus = useFetchData(
+    [
+      ['attendance_com_id', user.com_id],
+      ['employee_id', user.id],
+    ],
+    'attendance-status-for-current-date',
+    'post',
+    apiUri,
+  );
+
+  console.log('user', user, checkStatus);
 
   const OnPress = useCallback(() => {
     dispatch(checkInStatus ? CheckOut() : CheckIn());
@@ -41,18 +72,21 @@ const ControlCenter = () => {
         <Text style={styles.name}>
           {user.first_name} {user.last_name}{' '}
         </Text>
-        {/* <Text style={styles.designation}>{user.designation_id}</Text> */}
+        <Text style={styles.designation}>
+          {designation.length ? designation[0] : ''}
+        </Text>
         <Text style={styles.officeShift}>
-          {/* Office Shift: 9:00 AM To 6:00 PM(Night Shift) */}
+          Office Shift: 9:00 AM To 6:00 PM{' '}
+          {shiftStatus.length ? '(' + shiftStatus[0] + ')' : ''}
         </Text>
         <Text style={styles.Location}>
           Long: {parseFloat(long).toFixed(2) || 0.0}, Lat:{' '}
           {parseFloat(lat).toFixed(2) || 0.0}
         </Text>
         <TouchableOpacity style={styles.buttonContainer} onPress={OnPress}>
-          {!checkInLoader ? (
+          {!checkStatus[1] ? (
             <Text style={styles.designation}>
-              Check {checkInStatus ? 'Out' : 'In'}
+              Check {checkStatus[0] === 'Absent' ? 'In' : 'Out'}
             </Text>
           ) : (
             <ActivityIndicator size="small" color="#CFCFCF" />

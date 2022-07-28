@@ -215,9 +215,9 @@ export const drawerItemsSubMain = [
     routes: [
       {nav: 'Award', routeName: 'Award', title: 'Award'},
       {
-        nav: 'Travel',
-        routeName: 'Travel',
-        title: 'Travel',
+        nav: 'ApproveTravel',
+        routeName: 'ApproveTravel',
+        title: 'Approve Travel',
       },
       {
         nav: 'Training',
