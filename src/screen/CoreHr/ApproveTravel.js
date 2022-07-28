@@ -133,6 +133,7 @@ const Travel = () => {
 
     const result = await _postApiFetch(parm);
 
+    result.status ? setUpdate(true) : null;
     result.status ? setDocumentData(result.data) : null;
 
     console.log('resultresultresultresult', result);
@@ -159,7 +160,7 @@ const Travel = () => {
   };
 
   const onPressEdit = data => {
-    setModalVisible(true);
+    // setModalVisible(true);
 
     setType('edit');
 
@@ -189,7 +190,9 @@ const Travel = () => {
       }
     });
 
-    setInfoValue(finalData);
+    OnEdit(finalData, 'edit');
+
+    //setInfoValue(finalData);
   };
 
   const OnAddNow = () => {

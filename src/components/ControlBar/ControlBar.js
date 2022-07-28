@@ -48,7 +48,17 @@ const ControlCenter = () => {
     apiUri,
   );
 
-  console.log('designation', designation);
+  let checkStatus = useFetchData(
+    [
+      ['attendance_com_id', user.com_id],
+      ['employee_id', user.id],
+    ],
+    'attendance-status-for-current-date',
+    'post',
+    apiUri,
+  );
+
+  console.log('user', user, checkStatus);
 
   const OnPress = useCallback(() => {
     dispatch(checkInStatus ? CheckOut() : CheckIn());
@@ -74,9 +84,9 @@ const ControlCenter = () => {
           {parseFloat(lat).toFixed(2) || 0.0}
         </Text>
         <TouchableOpacity style={styles.buttonContainer} onPress={OnPress}>
-          {!checkInLoader ? (
+          {!checkStatus[1] ? (
             <Text style={styles.designation}>
-              Check {checkInStatus ? 'Out' : 'In'}
+              Check {checkStatus[0] === 'Absent' ? 'In' : 'Out'}
             </Text>
           ) : (
             <ActivityIndicator size="small" color="#CFCFCF" />

@@ -32,12 +32,20 @@ export const _postApiFetch = async data => {
       .then(result => {
         let res = {};
 
-        if (data.uri === 'designation' || data.uri === 'office-shift') {
+        console.log('result', result);
+
+        if (
+          data.uri === 'designation' ||
+          data.uri === 'office-shift' ||
+          data.uri === 'attendance-status-for-current-date'
+        ) {
           res = {
             status: true,
             data: result.designation_name
               ? result.designation_name
-              : result.shift_name,
+              : result.shift_name
+              ? result.shift_name
+              : result.attendance_status,
             msg: 'ok',
           };
         } else {
