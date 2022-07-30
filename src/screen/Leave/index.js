@@ -25,7 +25,6 @@ import useFetchData from '../../components/HOC/withGetData';
 import {TextInput} from 'react-native-paper';
 import RnPdf from '../../components/GenaratePdf';
 
-import PlusButton from '../../components/plusButton';
 const Leave = ({navigation, route}) => {
   console.log('navigation, route', navigation, route);
 

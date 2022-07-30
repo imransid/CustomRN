@@ -1,0 +1,123 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.facebook.fresco",
+    "module": "stetho",
+    "version": "2.5.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "stetho-2.5.0.aar",
+          "url": "stetho-2.5.0.aar",
+          "size": 11166,
+          "sha512": "9fccfea45f3fcfb51f97bdb48c88e43f619c7da309c58d7f0cc307b11f9989a097f768f5eaa99c72237353d6df9fc0e2af4ee3faccb76a0b67508d5185743d92",
+          "sha256": "96d4e6d243eba4947ed96d66ed0cc59d0dc1b1e3ac7fcbf43fdd02df6f7a4c43",
+          "sha1": "31e59d02f494bccd770b8e640d17e2e498663c26",
+          "md5": "7b05d9d24612887f46ec0b3f4c75a877"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.facebook.stetho",
+          "module": "stetho",
+          "version": {
+            "requires": "1.3.1"
+          }
+        },
+        {
+          "group": "com.facebook.fresco",
+          "module": "fresco",
+          "version": {
+            "requires": "2.5.0"
+          }
+        },
+        {
+          "group": "com.facebook.fresco",
+          "module": "fbcore",
+          "version": {
+            "requires": "2.5.0"
+          }
+        },
+        {
+          "group": "com.facebook.fresco",
+          "module": "imagepipeline",
+          "version": {
+            "requires": "2.5.0"
+          }
+        },
+        {
+          "group": "com.facebook.fresco",
+          "module": "imagepipeline-native",
+          "version": {
+            "requires": "2.5.0"
+          }
+        },
+        {
+          "group": "com.facebook.fresco",
+          "module": "memory-type-ashmem",
+          "version": {
+            "requires": "2.5.0"
+          }
+        },
+        {
+          "group": "com.facebook.fresco",
+          "module": "memory-type-native",
+          "version": {
+            "requires": "2.5.0"
+          }
+        },
+        {
+          "group": "com.facebook.fresco",
+          "module": "memory-type-java",
+          "version": {
+            "requires": "2.5.0"
+          }
+        },
+        {
+          "group": "com.facebook.fresco",
+          "module": "imagepipeline-base",
+          "version": {
+            "requires": "2.5.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "stetho-2.5.0.aar",
+          "url": "stetho-2.5.0.aar",
+          "size": 11166,
+          "sha512": "9fccfea45f3fcfb51f97bdb48c88e43f619c7da309c58d7f0cc307b11f9989a097f768f5eaa99c72237353d6df9fc0e2af4ee3faccb76a0b67508d5185743d92",
+          "sha256": "96d4e6d243eba4947ed96d66ed0cc59d0dc1b1e3ac7fcbf43fdd02df6f7a4c43",
+          "sha1": "31e59d02f494bccd770b8e640d17e2e498663c26",
+          "md5": "7b05d9d24612887f46ec0b3f4c75a877"
+        }
+      ]
+    }
+  ]
+}
