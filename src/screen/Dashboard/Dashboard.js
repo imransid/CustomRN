@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, PermissionsAndroid} from 'react-native';
+import {StyleSheet, View, PermissionsAndroid,RefreshControl,ScrollView} from 'react-native';
 import Dashmenu from '../../components/Dashmenu/Dashmenu';
 import Controlbar from '../../components/ControlBar/ControlBar';
 // import Orientation from 'react-native-orientation'; ///need to remove this pac
@@ -21,39 +21,39 @@ const Dashboard = () => {
   const loader = false; //useSelector(state => state.user.checkInLoader);
   console.log(global.HermesInternal !== null);
   // jessan api call
-  useEffect(() => {
-    (async () => {
-      let parmZ = {
-        uri: 'immigration',
-        id: '6',
-      };
+  // useEffect(() => {
+  //   (async () => {
+  //     let parmZ = {
+  //       uri: 'immigration',
+  //       id: '6',
+  //     };
 
-      const fetchDataGet = await getApiFetch(parmZ);
+  //     const fetchDataGet = await getApiFetch(parmZ);
 
-      console.log('fetchDataGet', fetchDataGet);
+  //     console.log('fetchDataGet', fetchDataGet);
 
-      // post parm
-      let bodyData = [
-        ['id', '6'],
-        ['immigrant_document_type', 'VIP'],
-        ['immigrant_document_number', '4444'],
-        ['immigrant_issue_date', '4444'],
-        ['immigrant_expired_date', '4444'],
-        ['immigrant_document_file', '800px_COLOURBOX27028397.jpg'],
-        ['immigrant_eligible_review_date', '4444'],
-        ['immigrant_country', 'DSDSDS'],
-      ];
+  //     // post parm
+  //     let bodyData = [
+  //       ['id', '6'],
+  //       ['immigrant_document_type', 'VIP'],
+  //       ['immigrant_document_number', '4444'],
+  //       ['immigrant_issue_date', '4444'],
+  //       ['immigrant_expired_date', '4444'],
+  //       ['immigrant_document_file', '800px_COLOURBOX27028397.jpg'],
+  //       ['immigrant_eligible_review_date', '4444'],
+  //       ['immigrant_country', 'DSDSDS'],
+  //     ];
 
-      let parm = {
-        bodyData: bodyData,
-        uri: 'immigration-update',
-      };
+  //     let parm = {
+  //       bodyData: bodyData,
+  //       uri: 'immigration-update',
+  //     };
 
-      const fetchData = await getApiFetch(parm);
-    })();
+  //     const fetchData = await getApiFetch(parm);
+  //   })();
 
-    return () => {};
-  }, []);
+  //   return () => {};
+  // }, []);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -150,9 +150,18 @@ const Dashboard = () => {
 
   return (
     <View style={styles.container}>
+      <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={loader} onRefresh={() => {
+          getOneTimeLocation();
+          subscribeLocationLocation();
+        }} />
+      }
+      >
       <Controlbar />
       <Dashmenu />
       <Loader loading={loader} />
+      </ScrollView>
     </View>
   );
 };
