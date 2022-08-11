@@ -123,7 +123,7 @@ const Dashboard = () => {
     watchID = Geolocation.watchPosition(
       position => {
         //Will give you the location on location change
-
+        console.log("location change",position);
         setLocationStatus('You are Here');
 
         //getting the Longitude from the location json

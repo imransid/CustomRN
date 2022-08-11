@@ -83,9 +83,11 @@ export const _CheckInOutUpdate = function* (action) {
       action.status === 'check out'
         ? yield put({
             type: CHECK_OUT_SUCCESSFULLY,
+            payload:"Absent",
           })
         : yield put({
             type: CHECK_IN_SUCCESSFULLY,
+            payload: "Present",
           });
     } else {
       yield put({

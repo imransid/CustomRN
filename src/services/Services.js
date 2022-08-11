@@ -73,6 +73,7 @@ export const _postApiFetch = async data => {
   }
 };
 
+
 const _ImageValueGenerate = (name, val) => {
   if (typeof val !== 'string') {
     let photo;

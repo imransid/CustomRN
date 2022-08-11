@@ -22,7 +22,7 @@ const INITIAL_STATE = {
   islogged: false,
   Longitude: '',
   Latitude: '',
-  checkInStatus: false,
+  checkInStatus: "",
   checkInLoader: false,
   profilePic: '',
 };
@@ -85,13 +85,13 @@ export default (state = INITIAL_STATE, action) => {
     case CHECK_IN_SUCCESSFULLY:
       return {
         ...state,
-        checkInStatus: true,
+        checkInStatus: action.payload,
         checkInLoader: false,
       };
     case CHECK_OUT_SUCCESSFULLY:
       return {
         ...state,
-        checkInStatus: false,
+        checkInStatus: action.payload,
         checkInLoader: false,
       };
     case CHECK_IN:

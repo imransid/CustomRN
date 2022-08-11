@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback,useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,6 +11,7 @@ import TapButton from '../../components/tapButton/TapButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {CheckIn, CheckOut} from '../../actions/Attendance';
 import useFetchData from '../../components/HOC/withGetData';
+import {_postApiFetch} from '../../services/Services';
 
 const ControlCenter = () => {
   const dispatch = useDispatch();
@@ -57,12 +58,62 @@ const ControlCenter = () => {
     'post',
     apiUri,
   );
+  const [bal,setBal] = React.useState(null);
 
-  console.log('user', user, checkStatus);
+  
+  useEffect(() => {
+// console.log("checkStatus for bal",checkStatus)
+    if(checkStatus.length > 0 && bal === null){
+      // console.log("check set bal",checkStatus[0]==="Absent")
+      if(checkStatus[0]==="Absent"||checkStatus[0]==="Present"){
+       setBal(checkStatus[0]);
+      }
+      
+    }
 
-  const OnPress = useCallback(() => {
-    dispatch(checkInStatus ? CheckOut() : CheckIn());
+  },[checkStatus, bal]) 
+
+  // console.log('checkStatus[0]',checkStatus[0], bal);
+
+  const OnPress = useCallback(async () => {
+    let parm = {
+      bodyData: [
+        ['attendance_com_id', user.com_id],
+        ['employee_id', user.id],
+      ],
+      uri: 'attendance-status-for-current-date',
+      domainName: apiUri,
+    };
+
+    const result = await _postApiFetch(parm);
+    // console.log('Dashboard result', result.data);
+    result.data==="Present" ? dispatch(CheckOut()) : dispatch(CheckIn());
   }, [dispatch, checkInStatus]);
+
+  useEffect(() => {
+    // console.log("first print",checkInStatus,bal)
+    if (checkInStatus!=="" && bal!== null) {
+   if(checkInStatus==="Present" && bal === 'Absent'){
+// console.log("set bal to present")
+    setBal('Present');
+  
+   }
+    }
+
+  }, [checkInStatus, bal]);
+
+
+
+  const data = () => {
+    if( bal === 'Absent'){
+// console.log("IN ",bal);
+return "In"
+    }
+    else{
+      // console.log("Out",bal)
+      return "Out"
+    }
+  }
 
   return (
     <View style={styles.header}>
@@ -86,7 +137,10 @@ const ControlCenter = () => {
         <TouchableOpacity style={styles.buttonContainer} onPress={OnPress}>
           {!checkStatus[1] ? (
             <Text style={styles.designation}>
-              Check {checkStatus[0] === 'Absent' ? 'In' : 'Out'}
+              {/* Check {() ? 'In' : 'Out'} */}
+              {
+               "Check " + data() 
+              }
             </Text>
           ) : (
             <ActivityIndicator size="small" color="#CFCFCF" />
