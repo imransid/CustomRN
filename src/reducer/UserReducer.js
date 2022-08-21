@@ -10,6 +10,7 @@ import {
   CHECK_OUT_SUCCESSFULLY,
   CHECK_OUT,
   UPDATE_PROFILE,
+  CHECK_STATUS
 } from '../constant/Constants';
 
 const INITIAL_STATE = {
@@ -22,9 +23,10 @@ const INITIAL_STATE = {
   islogged: false,
   Longitude: '',
   Latitude: '',
-  checkInStatus: "",
+  checkInStatus: null,
   checkInLoader: false,
   profilePic: '',
+  userCurentStatus: null
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -34,6 +36,12 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loader: true,
       };
+    
+    case CHECK_STATUS:
+       return { 
+         ...state,
+        checkInStatus: action.status
+       }
     case SIGN_OUT:
       return {
         ...state,

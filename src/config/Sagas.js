@@ -8,10 +8,11 @@ import {
   IMMIGRATION,
   GET_SOCIAL,
   API_SET_UP,
+  CHECK_STATUS
 } from '../constant/Constants';
 
 import {_signIn, _signOut} from './sagaAction/SignIn';
-import {_Attendance, _CheckInOutUpdate} from './sagaAction/Attendance';
+import {_Attendance, _CheckInOutUpdate, _userStatusUpdate} from './sagaAction/Attendance';
 import {_Assets} from './sagaAction/Assets.saga';
 import {_Socials} from './sagaAction/Social.saga';
 import {_BasicInfo} from './sagaAction/BasicInfo.saga';
@@ -27,6 +28,8 @@ const rootSaga = function* () {
   yield takeEvery(BASIC_INFO, _BasicInfo);
   yield takeEvery(IMMIGRATION, _Immigration);
   yield takeEvery(API_SET_UP, _ApiSetUp);
+
+  
 };
 
 export default rootSaga;

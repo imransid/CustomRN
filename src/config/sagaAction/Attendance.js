@@ -46,6 +46,7 @@ export const _Attendance = function* (action) {
   }
 };
 
+
 export const _CheckInOutUpdate = function* (action) {
   try {
     const State = yield select();
@@ -83,12 +84,15 @@ export const _CheckInOutUpdate = function* (action) {
       action.status === 'check out'
         ? yield put({
             type: CHECK_OUT_SUCCESSFULLY,
-            payload:"Absent",
+            payload:"Present",
           })
         : yield put({
             type: CHECK_IN_SUCCESSFULLY,
             payload: "Present",
           });
+
+
+
     } else {
       yield put({
         type: CHECK_IN_ERROR,
@@ -126,7 +130,9 @@ const _ApiCall = function* (action) {
     return yield fetch(action.uri, requestOptions)
       .then(response => response.json())
       .then(result => {
-        if (result.message !== undefined) {
+
+        if(result.success){
+           if (result.message !== undefined) {
           ToastAndroid.showWithGravityAndOffset(
             result.message,
             ToastAndroid.LONG,
@@ -136,6 +142,22 @@ const _ApiCall = function* (action) {
           );
         }
         return true;
+
+        }else{
+
+           if (result.message !== undefined) {
+          ToastAndroid.showWithGravityAndOffset(
+            result.message,
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        }
+        return false;
+
+        }
+     
       })
       .catch(error => {
         return false;

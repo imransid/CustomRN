@@ -1,4 +1,4 @@
-import React, {useCallback,useEffect} from 'react';
+import React, {useCallback,useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,13 +9,19 @@ import {
 } from 'react-native';
 import TapButton from '../../components/tapButton/TapButton';
 import {useDispatch, useSelector} from 'react-redux';
-import {CheckIn, CheckOut} from '../../actions/Attendance';
+import {CheckIn, CheckOut, CheckStatus} from '../../actions/Attendance';
 import useFetchData from '../../components/HOC/withGetData';
 import {_postApiFetch} from '../../services/Services';
+import { useNavigation } from '@react-navigation/native';
 
-const ControlCenter = () => {
+const ControlCenter = ({dataObj}) => {
+
+
+   const navigation = useNavigation();
+
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.userAllData);
+  const userCurentStatus = useSelector(state => state.user.userCurentStatus);
   const apiUri = useSelector(state => state.api.domainName);
   const profilePic = useSelector(state => state.user.profilePic);
 
@@ -28,6 +34,10 @@ const ControlCenter = () => {
   const checkInStatus = useSelector(state => state.user.checkInStatus);
   const checkInLoader = useSelector(state => state.user.checkInLoader);
   // console.log("user datas", firstname)
+
+
+
+  const [finalStatus, setDataFinalStatus] = React.useState(null)
 
   let designation = useFetchData(
     [
@@ -75,6 +85,8 @@ const ControlCenter = () => {
 
   // console.log('checkStatus[0]',checkStatus[0], bal);
 
+
+
   const OnPress = useCallback(async () => {
     let parm = {
       bodyData: [
@@ -86,33 +98,62 @@ const ControlCenter = () => {
     };
 
     const result = await _postApiFetch(parm);
-    // console.log('Dashboard result', result.data);
-    result.data==="Present" ? dispatch(CheckOut()) : dispatch(CheckIn());
-  }, [dispatch, checkInStatus]);
-
-  useEffect(() => {
-    // console.log("first print",checkInStatus,bal)
-    if (checkInStatus!=="" && bal!== null) {
-   if(checkInStatus==="Present" && bal === 'Absent'){
-// console.log("set bal to present")
-    setBal('Present');
-  
-   }
+    if(result.data==="Present"){
+    dispatch(CheckOut())
+    dispatch(CheckStatus(result.data))
+    }else{
+       dispatch(CheckIn())
+       dispatch(CheckStatus(result.data))
     }
 
-  }, [checkInStatus, bal]);
+  }, [dispatch, checkInStatus]);
+
+
+
+
+   React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+
+
+async function fetchMyAPI() {
+    //  
+
+    let parm = {
+      bodyData: [
+        ['attendance_com_id', user.com_id],
+        ['employee_id', user.id],
+      ],
+      uri: 'attendance-status-for-current-date',
+      domainName: apiUri,
+    };
+
+    const result = await _postApiFetch(parm);
+
+    if(result.data){
+ 
+      dispatch(CheckStatus(result.data))
+    }
+
+    }
+
+    fetchMyAPI()
+
+      // do something
+    });
+
+    return unsubscribe;
+  }, [navigation, dispatch]);
 
 
 
   const data = () => {
-    if( bal === 'Absent'){
-// console.log("IN ",bal);
-return "In"
-    }
-    else{
-      // console.log("Out",bal)
+
+    if(userCurentStatus === null || userCurentStatus === 'Absent' ){
+        return "In"
+    }else{
       return "Out"
     }
+
   }
 
   return (
@@ -138,9 +179,16 @@ return "In"
           {!checkStatus[1] ? (
             <Text style={styles.designation}>
               {/* Check {() ? 'In' : 'Out'} */}
-              {
-               "Check " + data() 
-              }
+
+                { "Check" + " "}
+                {
+                  userCurentStatus
+                }
+              {/* {
+               (userCurentStatus === null || userCurentStatus === 'Absent') ? 'In' : 'Out' 
+               
+               //data() 
+              } */}
             </Text>
           ) : (
             <ActivityIndicator size="small" color="#CFCFCF" />
