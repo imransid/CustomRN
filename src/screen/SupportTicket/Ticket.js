@@ -148,7 +148,7 @@ const SupportTicket = () => {
   };
 
   const OnAddNow = () => {
-    setType('add');
+    setType('add'); 
 
     let objectData = [
       ['com_id', com_id.toString(), 'com_id'],

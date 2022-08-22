@@ -94,8 +94,8 @@ const Travel = () => {
 
     let filterInfo = info.filter(e => {
       if (
-        e[0] !== 'qualification_employee_id' &&
-        e[0] !== 'qualification_com_id'
+        e[0] !== 'travel_approver_id' &&
+        e[0] !== 'travel_company_id'
       ) {
         return e;
       }
@@ -250,34 +250,6 @@ const Travel = () => {
     showToastWithGravityAndOffset(msg);
   };
 
-  // const _onDelete = async info => {
-  //   setModalVisible(false);
-  //   setDocumentLoader(true);
-
-  //   let parm = {
-  //     bodyData: info,
-  //     uri: 'qualification-delete',
-  //   };
-
-  //   const result = await _postApiADD(parm);
-
-  //   result.status ? setDocumentData(result.data) : null;
-
-  //   if (result.status) {
-  //     setDocumentData(result.data);
-  //     setDocumentLoader(false);
-  //   } else {
-  //     setDocumentLoader(false);
-  //   }
-
-  //   result.status ? setDocumentData(result.data) : null;
-
-  //   let msg = result.status
-  //     ? 'Deleted Successfully. !'
-  //     : 'Failed Please Check Again.!';
-
-  //   showToastWithGravityAndOffset(msg);
-  // };
   console.log('infoValue >>>>', infoValue);
 
   return (

@@ -175,6 +175,7 @@ const SalaryBankAccount = () => {
       ['bank_account_number', '', 'bank_account_number'],
 
       ['bank_code', '', 'bank_code'],
+      ['bank_account_routing_number', '', 'bank_account_routing_number'],
       ['bank_account_card_number', '', 'bank_account_card_number'],
       ['bank_branch', '', 'bank_branch'],
     ];

@@ -83,18 +83,22 @@ const SupportTicket = () => {
 
   const OnEdit = async (info, type) => {
     setModalVisible(false);
+    
+    info[1] = ['support_ticket_opener_id', id, 'SUPPORT TICKET OPENER ID'];
+    // info[5]= ['support_ticket_status',type,'SUPPORT TICKET STATUS'];
+    console.log(info,"support ticket org")
 
-    info[2] = ['support_ticket_opener_id', id, 'SUPPORT TICKET OPENER ID'];
 
     let parm = {
       bodyData: info,
       uri: 'support-ticket-update',
+      domainName:apiUri,
     };
 
     console.log('parm', parm, info);
 
     const result = await _postApiFetch(parm);
-
+console.log(result,"asdsdasdasdasdasd",parm)
     let msg = result.status
       ? type === 'edit'
         ? 'Update Successfully'

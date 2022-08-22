@@ -4,7 +4,7 @@ import {
   ScrollView,
   Modal,
   View,
-  ToastAndroid,
+  ToastAndroid,RefreshControl,ActivityIndicator
 } from 'react-native';
 import RnPdf from '../../components/GenaratePdf';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -221,7 +221,7 @@ const SocialProfile = () => {
     };
 
     const result = await _postApiADD(parm);
-
+    console.log("social response",result)
     result.status ? setUpdate(true) : null;
 
     result.status ? setDocumentData(result.data) : null;
@@ -242,9 +242,34 @@ const SocialProfile = () => {
     showToastWithGravityAndOffset(msg);
   };
 
+  const refresh= async () => {
+    try {
+      if (!updateAva) {
+        let lngth = searchText.length;
+        if (lngth > 0) {
+          var newData = _searchData(documentData, searchText);
+          // setDocumentData(newData);
+          documentData.length !== newData.length
+            ? setDocumentData(newData)
+            : null;
+        } else {
+          data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
+          data[0].length !== documentData.length
+            ? setDocumentData(data[0])
+            : null;
+        }
+      }
+    } catch (err) {
+      console.log('Error in useEffect2 ', err);
+    }
+  }
+
+
   return (
     <>
-      <ScrollView>
+      <ScrollView refreshControl={
+        <RefreshControl refreshing={documentLoader} onRefresh={()=>refresh()} />
+      } >
         <SafeAreaView style={styles.container}>
           <Modal
             animationType="slide"
@@ -295,11 +320,10 @@ const SocialProfile = () => {
                     [
                       'social_profile_employee_id',
                       data.social_profile_employee_id.toString(),
-                      'social_profile_employee_id',
                     ],
                   ];
                   _onDelete(val);
-                  setShowAlert(false);
+                  // setShowAlert(true);
                 }}
                 datas={[
                   {

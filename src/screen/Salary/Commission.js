@@ -100,7 +100,7 @@ const Commission = () => {
                                 variant="Immigration"
                                 onEdit={() => setEditModal(true)}
                                 onDelete={() => setDeleteModal(true)}
-                                buttonVisible={true}
+                                buttonVisible={false}
                             />
                         ))}
 
