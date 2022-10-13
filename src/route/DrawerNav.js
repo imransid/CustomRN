@@ -58,6 +58,9 @@ import ApproveTravel from '../screen/CoreHr/ApproveTravel';
 import ApproveLeave from '../screen/Leave/ApproveLeaves';
 import DashboardTicket from '../screen/SupportTicket/Ticket';
 import UpcomingHolidays from '../screen/UpcomingHolidays';
+import Supervisor from '../screen/Supervisor/SupervisorEmployee';
+import SuperVisorAttendanceList from '../screen/Supervisor/SuperVisorAttendanceList';
+import SupervisorDatewise from '../screen/Supervisor/SupervisorDatewise';
 
 const Drawer = createDrawerNavigator();
 
@@ -172,6 +175,9 @@ function MainDrawerNavigation() {
       <Drawer.Screen name="UpcomingHolidays" component={UpcomingHolidays} />
       <Drawer.Screen name="ApproveLeaveDetails" component={ApproveLeave} />
       <Drawer.Screen name="Ticket" component={DashboardTicket} />
+      <Drawer.Screen name="SupervisorEmpolyee" component={Supervisor} />
+      <Drawer.Screen name="SupervisorAttendanceList" component={SuperVisorAttendanceList} />
+      <Drawer.Screen name="SupervisorAttendancelistDateWise" component={SupervisorDatewise}/>
     </Drawer.Navigator>
   );
 }

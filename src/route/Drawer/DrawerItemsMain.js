@@ -71,6 +71,28 @@ export const drawerItemsMain = [
     routes: [{nav: 'MainDrawer', routeName: 'Assets', title: 'Assets'}],
     icon: 'archive',
   },
+  {
+    key: 'Supervisor',
+    title: 'Supervisor Menu',
+    routes: [
+      {
+        nav: 'MainDrawer',
+        routeName: 'SupervisorEmpolyee',
+        title: 'Supervisor Empolyee',
+      },
+      {
+        nav: 'MainDrawer',
+        routeName: 'SupervisorAttendanceList',
+        title: 'Supervisor Attendance list',
+      },
+      {
+        nav: 'MainDrawer',
+        routeName: 'SupervisorAttendancelistDateWise',
+        title: 'Supervisor Attendance list Datewise',
+      },
+    ],
+    icon: 'glasses',
+  },
 ];
 
 export const drawerItemsSubMain = [
