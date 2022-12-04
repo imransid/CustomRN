@@ -1,19 +1,3 @@
-// import { StyleSheet, Text, View } from 'react-native'
-// import React from 'react'
-
-// const SupervisorDatewise = () => {
-//   return (
-//     <View>
-//       <Text>SupervisorDatewise</Text>
-//     </View>
-//   )
-// }
-
-// export default SupervisorDatewise
-
-// const styles = StyleSheet.create({})
-
-
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, Modal, View ,Pressable,Text} from 'react-native';
 
@@ -30,6 +14,7 @@ import useFetchData from '../../components/HOC/withGetData';
 import { Button, TextInput } from 'react-native-paper';
 import RnPdf from '../../components/GenaratePdf';
 import CalendarPicker from 'react-native-calendar-picker';
+import axios from 'axios';
 
 const SupervisorDatewise = () => {
     const apiUri = useSelector(state => state.api.domainName);
@@ -40,6 +25,10 @@ const SupervisorDatewise = () => {
     const [endDate, setEndDate] = useState("")
     const [startModal, setStartModal] = useState(false)
     const [endModal, setEndModal] = useState(false)
+
+
+   
+
     function onStartDateChange(date) {
         setStartDate(
           date._i.year + '-' + (date._i.month+1) + '-' + date._i.day,
@@ -49,29 +38,37 @@ const SupervisorDatewise = () => {
 
       function onEndDateChange(date) {
         setEndDate(
-          date._i.year + '-' + (date._i.month) + '-' + date._i.day,
+          date._i.year + '-' + (date._i.month+1) + '-' + date._i.day,
         );
         console.log(endDate,"endDate")
       }
 
-    let data = useFetchData(
-        [['supervisor_id', id],['start_date',startDate]['end_date',endDate]],
-        'supervisor-employee-attendance-show',
-        'post',
-        apiUri
-    );
+    
 
     const [documentData, setDocumentData] = useState([]);
     const [documentLoader, setDocumentLoader] = useState(false);
 
     useEffect(() => {
-        try {
-            data[1] !== documentLoader ? setDocumentLoader(data[1]) : null;
-            data[0].length !== documentData.length ? setDocumentData(data[0]) : null;
-        } catch (err) {
-            console.log('Error in useEffect ', err);
-        }
-    }, [data, documentLoader, documentData,startDate,endDate]);
+        setDocumentLoader(true)
+       
+            var config = {
+                method: 'post',
+                url: `https://hrmspvm.predictionla.com/api/user/supervisor-employee-attendance-show?supervisor_id=7&start_date=${startDate}&end_date=${endDate}`,
+                headers: { }
+              };
+              
+              axios(config)
+              .then(function (response) {
+                setDocumentData(response.data.data)
+                console.log(JSON.stringify(response.data));
+                setDocumentLoader(false)
+              })
+              .catch(function (error) {
+                console.log("data error",error);
+              });
+       
+    
+    },[startDate,endDate] );
    
     return (
         <>
@@ -87,7 +84,7 @@ const SupervisorDatewise = () => {
                             <View style={styles.modalView}>
                                 <Text style={styles.modalText}>Select Start Date</Text>
                                 <CalendarPicker 
-                                onDateChange={onStartDateChange}
+                                onDateChange={(date)=>onStartDateChange(date)}
                                 />
                                 <Pressable
                                     style={[styles.button, styles.buttonClose]}
@@ -108,7 +105,7 @@ const SupervisorDatewise = () => {
                             <View style={styles.modalView}>
                                 <Text style={styles.modalText}>Select Start Date</Text>
                                 <CalendarPicker 
-                                onDateChange={onEndDateChange}
+                                onDateChange={(date)=>onEndDateChange(date)}
                                 />
                                 <Pressable
                                     style={[styles.button, styles.buttonClose]}
@@ -124,14 +121,14 @@ const SupervisorDatewise = () => {
                         <Button onPress={() => setEndModal(true)}>{endDate==""?"Select End Date":endDate}</Button>
 
                     </View>
-                    <View style={styles.pdfBox}>
+                    {/* <View style={styles.pdfBox}>
                         <RnPdf Filename={'Loan'} value={data[0]} />
-                    </View>
+                    </View> */}
 
 
                     {!documentLoader &&
 
-                        documentData.map((data, index) =>
+                        documentData?.map((data, index) =>
                             <TableCard
                                 key={index}
                                 sl={index + 1}
